@@ -20,6 +20,7 @@
 <!--            <groupId>com.ludan</groupId>-->
 <!--            <artifactId>ludan-config</artifactId>-->
 <!--        </dependency>-->
+
         <dependency>
             <groupId>com.ludan</groupId>
             <artifactId>ludan-common-spring-boot-starter</artifactId>

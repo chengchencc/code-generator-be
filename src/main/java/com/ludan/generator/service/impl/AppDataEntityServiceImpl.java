@@ -10,7 +10,7 @@ import java.util.Map;
 import org.apache.commons.collections4.MapUtils;
 import lombok.extern.slf4j.Slf4j;
 
-import com.ludan.generator.model.AppDataEntity;
+import com.ludan.generator.model.DataEntity;
 import com.ludan.generator.mapper.AppDataEntityMapper;
 import com.ludan.generator.service.IAppDataEntityService;
 
@@ -22,16 +22,16 @@ import com.ludan.generator.service.IAppDataEntityService;
  */
 @Slf4j
 @Service
-public class AppDataEntityServiceImpl extends SuperServiceImpl<AppDataEntityMapper, AppDataEntity> implements IAppDataEntityService {
+public class AppDataEntityServiceImpl extends SuperServiceImpl<AppDataEntityMapper, DataEntity> implements IAppDataEntityService {
     /**
      * 列表
      * @param params
      * @return
      */
     @Override
-    public PageResult<AppDataEntity> findList(Map<String, Object> params){
-        Page<AppDataEntity> page = new Page<>(MapUtils.getInteger(params, "pageNo"), MapUtils.getInteger(params, "pageSize"));
-        List<AppDataEntity> list  =  baseMapper.findList(page, params);
-        return PageResult.<AppDataEntity>builder().data(list).code(0).count(page.getTotal()).build();
+    public PageResult<DataEntity> findList(Map<String, Object> params){
+        Page<DataEntity> page = new Page<>(MapUtils.getInteger(params, "pageNo"), MapUtils.getInteger(params, "pageSize"));
+        List<DataEntity> list  =  baseMapper.findList(page, params);
+        return PageResult.<DataEntity>builder().data(list).code(0).count(page.getTotal()).build();
     }
 }

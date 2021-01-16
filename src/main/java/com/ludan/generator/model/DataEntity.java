@@ -2,6 +2,7 @@ package com.ludan.generator.model;
 
 import com.central.common.model.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ludan.generator.common.domain.entity.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
@@ -21,12 +22,11 @@ import io.swagger.annotations.ApiModelProperty;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @TableName("app_data_entity")
-public class AppDataEntity extends BaseEntity {
+public class DataEntity extends Entity {
     private static final long serialVersionUID=1L;
 
-
     @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
+    @TableId(type = IdType.AUTO)
     private Integer id;
     @ApiModelProperty(value = "租户Id")
     private String tenantId;
@@ -44,6 +44,9 @@ public class AppDataEntity extends BaseEntity {
     private String tableName;
     @ApiModelProperty(value = "版本")
     private Integer version;
+//
+//    private String creator;
+//    private Date createTime;
 
     protected Serializable pkVal() {return this.id;}
 }

@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
-import com.ludan.generator.model.AppDataField;
+import com.ludan.generator.model.DataField;
 import com.ludan.generator.service.IAppDataFieldService;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
@@ -48,7 +48,7 @@ public class AppDataFieldController {
     @ApiOperation(value = "查询")
     @GetMapping("/{id}")
     public Result findUserById(@PathVariable String id) {
-        AppDataField model = appDataFieldService.getById(id);
+        DataField model = appDataFieldService.getById(id);
         return Result.succeed(model, "查询成功");
     }
 
@@ -57,8 +57,8 @@ public class AppDataFieldController {
      */
     @ApiOperation(value = "保存")
     @PostMapping
-    public Result save(@RequestBody AppDataField appDataField) {
-        appDataFieldService.saveOrUpdate(appDataField);
+    public Result save(@RequestBody DataField dataField) {
+        appDataFieldService.saveOrUpdate(dataField);
         return Result.succeed("保存成功");
     }
 

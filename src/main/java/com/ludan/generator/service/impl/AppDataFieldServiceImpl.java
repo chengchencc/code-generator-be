@@ -10,7 +10,7 @@ import java.util.Map;
 import org.apache.commons.collections4.MapUtils;
 import lombok.extern.slf4j.Slf4j;
 
-import com.ludan.generator.model.AppDataField;
+import com.ludan.generator.model.DataField;
 import com.ludan.generator.mapper.AppDataFieldMapper;
 import com.ludan.generator.service.IAppDataFieldService;
 
@@ -22,16 +22,16 @@ import com.ludan.generator.service.IAppDataFieldService;
  */
 @Slf4j
 @Service
-public class AppDataFieldServiceImpl extends SuperServiceImpl<AppDataFieldMapper, AppDataField> implements IAppDataFieldService {
+public class AppDataFieldServiceImpl extends SuperServiceImpl<AppDataFieldMapper, DataField> implements IAppDataFieldService {
     /**
      * 列表
      * @param params
      * @return
      */
     @Override
-    public PageResult<AppDataField> findList(Map<String, Object> params){
-        Page<AppDataField> page = new Page<>(MapUtils.getInteger(params, "pageNo"), MapUtils.getInteger(params, "pageSize"));
-        List<AppDataField> list  =  baseMapper.findList(page, params);
-        return PageResult.<AppDataField>builder().data(list).code(0).count(page.getTotal()).build();
+    public PageResult<DataField> findList(Map<String, Object> params){
+        Page<DataField> page = new Page<>(MapUtils.getInteger(params, "pageNo"), MapUtils.getInteger(params, "pageSize"));
+        List<DataField> list  =  baseMapper.findList(page, params);
+        return PageResult.<DataField>builder().data(list).code(0).count(page.getTotal()).build();
     }
 }

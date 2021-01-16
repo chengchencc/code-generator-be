@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
-import com.ludan.generator.model.AppDataEntity;
+import com.ludan.generator.model.DataEntity;
 import com.ludan.generator.service.IAppDataEntityService;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
@@ -48,7 +48,7 @@ public class AppDataEntityController {
     @ApiOperation(value = "查询")
     @GetMapping("/{id}")
     public Result findUserById(@PathVariable String id) {
-        AppDataEntity model = appDataEntityService.getById(id);
+        DataEntity model = appDataEntityService.getById(id);
         return Result.succeed(model, "查询成功");
     }
 
@@ -57,8 +57,8 @@ public class AppDataEntityController {
      */
     @ApiOperation(value = "保存")
     @PostMapping
-    public Result save(@RequestBody AppDataEntity appDataEntity) {
-        appDataEntityService.saveOrUpdate(appDataEntity);
+    public Result save(@RequestBody DataEntity dataEntity) {
+        appDataEntityService.saveOrUpdate(dataEntity);
         return Result.succeed("保存成功");
     }
 
