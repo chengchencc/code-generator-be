@@ -10,24 +10,24 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
-import com.ludan.generator.model.DataEntity;
-import com.ludan.generator.service.IAppDataEntityService;
+import com.ludan.generator.model.DataField;
+import com.ludan.generator.service.IAppDataFieldService;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
 
 /**
- * 模型
+ * 实体字段
  *
  * @author chengchen
  * @date 2021-01-11 21:43:15
  */
 @Slf4j
 @RestController
-@RequestMapping("/appdataentity")
-@Api(tags = "模型")
-public class AppDataEntityController {
+@RequestMapping("/appdatafield")
+@Api(tags = "实体字段")
+public class DataFieldController {
     @Autowired
-    private IAppDataEntityService appDataEntityService;
+    private IAppDataFieldService appDataFieldService;
 
     /**
      * 列表
@@ -39,7 +39,7 @@ public class AppDataEntityController {
     })
     @GetMapping
     public PageResult list(@RequestParam Map<String, Object> params) {
-        return appDataEntityService.findList(params);
+        return appDataFieldService.findList(params);
     }
 
     /**
@@ -48,7 +48,7 @@ public class AppDataEntityController {
     @ApiOperation(value = "查询")
     @GetMapping("/{id}")
     public Result findUserById(@PathVariable String id) {
-        DataEntity model = appDataEntityService.getById(id);
+        DataField model = appDataFieldService.getById(id);
         return Result.succeed(model, "查询成功");
     }
 
@@ -57,8 +57,8 @@ public class AppDataEntityController {
      */
     @ApiOperation(value = "保存")
     @PostMapping
-    public Result save(@RequestBody DataEntity dataEntity) {
-        appDataEntityService.saveOrUpdate(dataEntity);
+    public Result save(@RequestBody DataField dataField) {
+        appDataFieldService.saveOrUpdate(dataField);
         return Result.succeed("保存成功");
     }
 
@@ -68,7 +68,7 @@ public class AppDataEntityController {
     @ApiOperation(value = "删除")
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable String id) {
-        appDataEntityService.removeById(id);
+        appDataFieldService.removeById(id);
         return Result.succeed("删除成功");
     }
 }

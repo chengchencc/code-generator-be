@@ -6,6 +6,18 @@ spring:
   #  cloud:
   #    nacos:
   #      server-addr: 10.200.114.5:8848
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+      open-in-view: false
   datasource:
     url: jdbc:mysql://10.10.20.242:3306/code-generator?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
     username: root
