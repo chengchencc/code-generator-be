@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.ludan.generator.mapper.AppDataEntityMapper">
-    <select id="findList" resultType="com.ludan.generator.model.DataEntity">
-        select * from app_data_entity t
-    </select>
-</mapper>
