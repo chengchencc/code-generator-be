@@ -1,6 +1,7 @@
 package com.ludan.generator.entity;
 
-import com.ludan.generator.common.domain.entity.EntityBase;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ludan.generator.common.domain.entity.AuditEntityBase;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,12 +11,12 @@ import javax.persistence.*;
 @Setter
 @Table
 @Entity
-public class DataField extends EntityBase<Integer> {
+public class DataField extends AuditEntityBase<Integer> {
     /**
      * 编号，表的字段名称根据编号
      */
     @Column(length = Default_Id_Length)
-    private String code;
+    private String tableFieldName;
     /**
      * 名称
      */
@@ -96,6 +97,7 @@ public class DataField extends EntityBase<Integer> {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "entityId",insertable = false,updatable = false)
+    @JsonIgnore
     private DataEntity dataEntity;
 
     @OneToOne(mappedBy = "dataField")
@@ -109,10 +111,10 @@ public class DataField extends EntityBase<Integer> {
                 false,true,true,sortNo);
     }
 
-    public DataField(String code, String name, String description, DataFieldType dataFieldType, int length,
+    public DataField(String tableFieldName, String name, String description, DataFieldType dataFieldType, int length,
                      boolean isRequired, boolean isPrimaryKey, String defaultValue, String validateRegex, boolean isSystem,
                      boolean isDisplay, boolean enabled, int sortNo) {
-        this.code = code;
+        this.tableFieldName = tableFieldName;
         this.name = name;
         this.description = description;
         this.dataFieldType = dataFieldType;
@@ -128,12 +130,12 @@ public class DataField extends EntityBase<Integer> {
         this.isForeignKey = false;
     }
 
-    public DataField(String code, String name, String description, com.ludan.generator.entity.DataFieldType dataFieldType,
+    public DataField(String tableFieldName, String name, String description, com.ludan.generator.entity.DataFieldType dataFieldType,
                      int length, boolean isRequired, boolean isPrimaryKey, String defaultValue, String validateRegex,
                      boolean isSystem, boolean isDisplay, boolean enabled, int sortNo, boolean isForeignKey,
                      String joinTable, String joinField, boolean isPublished, int entityId, DataEntity dataEntity,
                      DataFieldUI dataFieldUI) {
-        this.code = code;
+        this.tableFieldName = tableFieldName;
         this.name = name;
         this.description = description;
         this.dataFieldType = dataFieldType;

@@ -1,6 +1,5 @@
 package com.ludan.generator;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ludan.generator.entity.*;
@@ -17,12 +16,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Example;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.Selection;
 import java.util.List;
 
 /**
@@ -49,19 +47,20 @@ public class JpaTest {
     EntityManager entityManager;
 
     @Test
+//    @Transactional
     public void testOneToManySave(){
         DataEntity dataEntity = new DataEntity();
         dataEntity.setName("test_table");
         dataEntity.setTableName("test_table");
-        dataEntity.setCode("test_table");
         dataEntity.setDescription("测试表");
-        dataEntity.setTableType(TableType.Nomal);
+        dataEntity.setTableSchema(TableSchema.Nomal);
+        dataEntity.setTableType(TableType.SingleTable);
         dataEntity.setUiTemplate(UITemplate.Default);
         dataEntity.setTableIdType(IdType.AUTO);
-        dataEntityRepository.save(dataEntity);
+        dataEntityRepository.saveAndFlush(dataEntity);
 
         DataField idField = new DataField();
-        idField.setCode("id");
+        idField.setTableFieldName("id");
         idField.setName("id");
         idField.setDescription("id");
         idField.setDataFieldType(DataFieldType.INTETER);
@@ -79,24 +78,30 @@ public class JpaTest {
         DataField nameField = getDataField("name",2);
         nameField.setEntityId(dataEntity.getId());
 
-        dataFieldReposiroty.save(idField);
-        dataFieldReposiroty.save(codeField);
-        dataFieldReposiroty.save(nameField);
+        dataFieldReposiroty.saveAndFlush(idField);
+        dataFieldReposiroty.saveAndFlush(codeField);
+        dataFieldReposiroty.saveAndFlush(nameField);
 
         DataFieldUI idFieldUI = getDataFieldUI(idField.getId(),ControlType.InputText,getNumberValidation());
         DataFieldUI codeFieldUI = getDataFieldUI(codeField.getId(),ControlType.InputText,getStringValidation());
         DataFieldUI nameFieldUI = getDataFieldUI(nameField.getId(),ControlType.InputText,getStringValidation());
 
-        dataFieldUIReposiroty.save(idFieldUI);
-        dataFieldUIReposiroty.save(codeFieldUI);
-        dataFieldUIReposiroty.save(nameFieldUI);
-
+        dataFieldUIReposiroty.saveAndFlush(idFieldUI);
+        dataFieldUIReposiroty.saveAndFlush(codeFieldUI);
+        dataFieldUIReposiroty.saveAndFlush(nameFieldUI);
         System.out.println("*****************************************");
 
+    }
+    @Test
+    @Transactional(readOnly = true)
+    public void testQuery(){
         List<DataEntity> all = dataEntityRepository.findAll();
+        List<DataField> fields = all.get(0).getFields();
+        System.out.println(fields);
         List<DataField> all1 = dataFieldReposiroty.findAll();
         System.out.println(all);
     }
+
     @Test
     public void testJsonConvert() throws JsonProcessingException {
         AbstractValidation numberValidation = getNumberValidation();

@@ -1,8 +1,11 @@
 package com.ludan.generator.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ludan.generator.common.domain.entity.AuditEntityBase;
 import com.ludan.generator.common.domain.entity.EntityBase;
 import com.ludan.generator.common.jpa.JpaJsonConverter;
 import com.ludan.generator.entity.validation.AbstractValidation;
+import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,12 +15,13 @@ import javax.persistence.*;
 @Setter
 @Table
 @Entity
-public class DataFieldUI extends EntityBase<Integer> {
+public class DataFieldUI extends AuditEntityBase<Integer> {
 
     private int dataFieldId;
 
     @OneToOne
     @JoinColumn(name = "dataFieldId",referencedColumnName = "id",insertable = false,updatable = false)
+    @JsonIgnore
     private DataField dataField;
     /**
      * 控件类型
@@ -42,9 +46,9 @@ public class DataFieldUI extends EntityBase<Integer> {
      */
     private Boolean isQuery;
     /**
-     * 表单width
+     * 表格列宽
      */
-    private int colWidth;
+    private int tableColWidth;
     /**
      * 校验器
      */
@@ -56,7 +60,7 @@ public class DataFieldUI extends EntityBase<Integer> {
     }
 
     public DataFieldUI(int dataFieldId, ControlType controlType, Boolean isFormDisplay,
-                       Boolean isListDisplay, Boolean isSupportSort, Boolean isQuery, int colWidth,
+                       Boolean isListDisplay, Boolean isSupportSort, Boolean isQuery, int tableColWidth,
                        AbstractValidation validation) {
         this.dataFieldId = dataFieldId;
         this.controlType = controlType;
@@ -64,7 +68,7 @@ public class DataFieldUI extends EntityBase<Integer> {
         this.isListDisplay = isListDisplay;
         this.isSupportSort = isSupportSort;
         this.isQuery = isQuery;
-        this.colWidth = colWidth;
+        this.tableColWidth = tableColWidth;
         this.validation = validation;
     }
 }

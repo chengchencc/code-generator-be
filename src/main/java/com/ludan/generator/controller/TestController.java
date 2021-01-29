@@ -36,27 +36,6 @@ public class TestController {
     @GetMapping("/test")
     public void saveDataEntity(){
 
-//        DataEntity dataEntity = new DataEntity();
-//        dataEntity.setName("aa");
-//        repository.save(dataEntity);
-//
-//        DataField dataField = new DataField();
-////        dataField.setEntityId(dataEntity.getId());
-//
-//        dataFieldReposiroty.save(dataField);
-//
-//        DataFieldUI dataFieldUI = new DataFieldUI();
-////        dataFieldUI.setDataFieldId(dataField.getId());
-//        dataFieldUIReposiroty.save(dataFieldUI);
-//
-//        DataFieldQuery dataFieldQuery = new DataFieldQuery();
-//        dataFieldQuery.setDataFieldId(dataField.getId());
-//        dataFieldQueryReposiroty.save(dataFieldQuery);
-//
-//        DataEntity one = repository.getOne(dataEntity.getId());
-//
-//        DataField one1 = dataFieldReposiroty.getOne(dataField.getId());
-
 
     }
     @GetMapping("/gettest")

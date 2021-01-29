@@ -1,6 +1,6 @@
 package com.ludan.generator.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.ludan.generator.common.domain.entity.AuditEntityBase;
 import com.ludan.generator.common.domain.entity.EntityBase;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,11 +13,16 @@ import java.util.List;
 @Setter
 @Table
 @Entity
-public class DataEntity extends EntityBase<Integer> {
+public class DataEntity extends AuditEntityBase<Integer> {
     /**
-     * 实体编号
+     * 数据库表名称
      */
-    @Column(length = Default_Id_Length)
+    @Column(unique = true, nullable = true,length = Default_Id_Length)
+    private String tableName;
+    /**
+     * 编号:后续代码生成，类名、页面名称按照编号来生成
+     */
+    @Column(unique = true, nullable = true,length = Default_Id_Length)
     private String code;
     /**
      * 实体名称
@@ -29,11 +34,20 @@ public class DataEntity extends EntityBase<Integer> {
      */
     @Column(length = Default_Description_Length)
     private String description;
+
     /**
-     * 实体存储的表名称
+     * 表结构，
      */
-    @Column(unique = true, nullable = true,length = Default_Id_Length)
-    private String tableName;
+    @Enumerated(EnumType.STRING)
+    @Column(length = Default_Id_Length)
+    private TableSchema tableSchema;
+
+    /**
+     * 父节点Id，{TableSchema.Tree}的时候才会使用
+     */
+    @Column(length = Default_Id_Length)
+    private String parentId;
+
     /**
      * 表类型
      */
@@ -41,14 +55,21 @@ public class DataEntity extends EntityBase<Integer> {
     @Column(length = Default_Id_Length)
     private TableType tableType;
     /**
+     * 针对一对多，一对一，此处配置主实体Id
+     */
+    @Column()
+    private Integer mainEntityId;
+    /**
      * 主键策略
      */
     @Enumerated(EnumType.STRING)
     @Column(length = Default_Id_Length)
     private IdType tableIdType;
+
     /**
      * 生成代码使用的模板
      */
+    //TODO:移到生成策略中
     @Enumerated(EnumType.STRING)
     @Column(length = Default_Id_Length)
     private UITemplate uiTemplate;
@@ -69,7 +90,7 @@ public class DataEntity extends EntityBase<Integer> {
     /**
      * 实体字段列表
      */
-    @OneToMany(mappedBy = "dataEntity",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dataEntity",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<DataField> fields = new ArrayList<>();
 
     /**

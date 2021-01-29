@@ -1,6 +1,6 @@
 package com.ludan.generator.common.domain.entity;
 
-import com.ludan.generator.common.ISession;
+import com.ludan.generator.common.Session;
 import com.ludan.generator.common.utils.Clock;
 import com.ludan.generator.common.utils.SpringContextHolder;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class CreationAuditedEntity extends EntityBase<String> {
 
     @PrePersist
     public void touchOnCreation(){
-        ISession session = SpringContextHolder.getBean(ISession.class);
+        Session session = SpringContextHolder.getBean(Session.class);
         this.creatorUserId = session.getUserId();
         this.creationTime = Clock.now();
     }

@@ -1,6 +1,6 @@
 package com.ludan.generator.common.domain.entity;
 
-import com.ludan.generator.common.ISession;
+import com.ludan.generator.common.Session;
 import com.ludan.generator.common.utils.Clock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 
 /**
@@ -28,16 +29,22 @@ public class AuditEntityListener {
 
     @PrePersist
     public void touchForCreate(AuditEntityBase entity){
-        ISession userSession = context.getBean(ISession.class);
+        Session userSession = context.getBean(Session.class);
         entity.setCreationTime(Clock.now());
         entity.setCreationUserId(userSession.getUserId());
     }
 
     @PreUpdate
     public void touchForUpdate(AuditEntityBase entity){
-        ISession userSession = context.getBean(ISession.class);
+        Session userSession = context.getBean(Session.class);
         entity.setLastModifyTime(Clock.now());
         entity.setLastModifyUserId(userSession.getUserId());
+    }
+    @PreRemove
+    public void touchForDelete(AuditEntityBase entity){
+        Session userSession = context.getBean(Session.class);
+        entity.setDeletionTime(Clock.now());
+        entity.setDeletionUserId(userSession.getUserId());
     }
 
 }

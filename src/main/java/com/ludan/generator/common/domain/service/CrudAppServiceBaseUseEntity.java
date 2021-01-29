@@ -18,19 +18,19 @@ import java.util.stream.Collectors;
  * Created by chengch
  * date on 2019/11/7
  */
-public abstract class CrudAppServiceBase<TRepository extends JpaRepository<TEntity,TKey>,TEntity extends EntityBase<TKey>,TDto extends EntityDto<TKey>,TKey extends Serializable>
+public abstract class CrudAppServiceBaseUseEntity<TRepository extends JpaRepository<TEntity,TKey>,TEntity extends EntityBase<TKey>,TKey extends Serializable>
         extends ApplicationService {
 
     protected TRepository repository;
 
-    public CrudAppServiceBase(TRepository repository) {
+    public CrudAppServiceBaseUseEntity(TRepository repository) {
         this.repository = repository;
     }
 
 
-    public List<TDto> findAll(){
+    public List<TEntity> findAll(){
         List<TEntity> entities = repository.findAll();
-        return entities.stream().map(s->map(s)).collect(Collectors.toList());
+        return entities;
     }
 
     /**
@@ -39,9 +39,9 @@ public abstract class CrudAppServiceBase<TRepository extends JpaRepository<TEnti
      * @param size 每页显示的个数
      * @return 分页数据
      */
-    public PagedResultDto<TDto> findAll(int page, int size){
+    public PagedResultDto<TEntity> findAll(int page, int size){
         Page<TEntity> entities = repository.findAll(PageRequest.of(page,size));
-        PagedResultDto<TDto> pagedDtos = map(entities);
+        PagedResultDto<TEntity> pagedDtos = map(entities);
         return pagedDtos;
     }
 
@@ -50,37 +50,35 @@ public abstract class CrudAppServiceBase<TRepository extends JpaRepository<TEnti
      * @param pageable
      * @return
      */
-    public PagedResultDto<TDto> findAll(Pageable pageable){
+    public PagedResultDto<TEntity> findAll(Pageable pageable){
         Page<TEntity> entities = repository.findAll(pageable);
-        PagedResultDto<TDto> pagedDtos = map(entities);
+        PagedResultDto<TEntity> pagedDtos = map(entities);
         return pagedDtos;
     }
 
-    public TDto findById(TKey id){
+    public TEntity findById(TKey id){
         TEntity entity = repository.findById(id).orElse(null);
-        return map(entity);
+        return entity;
     }
 
     /**
      * 新增
-     * @param dto
+     * @param entity
      * @return
      */
-    public TDto create(TDto dto){
-        TEntity entity = map(dto);
+    public TEntity create(TEntity entity){
         TEntity saveEntity = repository.save(entity);
-        return map(saveEntity);
+        return saveEntity;
     }
 
     /**
      * 更新
-     * @param dto
+     * @param entity
      * @return
      */
-    public TDto update(TDto dto){
-        TEntity entity = map(dto);
+    public TEntity update(TEntity entity){
         repository.save(entity);
-        return map(entity);
+        return entity;
     }
 
     /**
@@ -95,7 +93,7 @@ public abstract class CrudAppServiceBase<TRepository extends JpaRepository<TEnti
      * 删除实体
      * @param dto
      */
-    public void delete(TDto dto){
+    public void delete(TEntity dto){
         this.deleteById(dto.getId());
     }
 
@@ -109,32 +107,10 @@ public abstract class CrudAppServiceBase<TRepository extends JpaRepository<TEnti
     }
 
 
-//    protected Class<TEntity> getEntityType(){
-//        Class<TEntity> tClass = (Class<TEntity>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-//        return tClass;
-//    }
-
-    protected TEntity map(TDto dto){
-        if (dto == null) return null;
-        TEntity entity = ModelMapperUtils.map(dto, getEntityType());
-        return entity;
-    }
-
-    protected TDto map(TEntity entity){
-        if(entity == null) return null;
-        TDto dto = ModelMapperUtils.map(entity, getDtoType());
-        return dto;
-    }
-
-    protected PagedResultDto<TDto> map(Page<TEntity> entities){
-        Page<TDto> pagedDtos = entities.map(entity -> map(entity));
-        PagedResultDto<TDto> pagedResultDto = new PagedResultDto<>();
-        pagedResultDto.setTotal(pagedDtos.getTotalElements());
-        pagedResultDto.setItems(pagedDtos.getContent());
+    protected PagedResultDto<TEntity> map(Page<TEntity> entities){
+        PagedResultDto<TEntity> pagedResultDto = new PagedResultDto<>();
+        pagedResultDto.setTotal(entities.getTotalElements());
+        pagedResultDto.setItems(entities.getContent());
         return pagedResultDto;
     }
-
-
-    protected abstract Class<TEntity> getEntityType();
-    protected abstract Class<TDto> getDtoType();
 }

@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-public class TreeAppControllerBase<Tservice extends ITreeAppService<TEntityDto,Tkey>,TEntityDto extends TreeEntityDto<TEntityDto,Tkey>,Tkey>
-        extends CrudControllerBase <Tservice,TEntityDto,Tkey>{
+public class TreeAppCrudControllerBase<Tservice extends ITreeAppService<TEntityDto,Tkey>,TEntityDto extends TreeEntityDto<TEntityDto,Tkey>,Tkey>
+        extends CrudControllerBase<Tservice,TEntityDto,Tkey> {
 
-    public TreeAppControllerBase(Tservice service) {
+    public TreeAppCrudControllerBase(Tservice service) {
         super(service);
     }
 

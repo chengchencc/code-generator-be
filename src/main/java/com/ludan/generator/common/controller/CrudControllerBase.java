@@ -1,8 +1,11 @@
 package com.ludan.generator.common.controller;
 
+import com.ludan.generator.common.domain.dto.PagedRequestDto;
+import com.ludan.generator.common.domain.dto.PagedResultDto;
 import com.ludan.generator.common.domain.service.ICrudAppService;
 import com.ludan.generator.common.domain.dto.EntityDto;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +17,7 @@ import java.util.List;
  */
 public class CrudControllerBase<TService extends ICrudAppService<TDto,TId>,TDto extends EntityDto<TId>,TId>
         extends ControllerBase
-        implements ICrudController<TDto,TId> {
+        implements CrudController<TDto,TId> {
 
     protected TService service;
 
@@ -34,6 +37,12 @@ public class CrudControllerBase<TService extends ICrudAppService<TDto,TId>,TDto 
         return service.findAll();
     }
 
+    @Override
+    @GetMapping("/page")
+    @ApiOperation("获取分页数据")
+    public PagedResultDto<TDto> findAll(PagedRequestDto dto) {
+        return service.findAll(PageRequest.of(dto.getPageNo()-1,dto.getPageSize()));
+    }
 
 
     /**

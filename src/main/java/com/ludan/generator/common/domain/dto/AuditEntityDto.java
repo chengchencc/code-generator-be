@@ -10,7 +10,7 @@ import java.util.Date;
  * date on 2020/3/5
  */
 @Data
-public class AuditInfoDto<TId> extends EntityDto<TId> {
+public class AuditEntityDto<TId> extends EntityDto<TId> {
     protected Date creationTime;
     protected String creationUserId;
     protected Date lastModifyTime;

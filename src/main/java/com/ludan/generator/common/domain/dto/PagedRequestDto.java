@@ -8,9 +8,9 @@ import lombok.Data;
  * date on 2019/11/4
  */
 @Data
-public class PagedRequestDto<T> {
-    private int page;
-    private int size;
+public class PagedRequestDto {
+    private int pageNo;
+    private int pageSize;
 
 
 }

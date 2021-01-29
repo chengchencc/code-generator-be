@@ -1,6 +1,6 @@
 package com.ludan.generator.common.controller;
 
-import com.ludan.generator.common.ISession;
+import com.ludan.generator.common.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by chengch
  * date on 2019/11/15
  */
-public abstract class ControllerBase implements IControllerBase {
+public abstract class ControllerBase {
     @Autowired
-    protected ISession session;
+    protected Session session;
 }

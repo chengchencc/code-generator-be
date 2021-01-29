@@ -5,7 +5,7 @@ package com.ludan.generator.common;
  * Created by chengch
  * date on 2020/3/6
  */
-public interface ISession {
+public interface Session {
     String getUserId();
     String getUserName();
     String getUserCode();

@@ -1,8 +1,12 @@
 package com.ludan.generator.common.domain.service;
 
 import com.ludan.generator.common.domain.dto.EntityDto;
+import com.ludan.generator.common.domain.dto.PagedRequestDto;
 import com.ludan.generator.common.domain.dto.PagedResultDto;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -18,7 +22,6 @@ public interface ICrudAppService<TDto extends EntityDto<TId>, TId> {
      * @return
      */
     List<TDto> findAll();
-
     /**
      * 通过Id进行查询
      * @param id

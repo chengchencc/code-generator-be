@@ -1,5 +1,8 @@
 package com.ludan.generator.common.controller;
 
+import com.ludan.generator.common.domain.dto.PagedRequestDto;
+import com.ludan.generator.common.domain.dto.PagedResultDto;
+
 import java.util.List;
 
 /**
@@ -7,13 +10,18 @@ import java.util.List;
  * Created by chengch
  * date on 2019/11/14
  */
-public interface ICrudController<TDto,TId> {
+public interface CrudController<TDto,TId> {
     /**
      * 查找所有
      * @return
      */
     List<TDto> findAll();
-
+    /**
+     * 分页查找
+     * @param dto
+     * @return
+     */
+    public PagedResultDto<TDto> findAll(PagedRequestDto dto);
     /**
      * 通过Id进行查询
      * @param id
