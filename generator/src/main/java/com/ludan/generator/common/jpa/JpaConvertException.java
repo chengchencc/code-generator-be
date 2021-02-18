@@ -1,12 +1,12 @@
 package com.ludan.generator.common.jpa;
 
-import com.ludan.generator.common.exception.BusinessException;
+import com.ludan.generator.common.exception.GeneratorException;
 
 /**
  * @author: chengchen
  * @create: 2021-01-19 09:48
  **/
-public class JpaConvertException extends BusinessException {
+public class JpaConvertException extends GeneratorException {
 
     public JpaConvertException(Throwable cause) {
         super(cause);

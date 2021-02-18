@@ -1,4 +1,4 @@
-package com.ludan.generator.service.resolver;
+package com.ludan.generator.generate.resolver;
 
 import org.apache.commons.lang3.NotImplementedException;
 

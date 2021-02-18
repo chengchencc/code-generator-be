@@ -1,9 +1,12 @@
-package com.ludan.generator.service.resolver;
+package com.ludan.generator.generate.resolver;
 
+import freemarker.template.TemplateException;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
@@ -32,6 +35,11 @@ public class VelocityEngine extends TemplateEngine {
     public void resolve(String template, Map dataModel, Writer writer) {
         Template tpl = velocityEngine.getTemplate(template);
         tpl.merge(new VelocityContext(dataModel),writer);
+    }
+
+    @Override
+    public void resolveSource(String templateSource, Map dataModel, Writer writer) {
+        throw new NotImplementedException("方法未实现！");
     }
 
 

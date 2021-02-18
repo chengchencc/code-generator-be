@@ -1,13 +1,15 @@
-package com.ludan.generator.service.resolver;
+package com.ludan.generator.generate.resolver;
 
-import com.ludan.generator.common.exception.BusinessException;
+import com.ludan.generator.common.exception.GeneratorException;
 import freemarker.cache.NullCacheStorage;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.Writer;
 import java.util.Map;
 
@@ -24,7 +26,7 @@ public class FreeMarkerEngine extends TemplateEngine {
             configuration = getDefaultConfiguration();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BusinessException("无法找到模板路径::"+templatePath);
+            throw new GeneratorException("无法找到模板路径::"+templatePath);
         }
     }
 
@@ -51,6 +53,11 @@ public class FreeMarkerEngine extends TemplateEngine {
         tpl.process(dataModel,writer);
     }
 
+    @Override
+    public void resolveSource(String templateSource, Map dataModel, Writer writer) throws IOException, TemplateException {
+        Template tpl = new Template(null,new StringReader(templateSource),null);
+        tpl.process(dataModel,writer);
+    }
 
 
 }

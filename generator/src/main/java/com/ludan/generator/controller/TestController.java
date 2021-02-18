@@ -6,7 +6,7 @@ import com.ludan.generator.repository.DataEntityRepository;
 import com.ludan.generator.repository.DataFieldQueryReposiroty;
 import com.ludan.generator.repository.DataFieldReposiroty;
 import com.ludan.generator.repository.DataFieldUIReposiroty;
-import com.ludan.generator.service.GeneratorService;
+import com.ludan.generator.generate.CodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +33,7 @@ public class TestController {
     private DataFieldUIReposiroty dataFieldUIReposiroty;
 
     @Autowired
-    private GeneratorService generatorService;
+    private CodeGenerator codeGenerator;
 
     @GetMapping("/test")
     public void saveDataEntity(){
@@ -49,7 +49,7 @@ public class TestController {
 
     @GetMapping("/testRender")
     public String testRender(){
-        return generatorService.render();
+        return codeGenerator.render();
     }
 
 }

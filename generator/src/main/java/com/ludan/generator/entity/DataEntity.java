@@ -99,6 +99,12 @@ public class DataEntity extends AuditEntityBase<Integer> {
     @Column(length = Default_Id_Length)
     private String storageType;
 
+    /**
+     * 子实体列表
+     */
+    @Transient
+    private List<DataEntity> children;
+
     public DataEntity() {
     }
 
