@@ -71,10 +71,18 @@ public class CodeGeneratorImplTest {
     }
 
     @Test
-    public void test_generate_code(){
+    public void test_generate_code_single(){
         DataEntity singleEntity = DataEntityUtil.getSingleEntity();
         CodeGeneratorImpl generator = new CodeGeneratorImpl(null);
         generator.generate(singleEntity, GeneratorRule.getDefault());
+        System.out.println("success");
+    }
+
+    @Test
+    public void test_generate_code_OneToMany(){
+        DataEntity entity = DataEntityUtil.getOneToManyEntity();
+        CodeGeneratorImpl generator = new CodeGeneratorImpl(null);
+        generator.generate(entity, GeneratorRule.getDefault());
         System.out.println("success");
     }
 

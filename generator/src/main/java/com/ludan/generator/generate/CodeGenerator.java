@@ -19,6 +19,4 @@ public interface CodeGenerator {
 
     void generate(DataEntity entity, GeneratorRule generatorRule);
 
-    String render();
-
 }

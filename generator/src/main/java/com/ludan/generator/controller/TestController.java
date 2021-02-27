@@ -47,9 +47,5 @@ public class TestController {
         DataField one1 = dataFieldReposiroty.getOne(1);
     }
 
-    @GetMapping("/testRender")
-    public String testRender(){
-        return codeGenerator.render();
-    }
 
 }
