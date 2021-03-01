@@ -1,8 +1,10 @@
 package com.ludan.generator.generate;
 
+import cn.hutool.core.io.IoUtil;
 import com.ludan.generator.common.exception.GeneratorException;
 import com.ludan.generator.entity.DataEntity;
 import com.ludan.generator.entity.GeneratorRule;
+import com.ludan.generator.entity.TableType;
 import com.ludan.generator.generate.loader.ResourceLoader;
 import com.ludan.generator.generate.loader.ResourceLoaderFactory;
 import com.ludan.generator.service.DataModelManager;
@@ -11,16 +13,23 @@ import com.ludan.generator.generate.resolver.TemplateEngineFactory;
 import freemarker.template.TemplateException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.archivers.zip.ScatterZipOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author: chengchen
@@ -63,8 +72,34 @@ public class CodeGeneratorImpl implements CodeGenerator {
 
     @Override
     public void generate(DataEntity entity, GeneratorRule generatorRule) {
-        Map<String, Object> model = convertToViewModel(entity, generatorRule);
+        internal(entity, generatorRule, this::writeToFile);
+    }
 
+    public void generateToResponse(DataEntity entity, GeneratorRule generatorRule, HttpServletResponse response) {
+        try (ZipOutputStream zip = new ZipOutputStream(response.getOutputStream())) {
+            internal(entity, generatorRule, (code, outputFileRelativePath) -> {
+                //添加到zip
+                try {
+                    zip.putNextEntry(new ZipEntry(outputFileRelativePath));
+                    IOUtils.write(code, zip, StandardCharsets.UTF_8);
+                    zip.closeEntry();
+                    zip.finish();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new GeneratorException(e);
+                }
+
+            });
+
+            zip.finish();
+        } catch (Exception e) {
+            // Handle the exception
+            throw new GeneratorException("write code to zip error!", e);
+        }
+    }
+
+    private void internal(DataEntity entity, GeneratorRule generatorRule, Renderer renderer) {
+        Map<String, Object> model = convertToViewModel(entity, generatorRule);
         ResourceLoader resourceLoader = ResourceLoaderFactory.getLoader();
         String templatePathPrefix = getTemplatePathPrefix(entity);
         File templateDirectory = resourceLoader.getTemplateDirectory(templatePathPrefix);
@@ -97,23 +132,31 @@ public class CodeGeneratorImpl implements CodeGenerator {
             String outputFileRelativePath = renderSource(preOutputFileRelativePath, model);
             outputFileRelativePath = FilenameUtils.removeExtension(outputFileRelativePath);
 
-            if (One_To_Many_Pattern.matcher(outputFileRelativePath).find()) {
-                for (DataEntity child : entity.getChildren()) {
-                    String childOutputFileRelativePath = One_To_Many_Pattern.matcher(outputFileRelativePath).replaceFirst(child.getCode());
-                    Map childModel = convertToViewModel(child, generatorRule);
-                    renderTemplate(childModel,templateRelativePath,childOutputFileRelativePath);
-                }
+            //TODO:主子表关系的生成待完善
+            if (entity.getTableType().equals(TableType.SingleTable)) {
+                renderTemplate(model, templateRelativePath, outputFileRelativePath, renderer);
             } else {
-                renderTemplate(model, templateRelativePath, outputFileRelativePath);
+                if (One_To_Many_Pattern.matcher(outputFileRelativePath).find()) {
+                    for (DataEntity child : entity.getChildren()) {
+                        String childOutputFileRelativePath = One_To_Many_Pattern.matcher(outputFileRelativePath).replaceFirst(child.getCode());
+                        Map childModel = convertToViewModel(child, generatorRule);
+                        renderTemplate(childModel, templateRelativePath, childOutputFileRelativePath, renderer);
+                    }
+                } else {
+                    renderTemplate(model, templateRelativePath, outputFileRelativePath, renderer);
+                }
             }
-
 
         }
 
-
     }
 
-    private void renderTemplate(Map<String, Object> model, String templateRelativePath, String outputFileRelativePath) {
+    private void renderTemplate(Map<String, Object> model, String templateRelativePath, String outputFileRelativePath, Renderer renderer) {
+        String code = render(templateRelativePath, model);
+        renderer.execute(code, outputFileRelativePath);
+    }
+
+    private void writeToFile(String fileContent, String outputFileRelativePath) {
         log.info("outputFileRelativePath::{}", outputFileRelativePath);
         String outputFileAbsolutePath = FilenameUtils.concat(OUTPUT_PATH, outputFileRelativePath);
         log.info("outputFileAbsolutePath::{}", outputFileAbsolutePath);
@@ -124,7 +167,8 @@ public class CodeGeneratorImpl implements CodeGenerator {
         }
 
         try (FileWriter fileWriter = new FileWriter(newFile);) {
-            render(templateRelativePath, model, fileWriter);
+            //render(templateRelativePath, model, fileWriter);
+            fileWriter.write(fileContent);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -198,12 +242,16 @@ public class CodeGeneratorImpl implements CodeGenerator {
         try {
             templateEngine.resolve(viewPath, model, writer);
         } catch (IOException e) {
-//            e.printStackTrace();
             throw new GeneratorException(e);
         } catch (TemplateException e) {
-//            e.printStackTrace();
             throw new GeneratorException(e);
         }
+    }
+
+    public String render(String viewPath, Map model) {
+        TemplateEngine templateEngine = TemplateEngineFactory.getInstance().create(TemplateEngineFactory.Freemarker_Engine_Name);
+        String result = templateEngine.resolve(viewPath, model);
+        return result;
     }
 
     public String renderSource(String viewSource, Map model) {

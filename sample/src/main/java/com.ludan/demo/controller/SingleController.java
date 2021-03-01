@@ -1,4 +1,4 @@
-package ${packageName}.${moduleName}.controller;
+package com.ludan.demo.controller;
 
 import java.util.Map;
 
@@ -10,35 +10,26 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
-import ${packageName}.${moduleName}.entity.${entityName};
-import ${packageName}.${moduleName}.service.${entityName}Service;
+import com.ludan.demo.entity.Single;
+import com.ludan.demo.service.SingleService;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
 
-<#--rule:-->
-<#--<#list rule?keys as propName>-->
-<#--    ${propName} =-->
-<#--</#list>-->
-
-<#--entity:-->
-<#--<#list entity?keys as propName>-->
-<#--    ${propName} =-->
-<#--</#list>-->
 
 /**
-* @Description: ${entity.description}
-* @Author: ${rule.authorName}
-* @Date:   ${.now?string["yyyy-MM-dd"]}
+* @Description: 开发测试
+* @Author: chengch
+* @Date:   2021-03-01
 * @Version: V1.0
 */
 @Slf4j
 @RestController
-@RequestMapping("/${entityName}")
-@Api(tags = "${entity.description}")
-public class ${entityName}Controller {
+@RequestMapping("/Single")
+@Api(tags = "开发测试")
+public class SingleController {
 
 @Autowired
-private ${entityName}Service ${entityName}Service;
+private SingleService SingleService;
 
     /**
     * 列表
@@ -50,7 +41,7 @@ private ${entityName}Service ${entityName}Service;
     })
     @GetMapping("/list")
     public PageResult findAll(@RequestParam Map<String, Object> params) {
-        return ${entityName}Service.findList(params);
+        return SingleService.findList(params);
     }
 
     /**
@@ -59,7 +50,7 @@ private ${entityName}Service ${entityName}Service;
     @ApiOperation(value = "查询")
     @GetMapping("/detail/{id}")
     public Result findUserById(@PathVariable Long id) {
-        ${entityName} model = ${entityName}Service.getById(id);
+        Single model = SingleService.getById(id);
         return Result.succeed(model, "查询成功");
     }
 
@@ -68,8 +59,8 @@ private ${entityName}Service ${entityName}Service;
     */
     @ApiOperation(value = "保存")
     @PostMapping
-    public Result save(@RequestBody ${entityName} ${entityName}) {
-        ${entityName}Service.saveOrUpdate(${entityName});
+    public Result save(@RequestBody Single Single) {
+        SingleService.saveOrUpdate(Single);
         return Result.succeed("保存成功");
     }
 
@@ -79,7 +70,7 @@ private ${entityName}Service ${entityName}Service;
     @ApiOperation(value = "删除")
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Long id) {
-        ${entityName}Service.removeById(id);
+        SingleService.removeById(id);
         return Result.succeed("删除成功");
     }
 }
