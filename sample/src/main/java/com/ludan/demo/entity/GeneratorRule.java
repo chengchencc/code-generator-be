@@ -29,7 +29,7 @@ public class GeneratorRule {
     * 主键
     */
     @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
+    @TableId(type = IdType.AUTO)
     private Integer id;
     /**
     * 租户Id

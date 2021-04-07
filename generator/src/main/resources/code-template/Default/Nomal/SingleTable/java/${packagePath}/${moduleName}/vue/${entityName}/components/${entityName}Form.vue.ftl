@@ -287,7 +287,7 @@
                 this.edit({})
             },
             edit (record) {
-                console.log('edit::', this.record)
+                console.log('edit::', record)
                 this.model = Object.assign({}, record)
                 this.form.resetFields()
                 this.$nextTick(() => {
@@ -312,7 +312,7 @@
                         httpRequest
                             .then(
                                 (res) => {
-                                    if (res.code === 0) {
+                                    if (res.resp_code === 0) {
                                         this.$message.success(res.message)
                                         this.$emit('ok')
                                     } else {

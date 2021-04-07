@@ -251,50 +251,11 @@
 <script>
     import moment from 'moment'
     import { toDateTime, toDate } from '@/utils/datetime'
+    import { getNameByDict } from '@/utils/dealData'
     import { dictMixin } from '@/store/dict-mixin'
     import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
     import ModalForm from './components/GeneratorRuleModal' // 切换到抽屉模式 引用改为 './form-drawer.vue'
     import { getDictionaryByCodes } from '@/utils/dictUtil'
-
-    const columns = [
-        {
-            title: '#',
-            scopedSlots: {customRender: 'serial'}
-        },
-        <#list entity.fields as field >
-        <#assign fieldui = field.dataFieldUI>
-        {
-            title: '${field.description}',
-            dataIndex: '${field.name}',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            <#switch field.dataFieldType>
-            <#case "DATETIME">
-            customRender: toDateTime,
-            <#break>
-            <#case "DECIMAL">
-            customRender: (value) => value
-            <#break>
-            <#case "BOOLEAN">
-            customRender: (value) => value ? '是' : '否'
-            <#break>
-            <#default>
-            customRender: (value) => value
-            </#switch>
-            <#--            <#if field.dataFieldType = "">-->
-            <#--            customRender: toDateTime,-->
-            <#--            <#elseif field.-->
-            <#--            </#if>-->
-        },
-        </#list>
-        {
-            title: '操作',
-            dataIndex: 'action',
-            width: '200px',
-            scopedSlots: {customRender: 'action'}
-        }
-    ]
 
     export default {
         name: 'TableList',
@@ -304,7 +265,51 @@
         mixins: [dictMixin, TablePageMixin],
         data() {
             return {
-                columns: columns,
+                columns: [
+                   {
+                       title: '#',
+                       scopedSlots: {customRender: 'serial'}
+                   },
+                   <#list entity.fields as field >
+                   <#assign fieldui = field.dataFieldUI>
+                   {
+                       title: '${field.description}',
+                       dataIndex: '${field.name}',
+                       ellipsis: false, // 超过宽度将自动省略
+                       align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                       width: '200px',
+                       <#switch field.dataFieldType>
+                       <#case "DATETIME">
+                       customRender: toDateTime,
+                       <#break>
+                       <#case "DECIMAL">
+                       customRender: (value) => value
+                       <#break>
+                       <#case "BOOLEAN">
+                       customRender: (value) => value ? '是' : '否'
+                       <#break>
+                       <#default>
+                       <#if fieldui.controlType == 'SelectOne'>
+                       customRender: (value) => {
+                          return getNameByDict(value, this.pageDict.${field.dataFieldUI.dictCode} || [])
+                       }
+                       <#else>
+                       customRender: (value) => value
+                       </#if>
+                       </#switch>
+                       <#--            <#if field.dataFieldType = "">-->
+                       <#--            customRender: toDateTime,-->
+                       <#--            <#elseif field.-->
+                       <#--            </#if>-->
+                   },
+                   </#list>
+                   {
+                       title: '操作',
+                       dataIndex: 'action',
+                       width: '200px',
+                       scopedSlots: {customRender: 'action'}
+                   }
+                ],
                 //页面级字典
                 pageDict: {},
                 url: {
