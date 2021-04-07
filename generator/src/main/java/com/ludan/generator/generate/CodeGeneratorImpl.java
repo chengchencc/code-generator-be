@@ -60,7 +60,7 @@ public class CodeGeneratorImpl implements CodeGenerator {
     public void generateToResponse(Integer entityId, HttpServletResponse response) {
         DataEntity entity = dataModelManager.findByEntityId(entityId);
         GeneratorRule generatorRule = GeneratorRule.getDefault();
-//        generateToResponse(entity,generatorRule,response);
+        generateToResponse(entity,generatorRule,response);
         generateToFile(entity,generatorRule);
     }
 
