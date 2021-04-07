@@ -25,19 +25,23 @@ public class DataFieldUIDto extends AuditEntityDto<Integer> {
     /**
      * 表单显示
      */
-    private Boolean isFormDisplay;
+    private boolean isFormDisplay;
     /**
      * 列表页显示
      */
-    private Boolean isListDisplay;
+    private boolean isListDisplay;
     /**
      * 是否排序字段
      */
-    private Boolean isSupportSort;
+    private boolean isSupportSort;
     /**
      * 是否查询条件
      */
-    private Boolean isQuery;
+    private boolean isQuery;
+    /**
+     * 是否导出
+     */
+    private boolean isExportExcel;
     /**
      * 表单width
      */

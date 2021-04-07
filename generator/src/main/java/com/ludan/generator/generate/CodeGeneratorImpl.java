@@ -1,8 +1,8 @@
 package com.ludan.generator.generate;
 
-import cn.hutool.core.io.IoUtil;
 import com.ludan.generator.common.exception.GeneratorException;
 import com.ludan.generator.entity.DataEntity;
+import com.ludan.generator.entity.DataField;
 import com.ludan.generator.entity.GeneratorRule;
 import com.ludan.generator.entity.TableType;
 import com.ludan.generator.generate.loader.ResourceLoader;
@@ -11,9 +11,7 @@ import com.ludan.generator.service.DataModelManager;
 import com.ludan.generator.generate.resolver.TemplateEngine;
 import com.ludan.generator.generate.resolver.TemplateEngineFactory;
 import freemarker.template.TemplateException;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.archivers.zip.ScatterZipOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -22,11 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -62,19 +56,20 @@ public class CodeGeneratorImpl implements CodeGenerator {
      * @param entityId
      * @return
      */
-    @SneakyThrows
     @Override
-    public void generate(Integer entityId, OutputStream outputStream) {
+    public void generateToResponse(Integer entityId, HttpServletResponse response) {
         DataEntity entity = dataModelManager.findByEntityId(entityId);
         GeneratorRule generatorRule = GeneratorRule.getDefault();
-
+//        generateToResponse(entity,generatorRule,response);
+        generateToFile(entity,generatorRule);
     }
 
     @Override
-    public void generate(DataEntity entity, GeneratorRule generatorRule) {
+    public void generateToFile(DataEntity entity, GeneratorRule generatorRule) {
         internal(entity, generatorRule, this::writeToFile);
     }
 
+    @Override
     public void generateToResponse(DataEntity entity, GeneratorRule generatorRule, HttpServletResponse response) {
         try (ZipOutputStream zip = new ZipOutputStream(response.getOutputStream())) {
             internal(entity, generatorRule, (code, outputFileRelativePath) -> {
@@ -83,12 +78,10 @@ public class CodeGeneratorImpl implements CodeGenerator {
                     zip.putNextEntry(new ZipEntry(outputFileRelativePath));
                     IOUtils.write(code, zip, StandardCharsets.UTF_8);
                     zip.closeEntry();
-                    zip.finish();
                 } catch (IOException e) {
                     e.printStackTrace();
                     throw new GeneratorException(e);
                 }
-
             });
 
             zip.finish();
@@ -230,10 +223,20 @@ public class CodeGeneratorImpl implements CodeGenerator {
     public Map convertToViewModel(DataEntity entity, GeneratorRule rule) {
         Map<String, Object> model = new HashMap<>();
         model.put("packageName", rule.getPackageName());
+        model.put("packagePath",rule.getPackageName().replace(".",File.separator));
         model.put("moduleName", rule.getModuleName());
         model.put("entityName", entity.getCode());
         model.put("entity", entity);
         model.put("rule", rule);
+
+
+        Optional<DataField> first = entity.getFields().stream().filter(s -> s.getIsPrimaryKey()).findFirst();
+        if (!first.isPresent()){
+            throw new GeneratorException("字段必须有一个主键标示");
+        }
+        model.put("primaryName",first.get().getName());
+        model.put("primaryType",first.get().getDataFieldType().getJavaType());
+
         return model;
     }
 

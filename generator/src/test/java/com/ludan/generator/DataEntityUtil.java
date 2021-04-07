@@ -41,7 +41,7 @@ public class DataEntityUtil {
         dataEntity.setParentId("");
         dataEntity.setTableType(TableType.SingleTable);
         dataEntity.setMainEntityId(0);
-        dataEntity.setTableIdType(IdType.AUTO);
+        dataEntity.setTableIdType(IdType.ASSIGN_ID);
         dataEntity.setUiTemplate(UITemplate.Default);
         dataEntity.setVersion(0);
         dataEntity.setPublished(false);
@@ -56,6 +56,10 @@ public class DataEntityUtil {
         dataEntity.setId(1);
         dataEntity.setTenantId("10000");
 
+        DataField fieldId = getDataField(1, "id", DataFieldType.INTETER, 0);
+        fieldId.setDataFieldUI(getDataFieldUI(1, ControlType.Number, getNumberValidation()));
+        fieldId.setIsPrimaryKey(true);
+
         DataField field1 = getDataField(1, "propInt", DataFieldType.INTETER, 0);
         field1.setDataFieldUI(getDataFieldUI(1, ControlType.Number, getNumberValidation()));
         DataField field2 = getDataField(2, "propString", DataFieldType.INTETER, 0);
@@ -63,6 +67,7 @@ public class DataEntityUtil {
         DataField field3 = getDataField(3, "propBool", DataFieldType.INTETER, 0);
         field3.setDataFieldUI(getDataFieldUI(3, ControlType.Checkbox, new SimpleValidation(false)));
 
+        dataEntity.getFields().add(fieldId);
         dataEntity.getFields().add(field1);
         dataEntity.getFields().add(field2);
         dataEntity.getFields().add(field3);
@@ -75,7 +80,7 @@ public class DataEntityUtil {
     }
 
     public static DataFieldUI getDataFieldUI(int fieldId, ControlType controlType, AbstractValidation validation){
-        DataFieldUI dataFieldUI = new DataFieldUI(fieldId, controlType, true, true, true, true, 200, validation);
+        DataFieldUI dataFieldUI = new DataFieldUI(fieldId, controlType, true, true, true, true,true, 200, validation);
         return dataFieldUI;
     }
 

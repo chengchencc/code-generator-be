@@ -173,7 +173,7 @@ public class DataSourceServiceImpl implements DataSourceService {
         }
 
 
-        DataFieldUI dataFieldUI = new DataFieldUI(dataField.getId(), controlType, true, false, false, false, 200, validation);
+        DataFieldUI dataFieldUI = new DataFieldUI(dataField.getId(), controlType, true, false, false, false,false, 200, validation);
         return dataFieldUI;
     }
 

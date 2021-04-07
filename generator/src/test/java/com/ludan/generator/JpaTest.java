@@ -133,7 +133,7 @@ public class JpaTest {
     }
 
     private DataFieldUI getDataFieldUI(int fieldId,ControlType controlType,AbstractValidation validation){
-        DataFieldUI dataFieldUI = new DataFieldUI(fieldId, controlType, true, true, true, true, 200, validation);
+        DataFieldUI dataFieldUI = new DataFieldUI(fieldId, controlType, true, true, true, true,true, 200, validation);
         return dataFieldUI;
     }
 

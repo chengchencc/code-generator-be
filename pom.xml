@@ -121,6 +121,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.ludan</groupId>
+                <artifactId>common</artifactId>
+                <version>${generator.version}</version>
+            </dependency>
             <!-- 自定义 starter -->
             <dependency>
                 <groupId>com.ludan</groupId>

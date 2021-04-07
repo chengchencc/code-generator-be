@@ -3,6 +3,7 @@ package com.ludan.generator.generate;
 import com.ludan.generator.entity.DataEntity;
 import com.ludan.generator.entity.GeneratorRule;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 
 /**
@@ -15,8 +16,10 @@ public interface CodeGenerator {
      * @param entityId
      * @return
      */
-    void generate(Integer entityId, OutputStream outputStream);
+    void generateToResponse(Integer entityId, HttpServletResponse response);
 
-    void generate(DataEntity entity, GeneratorRule generatorRule);
+    void generateToFile(DataEntity entity, GeneratorRule generatorRule);
+
+    void generateToResponse(DataEntity entity, GeneratorRule generatorRule, HttpServletResponse response);
 
 }

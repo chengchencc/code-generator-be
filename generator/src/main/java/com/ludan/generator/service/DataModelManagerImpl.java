@@ -48,7 +48,7 @@ public class DataModelManagerImpl implements DataModelManager {
 
     @Override
     public DataEntity findByEntityId(Integer id) {
-        DataEntity one = dataEntityRepository.getOne(id);
+        DataEntity one = dataEntityRepository.findById(id).get();
         return one;
     }
 

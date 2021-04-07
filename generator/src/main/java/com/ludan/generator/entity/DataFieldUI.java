@@ -30,19 +30,24 @@ public class DataFieldUI extends AuditEntityBase<Integer> {
     /**
      * 表单显示
      */
-    private Boolean isFormDisplay;
+    private boolean isFormDisplay;
     /**
      * 列表页显示
      */
-    private Boolean isListDisplay;
+    private boolean isListDisplay;
     /**
      * 是否排序字段
      */
-    private Boolean isSupportSort;
+    private boolean isSupportSort;
     /**
      * 是否查询条件
      */
-    private Boolean isQuery;
+    private boolean isQuery;
+    /**
+     * 是否导出
+     */
+    private boolean isExportExcel;
+
     /**
      * 表格列宽
      */
@@ -67,10 +72,11 @@ public class DataFieldUI extends AuditEntityBase<Integer> {
 
     public DataFieldUI(int dataFieldId,
                        ControlType controlType,
-                       Boolean isFormDisplay,
-                       Boolean isListDisplay,
-                       Boolean isSupportSort,
-                       Boolean isQuery,
+                       boolean isFormDisplay,
+                       boolean isListDisplay,
+                       boolean isSupportSort,
+                       boolean isQuery,
+                       boolean isExportExcel,
                        int tableColWidth,
                        AbstractValidation validation) {
         this.dataFieldId = dataFieldId;
@@ -79,6 +85,7 @@ public class DataFieldUI extends AuditEntityBase<Integer> {
         this.isListDisplay = isListDisplay;
         this.isSupportSort = isSupportSort;
         this.isQuery = isQuery;
+        this.isExportExcel = isExportExcel;
         this.tableColWidth = tableColWidth;
         this.validation = validation;
     }

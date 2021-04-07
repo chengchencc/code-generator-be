@@ -1,7 +1,6 @@
 package com.ludan.generator.service;
 import com.ludan.generator.DataEntityUtil;
 import com.ludan.generator.entity.*;
-import com.google.common.collect.Lists;
 
 import cn.hutool.core.date.DateUtil;
 import com.central.common.constant.CommonConstant;
@@ -10,6 +9,7 @@ import com.ludan.generator.generate.resolver.TemplateEngine;
 import com.ludan.generator.generate.resolver.TemplateEngineFactory;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,10 +71,18 @@ public class CodeGeneratorImplTest {
     }
 
     @Test
-    public void test_generate_code_single(){
+    public void test_generate_code_single() throws IOException {
         DataEntity singleEntity = DataEntityUtil.getSingleEntity();
+
+//        try(FileWriter fileWriter = new FileWriter("D:/SingleEntity.json");) {
+//            fileWriter.write(JSON.toJSONString(singleEntity));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
         CodeGeneratorImpl generator = new CodeGeneratorImpl(null);
-        generator.generate(singleEntity, GeneratorRule.getDefault());
+        generator.generateToFile(singleEntity, GeneratorRule.getDefault());
         System.out.println("success");
     }
 
@@ -82,7 +90,7 @@ public class CodeGeneratorImplTest {
     public void test_generate_code_OneToMany(){
         DataEntity entity = DataEntityUtil.getOneToManyEntity();
         CodeGeneratorImpl generator = new CodeGeneratorImpl(null);
-        generator.generate(entity, GeneratorRule.getDefault());
+        generator.generateToFile(entity, GeneratorRule.getDefault());
         System.out.println("success");
     }
 

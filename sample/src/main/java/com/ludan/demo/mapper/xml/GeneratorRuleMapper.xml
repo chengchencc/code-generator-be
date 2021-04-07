@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ludan.demo.mapper.GeneratorRuleMapper">
+    <select id="findList" resultType="com.ludan.demo.entity.GeneratorRule">
+        select * from generator_rule t
+        where 1=1
+           <if test="p.tenantId != null">
+               t.tenant_id = #{p.tenantId}
+           </if>
+           <if test="p.creationTime != null">
+               t.creation_time = #{p.creationTime}
+           </if>
+           <if test="p.creationUserId != null">
+               t.creation_user_id = #{p.creationUserId}
+           </if>
+           <if test="p.deletionTime != null">
+               t.deletion_time = #{p.deletionTime}
+           </if>
+           <if test="p.deletionUserId != null">
+               t.deletion_user_id = #{p.deletionUserId}
+           </if>
+           <if test="p.lastModifyTime != null">
+               t.last_modify_time = #{p.lastModifyTime}
+           </if>
+           <if test="p.lastModifyUserId != null">
+               t.last_modify_user_id = #{p.lastModifyUserId}
+           </if>
+           <if test="p.authorName != null">
+               t.author_name = #{p.authorName}
+           </if>
+           <if test="p.email != null">
+               t.email = #{p.email}
+           </if>
+           <if test="p.moduleName != null">
+               t.module_name = #{p.moduleName}
+           </if>
+           <if test="p.packageName != null">
+               t.package_name = #{p.packageName}
+           </if>
+           <if test="p.uiTemplate != null">
+               t.ui_template = #{p.uiTemplate}
+           </if>
+    </select>
+</mapper>
