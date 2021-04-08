@@ -244,12 +244,12 @@
                 validatorRules: {
                     <#list entity.fields as field >
                     <#assign fieldui = field.dataFieldUI>
-                    ${field.name}:{rules:[{required:false},{ validator: this.validate${field.name?cap_first} }]},
+                    ${field.name}:{rules:[{required:${field.isRequired?c},message:"${field.description}不能为空"},{ validator: this.validate${field.name?cap_first} }]},
                     </#list>
                 },
                 urls: {
-                    add: '/api-sample/GeneratorRule/add',
-                    edit: '/api-sample/GeneratorRule/edit'
+                    add: '/api-sample/${entityName}/add',
+                    edit: '/api-sample/${entityName}/edit'
                 }
             }
         },
@@ -334,10 +334,10 @@
                             .then(
                                 (res) => {
                                     if (res.resp_code === 0) {
-                                        this.$message.success(res.message)
+                                        this.$message.success(res.resp_msg)
                                         this.$emit('ok')
                                     } else {
-                                        this.$message.warning(res.message)
+                                        this.$message.warning(res.resp_msg)
                                     }
                                 },
                                 (err, con) => {

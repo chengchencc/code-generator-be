@@ -93,30 +93,22 @@
                         <a-textarea v-decorator="['textArea',validatorRules.textArea ]" auto-size />
                 </a-form-item>
                 <a-form-item label="用户选择组件" >
-                        <a-input v-decorator="['userSelect',validatorRules.userSelect ]"/>
+                        <span>暂不支持类型</span>
                 </a-form-item>
                 <a-form-item label="组织选择组件" >
-                        <a-input v-decorator="['orgSelect',validatorRules.orgSelect ]"/>
+                        <span>暂不支持类型</span>
                 </a-form-item>
                 <a-form-item label="富文本" >
-                        <a-textarea v-decorator="['richText',validatorRules.richText ]" auto-size />
+                        <span>暂不支持类型</span>
                 </a-form-item>
                 <a-form-item label="区域选择" >
-                        <a-input v-decorator="['region',validatorRules.region ]"/>
+                        <span>暂不支持类型</span>
                 </a-form-item>
                 <a-form-item label="树选择" >
-                        <a-tree-select
-                                v-decorator="['treeSelect',validatorRules.treeSelect ]"
-                                tree-data-simple-mode
-                                style="width: 100%"
-                                :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-                                :tree-data="treeData"
-                                placeholder="Please select"
-                                :load-data="onLoadData"
-                        />
+                        <span>暂不支持类型</span>
                 </a-form-item>
                 <a-form-item label="自定义弹框" >
-                        <a-input v-decorator="['modal',validatorRules.modal ]"/>
+                        <span>暂不支持类型</span>
                 </a-form-item>
                 <a-form-item label="创建者" >
                         <a-input v-decorator="['creator',validatorRules.creator ]"/>
@@ -210,12 +202,8 @@
 
     export default {
         props: {
-
         },
-        mixins: {
-            FileUploadMixin,
-            FormMixin
-        },
+        mixins: [FileUploadMixin, FormMixin],
         data () {
             return {
                 model: {},
@@ -242,35 +230,60 @@
                 //页面级字典
                 pageDict: {},
                 validatorRules: {
+            true
                     id:{rules:[{required:false},{ validator: this.validateId }]},
+            false
                     inputText:{rules:[{required:false},{ validator: this.validateInputText }]},
+            false
                     number:{rules:[{required:false},{ validator: this.validateNumber }]},
+            false
                     selectOne:{rules:[{required:false},{ validator: this.validateSelectOne }]},
+            false
                     selectMany:{rules:[{required:false},{ validator: this.validateSelectMany }]},
+            false
                     checkBox:{rules:[{required:false},{ validator: this.validateCheckBox }]},
+            false
                     radio:{rules:[{required:false},{ validator: this.validateRadio }]},
+            false
                     fieldDate:{rules:[{required:false},{ validator: this.validateFieldDate }]},
+            false
                     fieldDateTime:{rules:[{required:false},{ validator: this.validateFieldDateTime }]},
+            false
                     fieldTime:{rules:[{required:false},{ validator: this.validateFieldTime }]},
+            false
                     fieldFile:{rules:[{required:false},{ validator: this.validateFieldFile }]},
+            false
                     fieldImage:{rules:[{required:false},{ validator: this.validateFieldImage }]},
+            false
                     textArea:{rules:[{required:false},{ validator: this.validateTextArea }]},
+            false
                     userSelect:{rules:[{required:false},{ validator: this.validateUserSelect }]},
+            false
                     orgSelect:{rules:[{required:false},{ validator: this.validateOrgSelect }]},
+            false
                     richText:{rules:[{required:false},{ validator: this.validateRichText }]},
+            false
                     region:{rules:[{required:false},{ validator: this.validateRegion }]},
+            false
                     treeSelect:{rules:[{required:false},{ validator: this.validateTreeSelect }]},
+            false
                     modal:{rules:[{required:false},{ validator: this.validateModal }]},
+            false
                     creator:{rules:[{required:false},{ validator: this.validateCreator }]},
+            false
                     createTime:{rules:[{required:false},{ validator: this.validateCreateTime }]},
+            false
                     createName:{rules:[{required:false},{ validator: this.validateCreateName }]},
+            false
                     updator:{rules:[{required:false},{ validator: this.validateUpdator }]},
+            false
                     updateTime:{rules:[{required:false},{ validator: this.validateUpdateTime }]},
+            false
                     updateName:{rules:[{required:false},{ validator: this.validateUpdateName }]},
                 },
                 urls: {
-                    add: '/api-sample/GeneratorRule/add',
-                    edit: '/api-sample/GeneratorRule/edit'
+                    add: '/api-sample/Sample/add',
+                    edit: '/api-sample/Sample/edit'
                 }
             }
         },
