@@ -4,181 +4,218 @@
     <a-spin :spinning="loading">
         <a-form :form="form" v-bind="formLayout">
             <!-- 检查是否有 id 并且大于0，大于0是修改。其他是新增，新增不显示主键ID -->
-<#--            <a-form-item v-show="model" label="主键ID">-->
+            <#--            <a-form-item v-show="model" label="主键ID">-->
             <#list entity.fields as field >
                 <#assign fieldui = field.dataFieldUI>
-                <a-form-item label="${field.description}" >
-                <#switch fieldui.controlType>
-                    <#case "PlainText">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]" disabled/>
-<#--                        <span class="ant-form-text">-->
-<#--                        -->
-<#--                        </span>-->
-                        <#break>
-                    <#case "InputText">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
-                        <#break>
-                    <#case "Number">
-                        <a-input-number v-decorator="['${field.name}',validatorRules.${field.name} ]" :min="1" :max="10" style="width:100%"/>
-                        <#break>
-                    <#case "Password">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
-                        <#break>
-                    <#case "SelectOne">
-                        <a-select v-decorator="['${field.name}',validatorRules.${field.name} ]">
-                            <a-select-option value="">请选择</a-select-option>
-                            <a-select-option v-for="(item, name) in pageDict.${fieldui.dictCode}" :key="name" :value="item.code">
-                                {{ item.value }}
-                            </a-select-option>
-<#--                            <a-select-option value="china">-->
-<#--                                China-->
-<#--                            </a-select-option>-->
-<#--                            <a-select-option value="usa">-->
-<#--                                U.S.A-->
-<#--                            </a-select-option>-->
-                        </a-select>
-                        <#break>
-                    <#case "SelectMany">
-                        <a-select v-decorator="['${field.name}',validatorRules.${field.name} ]" mode="multiple">
-                            <a-select-option v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" :value="item.code">
-                                {{ item.value }}
-                            </a-select-option>
-<#--                            <a-select-option value="china">-->
-<#--                                China-->
-<#--                            </a-select-option>-->
-<#--                            <a-select-option value="usa">-->
-<#--                                U.S.A-->
-<#--                            </a-select-option>-->
-                        </a-select>
-                        <#break>
-                    <#case "Checkbox">
-                        <a-checkbox-group
-                                v-decorator="['${field.name}']" style="width: 100%;">
-                            <a-row>
-                                <a-col :span="8" v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" >
-                                    <a-checkbox :value="item.code">
+                <a-form-item label="${field.description}">
+                    <#switch fieldui.controlType>
+                        <#case "PlainText">
+                            <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]" disabled/>
+                        <#--                        <span class="ant-form-text">-->
+                        <#--                        -->
+                        <#--                        </span>-->
+                            <#break>
+                        <#case "InputText">
+                            <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                            <#break>
+                        <#case "Number">
+                            <a-input-number v-decorator="['${field.name}',validatorRules.${field.name} ]"
+                                            style="width:100%"/>
+                            <#break>
+                        <#case "Password">
+                            <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                            <#break>
+                        <#case "SelectOne">
+                            <#if field.dataFieldUI.dictCode??>
+                                <a-select v-decorator="['${field.name}',validatorRules.${field.name} ]">
+                                    <a-select-option value="">请选择</a-select-option>
+                                    <a-select-option v-for="(item, name) in pageDict.${fieldui.dictCode}" :key="name"
+                                                     :value="item.code">
                                         {{ item.value }}
-                                    </a-checkbox>
-                                </a-col>
-<#--                                <a-col :span="8">-->
-<#--                                    <a-checkbox value="A">-->
-<#--                                        A-->
-<#--                                    </a-checkbox>-->
-<#--                                </a-col>-->
-<#--                                <a-col :span="8">-->
-<#--                                    <a-checkbox disabled value="B">-->
-<#--                                        B-->
-<#--                                    </a-checkbox>-->
-<#--                                </a-col>-->
-<#--                                <a-col :span="8">-->
-<#--                                    <a-checkbox value="C">-->
-<#--                                        C-->
-<#--                                    </a-checkbox>-->
-<#--                                </a-col>-->
-<#--                                <a-col :span="8">-->
-<#--                                    <a-checkbox value="D">-->
-<#--                                        D-->
-<#--                                    </a-checkbox>-->
-<#--                                </a-col>-->
-<#--                                <a-col :span="8">-->
-<#--                                    <a-checkbox value="E">-->
-<#--                                        E-->
-<#--                                    </a-checkbox>-->
-<#--                                </a-col>-->
-                            </a-row>
-                        </a-checkbox-group>
-                        <#break>
-                    <#case "Radio">
-                        <a-radio-group v-decorator="['${field.name}',validatorRules.${field.name}]">
-                            <a-radio v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" :value="item.code">
-                                {{ item.value }}
-                            </a-radio>
-<#--                            <a-radio value="a">-->
-<#--                                item 1-->
-<#--                            </a-radio>-->
-<#--                            <a-radio value="b">-->
-<#--                                item 2-->
-<#--                            </a-radio>-->
-<#--                            <a-radio value="c">-->
-<#--                                item 3-->
-<#--                            </a-radio>-->
-                        </a-radio-group>
-                        <#break>
-                    <#case "Date">
-                        <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%"/>
-                        <#break>
-                    <#case "DateTime">
-                        <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%"/>
-                        <#break>
-                    <#case "Time">
-                        <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%"/>
-                        <#break>
-                    <#case "File">
-                        <a-upload
-                                v-decorator="['${field.name}',
+                                    </a-select-option>
+                                    <#--                            <a-select-option value="china">-->
+                                    <#--                                China-->
+                                    <#--                            </a-select-option>-->
+                                    <#--                            <a-select-option value="usa">-->
+                                    <#--                                U.S.A-->
+                                    <#--                            </a-select-option>-->
+                                </a-select>
+                            <#else >
+                                <span>未配置字典编码</span>
+                            </#if>
+                            <#break>
+                        <#case "SelectMany">
+                            <#if field.dataFieldUI.dictCode??>
+                                <a-select v-decorator="['${field.name}',validatorRules.${field.name} ]" mode="multiple">
+                                    <a-select-option v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}"
+                                                     :key="name" :value="item.code">
+                                        {{ item.value }}
+                                    </a-select-option>
+
+                                    <#--                            <a-select-option value="china">-->
+                                    <#--                                China-->
+                                    <#--                            </a-select-option>-->
+                                    <#--                            <a-select-option value="usa">-->
+                                    <#--                                U.S.A-->
+                                    <#--                            </a-select-option>-->
+                                </a-select>
+                            <#else >
+                                <span>未配置字典编码</span>
+                            </#if>
+
+                            <#break>
+                        <#case "Checkbox">
+                            <#if field.dataFieldUI.dictCode??>
+                                <a-checkbox-group
+                                        v-decorator="['${field.name}']" style="width: 100%;">
+                                    <a-row>
+                                        <a-col :span="8" v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}"
+                                               :key="name">
+                                            <a-checkbox :value="item.code">
+                                                {{ item.value }}
+                                            </a-checkbox>
+                                        </a-col>
+                                        <#--                                <a-col :span="8">-->
+                                        <#--                                    <a-checkbox value="A">-->
+                                        <#--                                        A-->
+                                        <#--                                    </a-checkbox>-->
+                                        <#--                                </a-col>-->
+                                        <#--                                <a-col :span="8">-->
+                                        <#--                                    <a-checkbox disabled value="B">-->
+                                        <#--                                        B-->
+                                        <#--                                    </a-checkbox>-->
+                                        <#--                                </a-col>-->
+                                        <#--                                <a-col :span="8">-->
+                                        <#--                                    <a-checkbox value="C">-->
+                                        <#--                                        C-->
+                                        <#--                                    </a-checkbox>-->
+                                        <#--                                </a-col>-->
+                                        <#--                                <a-col :span="8">-->
+                                        <#--                                    <a-checkbox value="D">-->
+                                        <#--                                        D-->
+                                        <#--                                    </a-checkbox>-->
+                                        <#--                                </a-col>-->
+                                        <#--                                <a-col :span="8">-->
+                                        <#--                                    <a-checkbox value="E">-->
+                                        <#--                                        E-->
+                                        <#--                                    </a-checkbox>-->
+                                        <#--                                </a-col>-->
+                                    </a-row>
+                                </a-checkbox-group>
+                            <#else >
+                                <span>未配置字典编码</span>
+                            </#if>
+                            <#break>
+                        <#case "Radio">
+                            <#if field.dataFieldUI.dictCode??>
+                                <a-radio-group v-decorator="['${field.name}',validatorRules.${field.name}]">
+                                    <a-radio v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name"
+                                             :value="item.code">
+                                        {{ item.value }}
+                                    </a-radio>
+                                    <#--                            <a-radio value="a">-->
+                                    <#--                                item 1-->
+                                    <#--                            </a-radio>-->
+                                    <#--                            <a-radio value="b">-->
+                                    <#--                                item 2-->
+                                    <#--                            </a-radio>-->
+                                    <#--                            <a-radio value="c">-->
+                                    <#--                                item 3-->
+                                    <#--                            </a-radio>-->
+                                </a-radio-group>
+                            <#else >
+                                <span>未配置字典编码</span>
+                            </#if>
+                            <#break>
+                        <#case "Date">
+                            <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]"
+                                           style="width: 100%"/>
+                            <#break>
+                        <#case "DateTime">
+                            <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]"
+                                           style="width: 100%"/>
+                            <#break>
+                        <#case "Time">
+                            <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]"
+                                           style="width: 100%"/>
+                            <#break>
+                        <#case "File">
+                            <a-upload
+                                    v-decorator="['${field.name}',
                                   {
                                     valuePropName: 'fileList',
                                     getValueFromEvent: normFile,
                                   },
                                 ]"
-                                name="logo"
-                                :action="uploadApi"
-                                :headers="headers"
-                                @change="(info) => handleFileUpload('type', info)"
-                                :showUploadList="true"
-                                list-type="picture">
-                            <a-button> <a-icon type="upload" /> 上传附件 </a-button>
-                        </a-upload>
-                        <#break>
-                    <#case "Image">
-                        <a-upload
-                                v-decorator="['${field.name}',
+                                    name="logo"
+                                    :action="uploadApi"
+                                    :headers="headers"
+                                    @change="(info) => handleFileUpload('type', info)"
+                                    :showUploadList="true"
+                                    list-type="picture">
+                                <a-button>
+                                    <a-icon type="upload"/>
+                                    上传附件
+                                </a-button>
+                            </a-upload>
+                            <#break>
+                        <#case "Image">
+                            <a-upload
+                                    v-decorator="['${field.name}',
                                       {
                                         valuePropName: 'fileList',
                                         getValueFromEvent: normFile,
                                       },
                                     ]"
-                                name="logo"
-                                :action="uploadApi"
-                                :headers="headers"
-                                @change="(info) => handleFileUpload('type', info)"
-                                :showUploadList="true"
-                                list-type="picture">
-                            <a-button> <a-icon type="upload" /> 上传图片 </a-button>
-                        </a-upload>
-                        <#break>
-                    <#case "TextArea">
-                        <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size />
-                        <#break>
-                    <#case "RichText">
-                        <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size />
-                        <#break>
-                    <#case "UserSelect">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
-                        <#break>
-                    <#case "OrgSelect">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
-                        <#break>
-                    <#case "Region">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
-                        <#break>
-                    <#case "TreeSelect">
-                        <a-tree-select
-                                v-decorator="['${field.name}',validatorRules.${field.name} ]"
-                                tree-data-simple-mode
-                                style="width: 100%"
-                                :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-                                :tree-data="treeData"
-                                placeholder="Please select"
-                                :load-data="onLoadData"
-                        />
-                        <#break>
-                    <#case "Modal">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
-                        <#break>
-                    <#default>
-                        <span>不支持类型</span>
-                </#switch>
+                                    name="logo"
+                                    :action="uploadApi"
+                                    :headers="headers"
+                                    @change="(info) => handleFileUpload('type', info)"
+                                    :showUploadList="true"
+                                    list-type="picture">
+                                <a-button>
+                                    <a-icon type="upload"/>
+                                    上传图片
+                                </a-button>
+                            </a-upload>
+                            <#break>
+                        <#case "TextArea">
+                            <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size/>
+                            <#break>
+                        <#case "RichText">
+                            <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size/>
+                            <#break>
+                        <#case "UserSelect">
+                            <span>暂不支持类型</span>
+                        <#--                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
+                            <#break>
+                        <#case "OrgSelect">
+                            <span>暂不支持类型</span>
+                        <#--                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
+                            <#break>
+                        <#case "Region">
+                            <span>暂不支持类型</span>
+                        <#--                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
+                            <#break>
+                        <#case "TreeSelect">
+                            <span>暂不支持类型</span>
+                        <#--                        <a-tree-select-->
+                        <#--                                v-decorator="['${field.name}',validatorRules.${field.name} ]"-->
+                        <#--                                tree-data-simple-mode-->
+                        <#--                                style="width: 100%"-->
+                        <#--                                :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"-->
+                        <#--                                :tree-data="treeData"-->
+                        <#--                                placeholder="Please select"-->
+                        <#--                                :load-data="onLoadData"-->
+                        <#--                        />-->
+                            <#break>
+                        <#case "Modal">
+                            <span>暂不支持类型</span>
+                        <#--                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
+                            <#break>
+                        <#default>
+                            <span>暂不支持类型</span>
+                    </#switch>
                 </a-form-item>
             </#list>
         </a-form>
@@ -187,87 +224,87 @@
 
 <script>
     import pick from 'lodash.pick'
-    import { httpGet, httpPost, httpDelete, httpPut, downFile } from '@/utils/httpClient'
-    import { getDictionaryByCodes } from '@/utils/dictUtil'
+    import {httpGet, httpPost, httpDelete, httpPut, downFile} from '@/utils/httpClient'
+    import {getDictionaryByCodes} from '@/utils/dictUtil'
     import FileUploadMixin from '@/core/mixins/FileUploadMixin'
     import FormMixin from '@/core/mixins/FormMixin'
-
-
-
     // 表单字段
     // const fields = ['id', 'dictCode', 'code', 'value', 'parentDictValueCode', 'orderBy', 'extA', 'extB', 'enable']
     const fields = [
-    <#list entity.fields as field >
-    <#assign fieldui = field.dataFieldUI>
+        <#list entity.fields as field >
+        <#assign fieldui = field.dataFieldUI>
         '${field.name}',
-    </#list>
+        </#list>
     ]
-
-
     export default {
-        props: {
-
-        },
+        props: {},
         mixins: {
             FileUploadMixin,
             FormMixin
         },
-        data () {
+        data() {
             return {
                 model: {},
                 loading: false,
                 // 布局
                 formLayout: {
                     labelCol: {
-                        xs: { span: 24 },
-                        sm: { span: 5 },
-                        md: { span: 5 },
-                        lg: { span: 5 },
-                        xl: { span: 5 },
-                        xxl: { span: 5 }
+                        xs: {span: 24},
+                        sm: {span: 5},
+                        md: {span: 5},
+                        lg: {span: 5},
+                        xl: {span: 5},
+                        xxl: {span: 5}
                     },
                     wrapperCol: {
-                        xs: { span: 24 },
-                        sm: { span: 16 },
-                        md: { span: 16 },
-                        lg: { span: 16 },
-                        xl: { span: 16 },
-                        xxl: { span: 16 }
+                        xs: {span: 24},
+                        sm: {span: 16},
+                        md: {span: 16},
+                        lg: {span: 16},
+                        xl: {span: 16},
+                        xxl: {span: 16}
                     }
                 },
                 //页面级字典
                 pageDict: {},
                 validatorRules: {
-                    <#list entity.fields as field >
-                    <#assign fieldui = field.dataFieldUI>
-                    ${field.name}:{rules:[{required:false},{ validator: this.validate${field.name?cap_first} }]},
-                    </#list>
-                },
-                urls: {
-                    add: '/api-sample/GeneratorRule/add',
-                    edit: '/api-sample/GeneratorRule/edit'
-                }
+            <#list entity.fields as field >
+            <#assign fieldui = field.dataFieldUI>
+            ${field.name}:
+            {
+                rules:[{required: false}, {validator: this.validate${field.name?cap_first}}]
             }
+        ,
+            </#list>
         },
-        beforeCreate () {},
-        created () {
+            urls: {
+                add: '/api-sample/${entityName}/add',
+                    edit
+            :
+                '/api-sample/${entityName}/edit'
+            }
+        }
+        },
+        beforeCreate() {
+        },
+        created() {
             console.log('custom modal created')
             this.form = this.$form.createForm(this)
 
             // 防止表单未注册
             fields.forEach((v) => this.form.getFieldDecorator(v))
-
+            this.initDictConfig()
             // 当 model 发生改变时，为表单设置值
             // this.$watch('model', () => {
             //   console.log('model change', this.model)
             //   this.model && this.form.setFieldsValue(pick(this.model, fields))
             // })
         },
-        mounted () {
+        mounted() {
             // vue 生命周期钩子，已完成模板渲染，此处可以进行dom操作
         },
         methods: {
-            initDictConfig(){
+            initDictConfig() {
                 console.log('初始化页面级字典项')
                 const dictCodes = [
                     <#list dictFields as dictField>
@@ -280,13 +317,13 @@
                     this.pageDict = res
                 })
             },
-            handleChange () {
+            handleChange() {
                 console.log(arguments)
             },
-            add () {
+            add() {
                 this.edit({})
             },
-            edit (record) {
+            edit(record) {
                 console.log('edit::', this.record)
                 this.model = Object.assign({}, record)
                 this.form.resetFields()
@@ -295,7 +332,7 @@
                 })
             },
 
-            submit () {
+            submit() {
                 // 触发表单验证
                 this.form.validateFields((err, values) => {
                     if (!err) {
@@ -355,7 +392,7 @@
             // callback()
             <#list entity.fields as field >
             <#assign fieldui = field.dataFieldUI>
-            validate${field.name?cap_first} (rule, value, callback) {
+            validate${field.name?cap_first}(rule, value, callback) {
                 callback()
                 // callback('请输入正确的格式的${field.description}')
             },

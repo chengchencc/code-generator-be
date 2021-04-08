@@ -1,6 +1,6 @@
 package com.ludan.demo.mapper;
 
-import com.ludan.demo.entity.GeneratorRule;
+import com.ludan.demo.entity.Sample;
 import com.central.db.mapper.SuperMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface GeneratorRuleMapper extends SuperMapper<GeneratorRule> {
+public interface SampleMapper extends SuperMapper<Sample> {
     /**
      * 分页查询用户列表
      * @param page
      * @param params
      * @return
      */
-    Page<GeneratorRule> findList(Page<GeneratorRule> page, @Param("p") Map<String, Object> params);
+    Page<Sample> findList(Page<Sample> page, @Param("p") Map<String, Object> params);
 
-    List<GeneratorRule> findList(@Param("p") Map<String, Object> params);
+    List<Sample> findList(@Param("p") Map<String, Object> params);
 }

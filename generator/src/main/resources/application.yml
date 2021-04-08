@@ -89,6 +89,7 @@ code-generator:
 
     date: DATETIME
     datetime: DATETIME
+    time: DATETIME
     timestamp: DATETIME
 
 

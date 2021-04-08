@@ -181,7 +181,7 @@ public class DataSourceServiceImpl implements DataSourceService {
         DataField dataField = new DataField();
         dataField.setTableFieldName(fieldInfo.getColumnName());
         dataField.setName(columnToJava(fieldInfo.getColumnName()));
-        dataField.setDescription("");
+        dataField.setDescription(fieldInfo.getColumnComment());
         dataField.setDataFieldType(convertDataTypeToDataFieldType(fieldInfo.getDataType()));
         dataField.setLength(fieldInfo.getColumnLength());
         dataField.setIsRequired(fieldInfo.getIsNullable().equalsIgnoreCase("YES")?false:true);
