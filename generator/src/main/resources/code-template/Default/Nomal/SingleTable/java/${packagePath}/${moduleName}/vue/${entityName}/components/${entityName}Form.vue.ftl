@@ -10,7 +10,7 @@
                 <a-form-item label="${field.description}" >
                 <#switch fieldui.controlType>
                     <#case "PlainText">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]" disabled/>
+                        <a-input v-decorator="['${field.name}']" disabled/>
 <#--                        <span class="ant-form-text">-->
 <#--                        -->
 <#--                        </span>-->

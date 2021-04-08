@@ -230,56 +230,31 @@
                 //页面级字典
                 pageDict: {},
                 validatorRules: {
-            true
-                    id:{rules:[{required:false},{ validator: this.validateId }]},
-            false
-                    inputText:{rules:[{required:false},{ validator: this.validateInputText }]},
-            false
-                    number:{rules:[{required:false},{ validator: this.validateNumber }]},
-            false
-                    selectOne:{rules:[{required:false},{ validator: this.validateSelectOne }]},
-            false
-                    selectMany:{rules:[{required:false},{ validator: this.validateSelectMany }]},
-            false
-                    checkBox:{rules:[{required:false},{ validator: this.validateCheckBox }]},
-            false
-                    radio:{rules:[{required:false},{ validator: this.validateRadio }]},
-            false
-                    fieldDate:{rules:[{required:false},{ validator: this.validateFieldDate }]},
-            false
-                    fieldDateTime:{rules:[{required:false},{ validator: this.validateFieldDateTime }]},
-            false
-                    fieldTime:{rules:[{required:false},{ validator: this.validateFieldTime }]},
-            false
-                    fieldFile:{rules:[{required:false},{ validator: this.validateFieldFile }]},
-            false
-                    fieldImage:{rules:[{required:false},{ validator: this.validateFieldImage }]},
-            false
-                    textArea:{rules:[{required:false},{ validator: this.validateTextArea }]},
-            false
-                    userSelect:{rules:[{required:false},{ validator: this.validateUserSelect }]},
-            false
-                    orgSelect:{rules:[{required:false},{ validator: this.validateOrgSelect }]},
-            false
-                    richText:{rules:[{required:false},{ validator: this.validateRichText }]},
-            false
-                    region:{rules:[{required:false},{ validator: this.validateRegion }]},
-            false
-                    treeSelect:{rules:[{required:false},{ validator: this.validateTreeSelect }]},
-            false
-                    modal:{rules:[{required:false},{ validator: this.validateModal }]},
-            false
-                    creator:{rules:[{required:false},{ validator: this.validateCreator }]},
-            false
-                    createTime:{rules:[{required:false},{ validator: this.validateCreateTime }]},
-            false
-                    createName:{rules:[{required:false},{ validator: this.validateCreateName }]},
-            false
-                    updator:{rules:[{required:false},{ validator: this.validateUpdator }]},
-            false
-                    updateTime:{rules:[{required:false},{ validator: this.validateUpdateTime }]},
-            false
-                    updateName:{rules:[{required:false},{ validator: this.validateUpdateName }]},
+                    id:{rules:[{required:true,message:"主键不能为空"},{ validator: this.validateId }]},
+                    inputText:{rules:[{required:false,message:"文本框不能为空"},{ validator: this.validateInputText }]},
+                    number:{rules:[{required:false,message:"数字不能为空"},{ validator: this.validateNumber }]},
+                    selectOne:{rules:[{required:false,message:"下拉单选不能为空"},{ validator: this.validateSelectOne }]},
+                    selectMany:{rules:[{required:false,message:"下拉多选不能为空"},{ validator: this.validateSelectMany }]},
+                    checkBox:{rules:[{required:false,message:"多选不能为空"},{ validator: this.validateCheckBox }]},
+                    radio:{rules:[{required:false,message:"开关不能为空"},{ validator: this.validateRadio }]},
+                    fieldDate:{rules:[{required:false,message:"日期组件不能为空"},{ validator: this.validateFieldDate }]},
+                    fieldDateTime:{rules:[{required:false,message:"日期时间组件不能为空"},{ validator: this.validateFieldDateTime }]},
+                    fieldTime:{rules:[{required:false,message:"时间组件不能为空"},{ validator: this.validateFieldTime }]},
+                    fieldFile:{rules:[{required:false,message:"文件上传不能为空"},{ validator: this.validateFieldFile }]},
+                    fieldImage:{rules:[{required:false,message:"图片上传不能为空"},{ validator: this.validateFieldImage }]},
+                    textArea:{rules:[{required:false,message:"多行文本不能为空"},{ validator: this.validateTextArea }]},
+                    userSelect:{rules:[{required:false,message:"用户选择组件不能为空"},{ validator: this.validateUserSelect }]},
+                    orgSelect:{rules:[{required:false,message:"组织选择组件不能为空"},{ validator: this.validateOrgSelect }]},
+                    richText:{rules:[{required:false,message:"富文本不能为空"},{ validator: this.validateRichText }]},
+                    region:{rules:[{required:false,message:"区域选择不能为空"},{ validator: this.validateRegion }]},
+                    treeSelect:{rules:[{required:false,message:"树选择不能为空"},{ validator: this.validateTreeSelect }]},
+                    modal:{rules:[{required:false,message:"自定义弹框不能为空"},{ validator: this.validateModal }]},
+                    creator:{rules:[{required:false,message:"创建者不能为空"},{ validator: this.validateCreator }]},
+                    createTime:{rules:[{required:false,message:"创建时间不能为空"},{ validator: this.validateCreateTime }]},
+                    createName:{rules:[{required:false,message:"创建者名称不能为空"},{ validator: this.validateCreateName }]},
+                    updator:{rules:[{required:false,message:"更新者不能为空"},{ validator: this.validateUpdator }]},
+                    updateTime:{rules:[{required:false,message:"更新时间不能为空"},{ validator: this.validateUpdateTime }]},
+                    updateName:{rules:[{required:false,message:"更新者名称不能为空"},{ validator: this.validateUpdateName }]},
                 },
                 urls: {
                     add: '/api-sample/Sample/add',

@@ -16,109 +16,6 @@
                                         <a-input-number v-model="queryParam.number" style="width:100%"/>
                             </a-form-item>
                             </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="下拉单选">
-                                        <a-select v-model="queryParam.selectOne" >
-                                            <a-select-option value="">请选择</a-select-option>
-                                            <a-select-option v-for="(item, name) in pageDict.projectSource" :key="name" :value="item.code">
-                                                {{ item.value }}
-                                            </a-select-option>
-                                        </a-select>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="下拉多选">
-                                        <a-select v-model="queryParam.selectMany" mode="multiple">
-                                            <a-select-option v-for="(item, name) in pageDict.mainType" :key="name" :value="item.code">
-                                                {{ item.value }}
-                                            </a-select-option>
-                                        </a-select>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="多选">
-                                        <a-checkbox-group v-model="queryParam.checkBox" style="width: 100%;">
-                                            <a-row>
-                                                <a-col :span="8" v-for="(item, name) in pageDict.custType" :key="name" >
-                                                    <a-checkbox :value="item.code">
-                                                        {{ item.value }}
-                                                    </a-checkbox>
-                                                </a-col>
-                                            </a-row>
-                                        </a-checkbox-group>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="开关">
-                                        <a-radio-group v-model="queryParam.radio">
-                                            <a-radio v-for="(item, name) in pageDict.stateSdndType" :key="name" :value="item.code">
-                                                {{ item.value }}
-                                            </a-radio>
-                                            <a-radio value="b">item 2</a-radio>
-                                             <a-radio value="c">item 3</a-radio>
-                                        </a-radio-group>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="日期组件">
-                                        <a-date-picker v-model="queryParam.fieldDate" style="width: 100%" />
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="日期时间组件">
-                                        <a-date-picker v-model="queryParam.fieldDateTime" style="width: 100%" />
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="时间组件">
-                                        <a-date-picker v-model="queryParam.fieldTime" style="width: 100%"/>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="文件上传">
-                                        <span>File 类型不支持搜索</span>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="图片上传">
-                                        <span>Image 类型不支持搜索</span>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="多行文本">
-                                        <span>TextArea 类型不支持搜索</span>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="用户选择组件">
-                                        <span>UserSelect 类型不支持搜索</span>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="组织选择组件">
-                                        <span>OrgSelect 类型不支持搜索</span>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="富文本">
-                                        <span>RichText 类型不支持搜索</span>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="区域选择">
-                                        <span>Region 类型不支持搜索</span>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="树选择">
-                                        <span>TreeSelect 类型不支持搜索</span>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="自定义弹框">
-                                        <span>Modal 类型不支持搜索</span>
-                            </a-form-item>
-                            </a-col>
 
                         <template v-if="advanced">
                             <!--<a-col :md="8" :sm="24">
@@ -193,6 +90,9 @@
                 <a-menu slot="overlay">
                   <a-menu-item key="1" type="primary">
                     <a @click="handleEdit(record)">编辑</a>
+                  </a-menu-item>
+                  <a-menu-item key="2" type="primary">
+                    <a @click="handleDelete(record.id)">删除</a>
                   </a-menu-item>
                 </a-menu>
                 <a>更多
@@ -446,6 +346,7 @@
                        title: '操作',
                        dataIndex: 'action',
                        width: '200px',
+                       fixed: 'right',
                        scopedSlots: {customRender: 'action'}
                    }
                 ],

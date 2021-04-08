@@ -10,53 +10,5 @@
            <if test="p.number != null">
                t.number = #{p.number}
            </if>
-           <if test="p.selectOne != null">
-               t.select_one = #{p.selectOne}
-           </if>
-           <if test="p.selectMany != null">
-               t.select_many = #{p.selectMany}
-           </if>
-           <if test="p.checkBox != null">
-               t.check_box = #{p.checkBox}
-           </if>
-           <if test="p.radio != null">
-               t.radio = #{p.radio}
-           </if>
-           <if test="p.fieldDate != null">
-               t.field_date = #{p.fieldDate}
-           </if>
-           <if test="p.fieldDateTime != null">
-               t.field_date_time = #{p.fieldDateTime}
-           </if>
-           <if test="p.fieldTime != null">
-               t.field_time = #{p.fieldTime}
-           </if>
-           <if test="p.fieldFile != null">
-               t.field_file = #{p.fieldFile}
-           </if>
-           <if test="p.fieldImage != null">
-               t.field_image = #{p.fieldImage}
-           </if>
-           <if test="p.textArea != null">
-               t.text_area = #{p.textArea}
-           </if>
-           <if test="p.userSelect != null">
-               t.user_select = #{p.userSelect}
-           </if>
-           <if test="p.orgSelect != null">
-               t.org_select = #{p.orgSelect}
-           </if>
-           <if test="p.richText != null">
-               t.rich_text = #{p.richText}
-           </if>
-           <if test="p.region != null">
-               t.region = #{p.region}
-           </if>
-           <if test="p.treeSelect != null">
-               t.tree_select = #{p.treeSelect}
-           </if>
-           <if test="p.modal != null">
-               t.modal = #{p.modal}
-           </if>
     </select>
 </mapper>

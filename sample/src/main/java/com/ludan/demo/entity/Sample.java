@@ -30,6 +30,7 @@ public class Sample extends BaseEntityFill {
     */
     @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
+        @ExcelDefine(columnName = "主键")
     private String id;
     /**
     * 文本框
