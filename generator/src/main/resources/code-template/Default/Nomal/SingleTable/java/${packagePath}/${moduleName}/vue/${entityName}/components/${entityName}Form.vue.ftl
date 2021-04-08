@@ -103,7 +103,7 @@
                         <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%"/>
                         <#break>
                     <#case "DateTime">
-                        <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: moment('00:00:00', 'HH:mm:ss') }" style="width: 100%"/>
+                        <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" format="YYYY-MM-DD HH:mm:ss" show-time style="width: 100%"/>
                         <#break>
                     <#case "Time">
                         <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%"/>
