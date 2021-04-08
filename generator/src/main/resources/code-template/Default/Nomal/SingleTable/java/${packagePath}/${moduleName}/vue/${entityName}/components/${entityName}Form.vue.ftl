@@ -61,11 +61,6 @@
                                     </a-checkbox>
                                 </a-col>
 <#--                                <a-col :span="8">-->
-<#--                                    <a-checkbox value="A">-->
-<#--                                        A-->
-<#--                                    </a-checkbox>-->
-<#--                                </a-col>-->
-<#--                                <a-col :span="8">-->
 <#--                                    <a-checkbox disabled value="B">-->
 <#--                                        B-->
 <#--                                    </a-checkbox>-->
@@ -108,7 +103,7 @@
                         <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%"/>
                         <#break>
                     <#case "DateTime">
-                        <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%"/>
+                        <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: moment('00:00:00', 'HH:mm:ss') }" style="width: 100%"/>
                         <#break>
                     <#case "Time">
                         <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%"/>
@@ -252,6 +247,8 @@
         beforeCreate () {},
         created () {
             console.log('custom modal created')
+            // 初始化字典配置 在自己页面定义
+            this.initDictConfig()
             this.form = this.$form.createForm(this)
 
             // 防止表单未注册

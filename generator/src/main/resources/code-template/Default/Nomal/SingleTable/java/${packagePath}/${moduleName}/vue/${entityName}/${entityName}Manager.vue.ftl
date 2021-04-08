@@ -95,12 +95,8 @@
                                             <a-radio v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" :value="item.code">
                                                 {{ item.value }}
                                             </a-radio>
-<#--                                            <a-radio value="b">-->
-<#--                                                item 2-->
-<#--                                            </a-radio>-->
-<#--                                            <a-radio value="c">-->
-<#--                                                item 3-->
-<#--                                            </a-radio>-->
+                                            <a-radio value="b">item 2</a-radio>
+                                             <a-radio value="c">item 3</a-radio>
                                         </a-radio-group>
                                         <#break>
                                     <#case "Date">
@@ -206,6 +202,7 @@
                          :loading="loading"
                          @change="handleTableChange"
                          :rowSelection="rowSelection"
+                         :scroll="{x: 1050}"
                          class="table-page-container-wrapper">
                   <span slot="serial" slot-scope="text, record, index">
                     {{ index + 1 }}
@@ -267,8 +264,9 @@
             return {
                 columns: [
                    {
-                       title: '#',
-                       scopedSlots: {customRender: 'serial'}
+                       title: '序号',
+                       scopedSlots: {customRender: 'serial'},
+                       width: '70px',
                    },
                    <#list entity.fields as field >
                    <#assign fieldui = field.dataFieldUI>
@@ -277,10 +275,14 @@
                        dataIndex: '${field.name}',
                        ellipsis: false, // 超过宽度将自动省略
                        align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-                       width: '200px',
+                       width: '180px',
                        <#switch field.dataFieldType>
                        <#case "DATETIME">
+                       <#if fieldui.controlType == 'Date'>
+                       customRender: toDate,
+                       <#else>
                        customRender: toDateTime,
+                       </#if>
                        <#break>
                        <#case "DECIMAL">
                        customRender: (value) => value
