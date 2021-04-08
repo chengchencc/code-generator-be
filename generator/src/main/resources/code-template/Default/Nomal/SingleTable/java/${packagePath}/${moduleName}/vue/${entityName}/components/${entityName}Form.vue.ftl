@@ -198,6 +198,13 @@
     </#list>
     ]
 
+    const StringToArrFields = [
+    <#list entity.fields as field >
+    <#assign fieldui = field.dataFieldUI>
+    <#if fieldui.controlType == "Checkbox" || fieldui.controlType == "SelectMany"> '${field.name}', </#if>
+    </#list>
+    ]
+
 
     export default {
         props: {
@@ -286,6 +293,16 @@
             edit (record) {
                 console.log('edit::', record)
                 this.model = Object.assign({}, record)
+
+                let newModel = JSON.parse(JSON.stringify(this.model));
+                for(let i = 0 ; i<StringToArrFields.length ; i++) {
+                  if( newModel.hasOwnProperty(StringToArrFields[i]) ){
+                    newModel[StringToArrFields[i]] = newModel[StringToArrFields[i]] ? JSON.parse(newModel[StringToArrFields[i]]) : []
+                  }
+                }
+
+                this.model = newModel;
+
                 this.form.resetFields()
                 this.$nextTick(() => {
                     this.model && this.form.setFieldsValue(pick(this.model, fields))
@@ -297,7 +314,12 @@
                 this.form.validateFields((err, values) => {
                     if (!err) {
                         this.loading = true
-                        const formData = Object.assign(this.model, values)
+                        let formData = Object.assign(this.model, values)
+                        for(let key in formData) {
+                          if(Array.isArray(formData[key])){
+                            formData[key] = JSON.stringify(formData[key])
+                          }
+                        }
 
                         let httpRequest = null
                         if (!this.model.id) {
