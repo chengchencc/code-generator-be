@@ -146,33 +146,39 @@
                         <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size />
                         <#break>
                     <#case "RichText">
-                        <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size />
+                        <span>暂不支持类型</span>
+                <#--                        <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size />-->
                         <#break>
                     <#case "UserSelect">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                        <span>暂不支持类型</span>
+<#--                    <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
                         <#break>
                     <#case "OrgSelect">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                        <span>暂不支持类型</span>
+<#--                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
                         <#break>
                     <#case "Region">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                        <span>暂不支持类型</span>
+<#--                    <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
                         <#break>
                     <#case "TreeSelect">
-                        <a-tree-select
-                                v-decorator="['${field.name}',validatorRules.${field.name} ]"
-                                tree-data-simple-mode
-                                style="width: 100%"
-                                :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-                                :tree-data="treeData"
-                                placeholder="Please select"
-                                :load-data="onLoadData"
-                        />
+                        <span>暂不支持类型</span>
+<#--                        <a-tree-select-->
+<#--                                v-decorator="['${field.name}',validatorRules.${field.name} ]"-->
+<#--                                tree-data-simple-mode-->
+<#--                                style="width: 100%"-->
+<#--                                :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"-->
+<#--                                :tree-data="treeData"-->
+<#--                                placeholder="Please select"-->
+<#--                                :load-data="onLoadData"-->
+<#--                        />-->
                         <#break>
                     <#case "Modal">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                        <span>暂不支持类型</span>
+<#--                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
                         <#break>
                     <#default>
-                        <span>不支持类型</span>
+                        <span>暂不支持类型</span>
                 </#switch>
                 </a-form-item>
             </#list>
@@ -208,12 +214,8 @@
 
     export default {
         props: {
-
         },
-        mixins: {
-            FileUploadMixin,
-            FormMixin
-        },
+        mixins: [FileUploadMixin, FormMixin],
         data () {
             return {
                 model: {},
