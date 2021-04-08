@@ -146,33 +146,39 @@
                         <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size />
                         <#break>
                     <#case "RichText">
-                        <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size />
+                        <span>暂不支持类型</span>
+                <#--                        <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size />-->
                         <#break>
                     <#case "UserSelect">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                        <span>暂不支持类型</span>
+<#--                    <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
                         <#break>
                     <#case "OrgSelect">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                        <span>暂不支持类型</span>
+<#--                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
                         <#break>
                     <#case "Region">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                        <span>暂不支持类型</span>
+<#--                    <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
                         <#break>
                     <#case "TreeSelect">
-                        <a-tree-select
-                                v-decorator="['${field.name}',validatorRules.${field.name} ]"
-                                tree-data-simple-mode
-                                style="width: 100%"
-                                :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-                                :tree-data="treeData"
-                                placeholder="Please select"
-                                :load-data="onLoadData"
-                        />
+                        <span>暂不支持类型</span>
+<#--                        <a-tree-select-->
+<#--                                v-decorator="['${field.name}',validatorRules.${field.name} ]"-->
+<#--                                tree-data-simple-mode-->
+<#--                                style="width: 100%"-->
+<#--                                :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"-->
+<#--                                :tree-data="treeData"-->
+<#--                                placeholder="Please select"-->
+<#--                                :load-data="onLoadData"-->
+<#--                        />-->
                         <#break>
                     <#case "Modal">
-                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                        <span>暂不支持类型</span>
+<#--                        <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>-->
                         <#break>
                     <#default>
-                        <span>不支持类型</span>
+                        <span>暂不支持类型</span>
                 </#switch>
                 </a-form-item>
             </#list>
@@ -208,12 +214,8 @@
 
     export default {
         props: {
-
         },
-        mixins: {
-            FileUploadMixin,
-            FormMixin
-        },
+        mixins: [FileUploadMixin, FormMixin],
         data () {
             return {
                 uploadApi: '/api-file/files/upload',
@@ -246,12 +248,12 @@
                 validatorRules: {
                     <#list entity.fields as field >
                     <#assign fieldui = field.dataFieldUI>
-                    ${field.name}:{rules:[{required:false},{ validator: this.validate${field.name?cap_first} }]},
+                    ${field.name}:{rules:[{required:${field.isRequired?c},message:"${field.description}不能为空"},{ validator: this.validate${field.name?cap_first} }]},
                     </#list>
                 },
                 urls: {
-                    add: '/api-sample/GeneratorRule/add',
-                    edit: '/api-sample/GeneratorRule/edit'
+                    add: '/api-sample/${entityName}/add',
+                    edit: '/api-sample/${entityName}/edit'
                 }
             }
         },
@@ -370,10 +372,10 @@
                             .then(
                                 (res) => {
                                     if (res.resp_code === 0) {
-                                        this.$message.success(res.message)
+                                        this.$message.success(res.resp_msg)
                                         this.$emit('ok')
                                     } else {
-                                        this.$message.warning(res.message)
+                                        this.$message.warning(res.resp_msg)
                                     }
                                 },
                                 (err, con) => {

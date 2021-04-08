@@ -91,6 +91,7 @@ public class DataEntity extends AuditEntityBase<Integer> {
      * 实体字段列表
      */
     @OneToMany(mappedBy = "dataEntity",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OrderBy("sort_no asc")
     private List<DataField> fields = new ArrayList<>();
 
     /**

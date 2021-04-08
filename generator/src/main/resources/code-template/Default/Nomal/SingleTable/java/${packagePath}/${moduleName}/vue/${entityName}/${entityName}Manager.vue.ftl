@@ -30,9 +30,11 @@
                                     <#case "SelectOne">
                                         <a-select v-model="queryParam.${field.name}" >
                                             <a-select-option value="">请选择</a-select-option>
+                                            <#if field.dataFieldUI.dictCode??>
                                             <a-select-option v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" :value="item.code">
                                                 {{ item.value }}
                                             </a-select-option>
+                                            </#if>
 <#--                                            <a-select-option value="china">-->
 <#--                                                China-->
 <#--                                            </a-select-option>-->
@@ -43,9 +45,11 @@
                                         <#break>
                                     <#case "SelectMany">
                                         <a-select v-model="queryParam.${field.name}" mode="multiple">
+                                            <#if field.dataFieldUI.dictCode??>
                                             <a-select-option v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" :value="item.code">
                                                 {{ item.value }}
                                             </a-select-option>
+                                            </#if>
 <#--                                            <a-select-option value="china">-->
 <#--                                                China-->
 <#--                                            </a-select-option>-->
@@ -57,11 +61,13 @@
                                     <#case "Checkbox">
                                         <a-checkbox-group v-model="queryParam.${field.name}" style="width: 100%;">
                                             <a-row>
+                                                <#if field.dataFieldUI.dictCode??>
                                                 <a-col :span="8" v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" >
                                                     <a-checkbox :value="item.code">
                                                         {{ item.value }}
                                                     </a-checkbox>
                                                 </a-col>
+                                                </#if>
 <#--                                                <a-col :span="8" >-->
 <#--                                                    <a-checkbox value="A">-->
 <#--                                                        A-->
@@ -92,11 +98,19 @@
                                         <#break>
                                     <#case "Radio">
                                         <a-radio-group v-model="queryParam.${field.name}">
+                                            <#if field.dataFieldUI.dictCode??>
                                             <a-radio v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" :value="item.code">
                                                 {{ item.value }}
                                             </a-radio>
                                             <a-radio value="b">item 2</a-radio>
                                              <a-radio value="c">item 3</a-radio>
+                                            </#if>
+<#--                                            <a-radio value="b">-->
+<#--                                                item 2-->
+<#--                                            </a-radio>-->
+<#--                                            <a-radio value="c">-->
+<#--                                                item 3-->
+<#--                                            </a-radio>-->
                                         </a-radio-group>
                                         <#break>
                                     <#case "Date">
@@ -166,6 +180,7 @@
             <!-- 功能按钮区域 -->
             <div class="table-operator">
                 <a-button type="primary" icon="plus" @click="handleAdd">新建</a-button>
+                <a-button type="default" icon="export" @click="handleExportXls">导出</a-button>
                 <a-dropdown v-if="selectedRowKeys.length > 0">
                     <a-menu slot="overlay">
                         <a-menu-item key="1">
@@ -251,7 +266,7 @@
     import { getNameByDict } from '@/utils/dealData'
     import { dictMixin } from '@/store/dict-mixin'
     import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
-    import ModalForm from './components/GeneratorRuleModal' // 切换到抽屉模式 引用改为 './form-drawer.vue'
+    import ModalForm from './components/${entityName}Modal' // 切换到抽屉模式 引用改为 './drawer.vue'
     import { getDictionaryByCodes } from '@/utils/dictUtil'
 
     export default {
@@ -309,17 +324,18 @@
                        title: '操作',
                        dataIndex: 'action',
                        width: '200px',
+                       fixed: 'right',
                        scopedSlots: {customRender: 'action'}
                    }
                 ],
                 //页面级字典
                 pageDict: {},
                 url: {
-                    list: '/api-sample/GeneratorRule/list',
-                    delete: '/api-sample/GeneratorRule/delete',
-                    deleteBatch: '/api-sample/GeneratorRule/deleteBatch',
-                    exportXlsUrl: '/api-sample/GeneratorRule/exportXlsx',
-                    importExcelUrl: '/api-sample/GeneratorRule/importExcel'
+                    list: '/api-sample/${entityName}/list',
+                    delete: '/api-sample/${entityName}/delete',
+                    deleteBatch: '/api-sample/${entityName}/deleteBatch',
+                    exportXlsUrl: '/api-sample/${entityName}/exportXlsx',
+                    importExcelUrl: '/api-sample/${entityName}/importExcel'
                 }
             }
         },
