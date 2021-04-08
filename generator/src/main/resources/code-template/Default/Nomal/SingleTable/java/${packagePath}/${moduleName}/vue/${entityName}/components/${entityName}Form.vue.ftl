@@ -116,7 +116,7 @@
                                     getValueFromEvent: normFile,
                                   },
                                 ]"
-                                name="logo"
+                                :before-upload="beforeUpload"
                                 :action="uploadApi"
                                 :headers="headers"
                                 @change="(info) => handleFileUpload('type', info)"
@@ -133,7 +133,7 @@
                                         getValueFromEvent: normFile,
                                       },
                                     ]"
-                                name="logo"
+                                :before-upload="beforeUpload"
                                 :action="uploadApi"
                                 :headers="headers"
                                 @change="(info) => handleFileUpload('type', info)"
@@ -186,7 +186,7 @@
     import { getDictionaryByCodes } from '@/utils/dictUtil'
     import FileUploadMixin from '@/core/mixins/FileUploadMixin'
     import FormMixin from '@/core/mixins/FormMixin'
-
+    import storage from 'store'
 
 
     // 表单字段
@@ -216,6 +216,10 @@
         },
         data () {
             return {
+                uploadApi: '/api-file/files/upload',
+                headers: {
+                  Authorization: `Bearer ${'$'}{storage.get('Access-Token')}`,
+                },
                 model: {},
                 loading: false,
                 // 布局
@@ -284,6 +288,40 @@
                     this.pageDict = res
                 })
             },
+            beforeUpload() {
+              // 上传前 的图片校验等操作
+              return true
+            },
+            normFile(e) {
+              console.log('Upload event:', e);
+              if (Array.isArray(e)) {
+                return e;
+              }
+              return e && e.fileList;
+            },
+            handleFileUpload(type, info) {
+              console.log('上传组件状态改变', type, info)
+              let fileList = [...info.fileList]
+              // 2. read from response and show file link
+              fileList = fileList
+                .filter((item) => {
+                  if (item.response && item.error) {
+                    this.$message.error('文件上传失败')
+                    return false
+                  }
+                  return true
+                })
+                .map((file) => {
+                  if (file.response) {
+                    // Component will show file.url as link
+                    file.url = file.response.url
+                    file.attFileType = type
+                    file.attFileId = file.response.id
+                    file.attFileName = file.name
+                  }
+                  return file
+                })
+            },
             handleChange () {
                 console.log(arguments)
             },
@@ -315,9 +353,9 @@
                     if (!err) {
                         this.loading = true
                         let formData = Object.assign(this.model, values)
-                        for(let key in formData) {
-                          if(Array.isArray(formData[key])){
-                            formData[key] = JSON.stringify(formData[key])
+                        for (let i = 0; i < StringToArrFields.length; i++) {
+                          if (formData.hasOwnProperty(StringToArrFields[i]) && formData[StringToArrFields[i]]) {
+                            formData[StringToArrFields[i]] = JSON.stringify(formData[StringToArrFields[i]])
                           }
                         }
 
