@@ -70,6 +70,7 @@
 <script>
     import { baseMixin } from '@/store/app-mixin'
     import RealForm from './${entityName}Form'
+    import { httpGet, httpPost, httpDelete, httpPut, downFile } from '@/utils/httpClient'
 
     export default {
         name: 'Advanced',
@@ -106,6 +107,10 @@
                   labelCol: { span: 3 },
                   wrapperCol: { span: 20 },
                 },
+                url: {
+                  detail: "/api-sample/GeneratorRule/detail"
+                }
+
             }
         },
         filters: {
@@ -139,12 +144,13 @@
         },
         methods: {
           getInitData() {
-            getBankGuarApply({projectId: this.projectId}).then((res) => { // this.projectId 1375257390378749953
-              let datas = res.datas;
+            httpGet(this.url.detail, {id: this.$route.params.taskId}).then((res) => {
+              if (res.code === 0) {
+                this.$refs.realForm.edit(res.datas)
+              }
             }).catch((e)=>{});
           },
           edit (record) {
-              this.visible = true
               this.$nextTick(() => {
                   this.$refs.realForm.edit(record)
               })
@@ -156,7 +162,6 @@
               console.log("保存成功了。。。")
           },
           handleTabChange (key) {
-              console.log('')
               this.tabActiveKey = key
           }
         }
