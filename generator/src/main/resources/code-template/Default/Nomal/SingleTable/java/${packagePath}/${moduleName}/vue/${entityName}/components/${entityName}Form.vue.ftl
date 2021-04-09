@@ -374,6 +374,7 @@
 
             submit () {
                 // 触发表单验证
+                this.form.validateFieldsAndScroll()
                 this.form.validateFields((err, values) => {
                     if (!err) {
                         this.loading = true

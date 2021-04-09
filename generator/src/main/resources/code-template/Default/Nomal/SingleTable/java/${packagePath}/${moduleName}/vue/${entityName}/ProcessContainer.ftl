@@ -1,6 +1,6 @@
 <template>
   <page-header-wrapper
-    :title="'单号：' + ( nodeIdToName[nodeId] || '')"
+    :title="'单号：' + ( this.$route.params.taskId || '')"
     :tab-list="tabList"
     :tab-active-key="tabActiveKey"
     @tabChange="handleTabChange"
@@ -16,7 +16,7 @@
         </template> -->
     <template slot="extra">
       <a-space>
-        <a-button v-for="item in formSchema.functions" :key="item.action" type="primary" @click="handleClick(item)">
+        <a-button v-for="item in formSchema.functions" :key="item.action" type="primary" @click="handleClick(item)" style="margin-left: 10px">
           {{ item.title }}
         </a-button>
       </a-space>
@@ -219,7 +219,7 @@ export default {
       console.log(" mounted ------ ")
       console.log(this.$store.state.form.formSchema)
 
-      this.tabList = [{ key: 'detail', tab: '详情' }, { key: 'rule', tab: '规则' },]
+      this.tabList = [{ key: 'detail', tab: '详情' }]
     },
     getInitData() {
       httpGet(this.url.detail+this.$route.params.taskId).then((res) => {
