@@ -222,7 +222,7 @@
                   <span slot="serial" slot-scope="text, record, index">
                     {{ index + 1 }}
                   </span>
-                    <span slot="status" slot-scope="text"><a-tag color="orange">text</a-tag></span>
+                    <span slot="status" slot-scope="text"><a-tag color="orange">{{text}}</a-tag></span>
                     <span slot="action" slot-scope="text, record">
             <template>
               <a-dropdown>
@@ -358,6 +358,15 @@
                 getDictionaryByCodes(dictCodes).then((res) => {
                     this.pageDict = res
                 })
+            },
+            handleEdit: function (record) {
+                // 弹框编辑
+                // this.$refs.modalForm.edit(record)
+                // this.$refs.modalForm.title = '编辑'
+
+                // 详情页编辑
+                this.$router.push(`/${entityName}/detail/${'$'}{record.id}`)
+                },
             }
         }
     }
