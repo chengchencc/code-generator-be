@@ -3,12 +3,14 @@
 <template>
     <a-spin :spinning="loading">
         <a-form :form="form" v-bind="formLayout">
+          <a-row :gutter="26" :style="rowStyle">
             <!-- 检查是否有 id 并且大于0，大于0是修改。其他是新增，新增不显示主键ID -->
 <#--            <a-form-item v-show="model" label="主键ID">-->
             <#list entity.fields as field >
                 <#assign fieldui = field.dataFieldUI>
-                <a-form-item label="${field.description}" >
-                <#switch fieldui.controlType>
+                <a-col :span="12" :style="colStyle">
+                  <a-form-item label="${field.description}" v-bind="colInfo12">
+                  <#switch fieldui.controlType>
                     <#case "PlainText">
                         <a-input v-decorator="['${field.name}']" disabled/>
 <#--                        <span class="ant-form-text">-->
@@ -179,9 +181,11 @@
                         <#break>
                     <#default>
                         <span>暂不支持类型</span>
-                </#switch>
-                </a-form-item>
+                  </#switch>
+                  </a-form-item>
+                </a-col>
             </#list>
+           </a-row>
         </a-form>
     </a-spin>
 </template>
@@ -243,6 +247,25 @@
                         xxl: { span: 16 }
                     }
                 },
+                colInfo6: {
+                  labelCol: { span: 12 },
+                  wrapperCol: { span: 9 }
+                },
+                colInfo8: {
+                  labelCol: { span: 9 },
+                  wrapperCol: { span: 12 }
+                },
+                colInfo12: {
+                  labelCol: { span: 6 },
+                  wrapperCol: { span: 16 }
+                },
+                colInfo24: {
+                  labelCol: { span: 3 },
+                  wrapperCol: { span: 20 }
+                },
+                colStyle: 'padding: 0 !important',
+                rowStyle: 'padding: 0 12px 0 12px !important',
+
                 //页面级字典
                 pageDict: {},
                 validatorRules: {
