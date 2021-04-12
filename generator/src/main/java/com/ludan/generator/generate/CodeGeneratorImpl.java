@@ -59,7 +59,7 @@ public class CodeGeneratorImpl implements CodeGenerator {
         DataEntity entity = dataModelManager.findByEntityId(entityId);
         GeneratorRule generatorRule = GeneratorRule.getDefault();
         generateToResponse(entity,generatorRule,response);
-        generateToFile(entity,generatorRule);
+//        generateToFile(entity,generatorRule);
     }
 
     @Override
