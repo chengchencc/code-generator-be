@@ -57,6 +57,25 @@ package:
     - master
   tags:
     - docker
+
+deploy_to_server2:
+  stage: deploy
+  tags:
+    # - docker:ecp
+    - docker
+  only:
+#    - f_bugfix
+    - master
+  image: yisiqi/docker-debian-ssh-agent
+  script:
+    # 发布程序并部署运行
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh -t appadm@10.10.20.242 -o "StrictHostKeyChecking no" "cd /home/appadm/docker/biz/code-generator-be && docker-compose up -d"
+
+
 #run:
 #  stage: run
 #  script:
