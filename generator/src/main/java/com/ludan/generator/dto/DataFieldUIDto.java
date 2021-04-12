@@ -47,6 +47,10 @@ public class DataFieldUIDto extends AuditEntityDto<Integer> {
      */
     private int tableColWidth;
     /**
+     * 分组
+     */
+    private String groupName;
+    /**
      * 校验器
      */
     private AbstractValidation validation;

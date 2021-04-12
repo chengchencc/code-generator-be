@@ -53,6 +53,10 @@ public class DataFieldUI extends AuditEntityBase<Integer> {
      */
     private int tableColWidth;
     /**
+     * 分组
+     */
+    private String groupName;
+    /**
      * 校验器
      */
     @Column(columnDefinition = "json")
@@ -66,6 +70,11 @@ public class DataFieldUI extends AuditEntityBase<Integer> {
      * 字典类别 dict_value_code
      */
     private String dictType;
+
+    public String getGroupName() {
+        return groupName;
+    }
+
 
     public DataFieldUI() {
     }
