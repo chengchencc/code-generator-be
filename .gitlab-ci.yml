@@ -4,7 +4,7 @@ image: docker:stable
 stages:
   - build
   - package
-  - run
+  - deploy
 # 定义个变量, 指定maven下载的jar包存放的位置
 variables:
 #  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
