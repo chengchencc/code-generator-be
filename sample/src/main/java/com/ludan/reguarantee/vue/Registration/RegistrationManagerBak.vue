@@ -166,7 +166,7 @@
             scopedSlots: {customRender: 'serial'}
         },
         {
-            title: '主键',
+            title: '雪花算法生成的递增主键',
             dataIndex: 'id',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
@@ -174,152 +174,504 @@
             customRender: (value) => value
         },
         {
-            title: '文本框',
-            dataIndex: 'inputText',
+            title: '工作流nodeId',
+            dataIndex: 'wfNodeId',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '数字',
-            dataIndex: 'number',
+            title: '工作流实例id',
+            dataIndex: 'wfInstanceId',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '下拉单选',
-            dataIndex: 'selectOne',
+            title: '项目状态',
+            dataIndex: 'status',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '下拉多选',
-            dataIndex: 'selectMany',
+            title: '业务编号',
+            dataIndex: 'code',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '多选',
-            dataIndex: 'checkBox',
+            title: '客户名称',
+            dataIndex: 'custName',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '开关',
-            dataIndex: 'radio',
+            title: '客户性质 取字典值',
+            dataIndex: 'custNature',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '日期组件',
-            dataIndex: 'fieldDate',
+            title: '客户证件号类别 取字典值',
+            dataIndex: 'custCertType',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '证件号码',
+            dataIndex: 'custCertNo',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '联系电话',
+            dataIndex: 'custLinkTel',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '客户邮编',
+            dataIndex: 'custPostCode',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '客户邮件',
+            dataIndex: 'custEmail',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '法人姓名',
+            dataIndex: 'legalName',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '法人联系方式',
+            dataIndex: 'legalLinkTel',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '法人身份证号',
+            dataIndex: 'legalCertNo',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '所属行业(国家)',
+            dataIndex: 'industCategNation',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '所属行业(工业)',
+            dataIndex: 'industCateg',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '从业人数(上一年末)',
+            dataIndex: 'workNumLastYear',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '上一年末资产总额',
+            dataIndex: 'assetAmtLastYear',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '营业额',
+            dataIndex: 'incomeAmt',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '纳税额',
+            dataIndex: 'taxAmt',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '企业划型，大中小微等',
+            dataIndex: 'compType',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '政策扶持领域类别(服务对象类型)',
+            dataIndex: 'policySupportFieldType',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '存续状态',
+            dataIndex: 'standingStatus',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '登记地址',
+            dataIndex: 'regAddr',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '省',
+            dataIndex: 'provinceName',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '市',
+            dataIndex: 'cityName',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '县/区',
+            dataIndex: 'countyName',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '上报批次',
+            dataIndex: 'reportBatch',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '债务人名称',
+            dataIndex: 'debtorName',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '业务品种 取字典',
+            dataIndex: 'serviceCateg',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '融资用途 取字典',
+            dataIndex: 'loanUse',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '是否首次贷款',
+            dataIndex: 'isFirstLoan',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '分支行',
+            dataIndex: 'branchBank',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '主债权金额',
+            dataIndex: 'mainDebtAmt',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '借款合同号',
+            dataIndex: 'loanContNo',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '主债权起始日期',
+            dataIndex: 'mainDebtStartDate',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: toDateTime,
         },
         {
-            title: '日期时间组件',
-            dataIndex: 'fieldDateTime',
+            title: '主债权到期日',
+            dataIndex: 'mainDeptEndDate',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: toDateTime,
         },
         {
-            title: '时间组件',
-            dataIndex: 'fieldTime',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: toDateTime,
-        },
-        {
-            title: '文件上传',
-            dataIndex: 'fieldFile',
+            title: '贷款利率',
+            dataIndex: 'loanRate',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '图片上传',
-            dataIndex: 'fieldImage',
+            title: '保证合同号',
+            dataIndex: 'guarContNo',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '多行文本',
-            dataIndex: 'textArea',
+            title: '委保合同号',
+            dataIndex: 'securContNo',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '用户选择组件',
-            dataIndex: 'userSelect',
+            title: '担保费率',
+            dataIndex: 'guarRate',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '组织选择组件',
-            dataIndex: 'orgSelect',
+            title: '反担保措施',
+            dataIndex: 'protectGuarMethod',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '富文本',
-            dataIndex: 'richText',
+            title: '原担保机构名称',
+            dataIndex: 'originGuarOrgName',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '区域选择',
-            dataIndex: 'region',
+            title: '原担保机构证件号码',
+            dataIndex: 'originGuarOrgCertNo',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '树选择',
-            dataIndex: 'treeSelect',
+            title: '市再担机构名称',
+            dataIndex: 'cityReguarOrgName',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '自定义弹框',
-            dataIndex: 'modal',
+            title: '市再担机构证件号码',
+            dataIndex: 'cityReguarOrgCertNo',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
             customRender: (value) => value
         },
         {
-            title: '创建者',
-            dataIndex: 'creator',
+            title: '省再担机构名称',
+            dataIndex: 'provReguarOrgName',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '省再担机构证件号码',
+            dataIndex: 'provReguarOrgCertNo',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '[再]担保期限(月)',
+            dataIndex: 'reguarPeriod',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '[再]担保费率(省级)(年)',
+            dataIndex: 'reguarRateProv',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '[再]合计担保费(省级)(元)',
+            dataIndex: 'reguarAmtProvSum',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '[再]本次担保费(省级)(元)',
+            dataIndex: 'reguarAmtProvCur',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '[再]担保费率(国担)(年)',
+            dataIndex: 'reguarAmtRateNation',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '[再]合计担保费(国担)(元)',
+            dataIndex: 'reguarAmtNationSum',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '[再]本次担保费(国担)(元)',
+            dataIndex: 'reguarAmtNationCur',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '分险比例（债权人）',
+            dataIndex: 'riskRateDebtee',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '分险比例（原担保）',
+            dataIndex: 'riskRateOriginGuar',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '分险比例(市级)(再担保)',
+            dataIndex: 'riskRateCityReguar',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '分险比例(省级)(再担保）',
+            dataIndex: 'riskRateProvinceReguar',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '分险比例（其他）',
+            dataIndex: 'riskRateOther',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '分险比例（国担）',
+            dataIndex: 'riskRateNation',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '分险比例（工信部）',
+            dataIndex: 'riskRateTechInfo',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '第N次备案',
+            dataIndex: 'regCnt',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
@@ -334,23 +686,7 @@
             customRender: toDateTime,
         },
         {
-            title: '创建者名称',
-            dataIndex: 'createName',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '更新者',
-            dataIndex: 'updator',
-            ellipsis: false, // 超过宽度将自动省略
-            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-            width: '200px',
-            customRender: (value) => value
-        },
-        {
-            title: '更新时间',
+            title: '修改时间',
             dataIndex: 'updateTime',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
@@ -358,8 +694,32 @@
             customRender: toDateTime,
         },
         {
-            title: '更新者名称',
-            dataIndex: 'updateName',
+            title: '创建人',
+            dataIndex: 'creator',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '修改人',
+            dataIndex: 'updator',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '删除标记',
+            dataIndex: 'delFlag',
+            ellipsis: false, // 超过宽度将自动省略
+            align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+            width: '200px',
+            customRender: (value) => value
+        },
+        {
+            title: '备注',
+            dataIndex: 'remark',
             ellipsis: false, // 超过宽度将自动省略
             align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
             width: '200px',
