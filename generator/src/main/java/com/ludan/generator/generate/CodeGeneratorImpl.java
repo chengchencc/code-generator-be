@@ -1,10 +1,7 @@
 package com.ludan.generator.generate;
 
 import com.ludan.generator.common.exception.GeneratorException;
-import com.ludan.generator.entity.DataEntity;
-import com.ludan.generator.entity.DataField;
-import com.ludan.generator.entity.GeneratorRule;
-import com.ludan.generator.entity.TableType;
+import com.ludan.generator.entity.*;
 import com.ludan.generator.generate.loader.ResourceLoader;
 import com.ludan.generator.generate.loader.ResourceLoaderFactory;
 import com.ludan.generator.service.DataModelManager;
@@ -24,6 +21,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import java.util.stream.Collectors;
 
 /**
  * @author: chengchen
@@ -113,7 +111,7 @@ public class CodeGeneratorImpl implements CodeGenerator {
             log.info("======================开始处理===================");
             log.info("templateFilePath::{}", templateFile.getPath());
             String preOutputFileRelativePath = templateDirectory.toURI().relativize(templateFile.toURI()).getPath();
-            log.info("preOutputFileRelativePath::{}", preOutputFileRelativePath);
+            // log.info("preOutputFileRelativePath::{}", preOutputFileRelativePath);
             String templateRelativePath = templateRootDirectory.toURI().relativize(templateFile.toURI()).getPath();
             log.info("templateRelativePath::{}", templateRelativePath);
 
@@ -228,6 +226,21 @@ public class CodeGeneratorImpl implements CodeGenerator {
         model.put("entityName", entity.getCode());
         model.put("entity", entity);
         model.put("rule", rule);
+
+
+        //跟据某个属性分组  entity.fields.dataFieldUI
+        List<DataField> list =  entity.getFields(); // new ArrayList<DataEntity>();
+        Map<String, List<DataField>> groupList = list.stream().collect(Collectors.groupingBy(DataField -> {
+            DataFieldUI dataFieldUI =  DataField.getDataFieldUI();
+            if(dataFieldUI.getGroupName() == null || dataFieldUI.getGroupName().isEmpty()){
+               return "foot";
+            }else{
+               return dataFieldUI.getGroupName();
+            }
+        }));
+        model.put("groupList", groupList);
+
+        log.info("groupList ========== ::{}", groupList);
 
 
         Optional<DataField> first = entity.getFields().stream().filter(s -> s.getIsPrimaryKey()).findFirst();
