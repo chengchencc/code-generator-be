@@ -24,16 +24,16 @@
                                     <a-input v-decorator="['${field.name}']" disabled/>
                                     <#break>
                                 <#case "InputText">
-                                    <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                                    <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]" :disabled="unEditable"/>
                                     <#break>
                                 <#case "Number">
-                                    <a-input-number v-decorator="['${field.name}',validatorRules.${field.name} ]" :min="1" :max="10" style="width:100%"/>
+                                    <a-input-number v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width:100%" :disabled="unEditable"/>
                                     <#break>
                                 <#case "Password">
-                                    <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]"/>
+                                    <a-input v-decorator="['${field.name}',validatorRules.${field.name} ]" :disabled="unEditable"/>
                                     <#break>
                                 <#case "SelectOne">
-                                    <a-select v-decorator="['${field.name}',validatorRules.${field.name} ]">
+                                    <a-select v-decorator="['${field.name}',validatorRules.${field.name} ]" :disabled="unEditable">
                                         <a-select-option value="">请选择</a-select-option>
                                         <a-select-option v-for="(item, name) in pageDict.${fieldui.dictCode}" :key="name" :value="item.code">
                                             {{ item.value }}
@@ -41,15 +41,14 @@
                                     </a-select>
                                     <#break>
                                 <#case "SelectMany">
-                                    <a-select v-decorator="['${field.name}',validatorRules.${field.name} ]" mode="multiple">
+                                    <a-select v-decorator="['${field.name}',validatorRules.${field.name} ]" mode="multiple" :disabled="unEditable">
                                         <a-select-option v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" :value="item.code">
                                             {{ item.value }}
                                         </a-select-option>
                                     </a-select>
                                     <#break>
                                 <#case "Checkbox">
-                                    <a-checkbox-group
-                                            v-decorator="['${field.name}']" style="width: 100%;">
+                                    <a-checkbox-group v-decorator="['${field.name}']" style="width: 100%;" :disabled="unEditable">
                                         <a-row>
                                             <a-col :span="8" v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" >
                                                 <a-checkbox :value="item.code">
@@ -60,57 +59,61 @@
                                     </a-checkbox-group>
                                     <#break>
                                 <#case "Radio">
-                                    <a-radio-group v-decorator="['${field.name}',validatorRules.${field.name}]">
+                                    <a-radio-group v-decorator="['${field.name}',validatorRules.${field.name}]" :disabled="unEditable">
                                         <a-radio v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" :value="item.code">
                                             {{ item.value }}
                                         </a-radio>
                                     </a-radio-group>
                                     <#break>
                                 <#case "Date">
-                                    <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%"/>
+                                    <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%" :disabled="unEditable"/>
                                     <#break>
                                 <#case "DateTime">
-                                    <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" format="YYYY-MM-DD HH:mm:ss" show-time style="width: 100%"/>
+                                    <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" format="YYYY-MM-DD HH:mm:ss" show-time style="width: 100%" :disabled="unEditable"/>
                                     <#break>
                                 <#case "Time">
-                                    <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%"/>
+                                    <a-date-picker v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width: 100%" :disabled="unEditable"/>
                                     <#break>
                                 <#case "File">
                                     <a-upload
-                                            v-decorator="['${field.name}',
-                                              {
-                                                valuePropName: 'fileList',
-                                                getValueFromEvent: normFile,
-                                              },
-                                            ]"
-                                            :before-upload="beforeUpload"
-                                            :action="uploadApi"
-                                            :headers="headers"
-                                            @change="(info) => handleFileUpload('type', info)"
-                                            :showUploadList="true"
-                                            list-type="picture">
+                                        :disabled="unEditable"
+                                        v-decorator="['${field.name}',
+                                          {
+                                            valuePropName: 'fileList',
+                                            getValueFromEvent: normFile,
+                                          },
+                                        ]"
+                                        :before-upload="beforeUpload"
+                                        :action="uploadApi"
+                                        :headers="headers"
+                                        @change="(info) => handleFileUpload('type', info)"
+                                        :showUploadList="true"
+                                        list-type="picture"
+                                    >
                                         <a-button> <a-icon type="upload" /> 上传附件 </a-button>
                                     </a-upload>
                                     <#break>
                                 <#case "Image">
                                     <a-upload
-                                            v-decorator="['${field.name}',
-                                                  {
-                                                    valuePropName: 'fileList',
-                                                    getValueFromEvent: normFile,
-                                                  },
-                                                ]"
-                                            :before-upload="beforeUpload"
-                                            :action="uploadApi"
-                                            :headers="headers"
-                                            @change="(info) => handleFileUpload('type', info)"
-                                            :showUploadList="true"
-                                            list-type="picture">
+                                        :disabled="unEditable"
+                                        v-decorator="['${field.name}',
+                                              {
+                                                valuePropName: 'fileList',
+                                                getValueFromEvent: normFile,
+                                              },
+                                            ]"
+                                        :before-upload="beforeUpload"
+                                        :action="uploadApi"
+                                        :headers="headers"
+                                        @change="(info) => handleFileUpload('type', info)"
+                                        :showUploadList="true"
+                                        list-type="picture"
+                                    >
                                         <a-button> <a-icon type="upload" /> 上传图片 </a-button>
                                     </a-upload>
                                     <#break>
                                 <#case "TextArea">
-                                    <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size />
+                                    <a-textarea v-decorator="['${field.name}',validatorRules.${field.name} ]" auto-size :disabled="unEditable"/>
                                     <#break>
                                                         <#case "RichText">
                                                             <span>暂不支持类型</span>
