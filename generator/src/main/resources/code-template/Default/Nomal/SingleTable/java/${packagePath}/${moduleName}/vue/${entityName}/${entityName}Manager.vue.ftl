@@ -285,40 +285,42 @@
                    },
                    <#list entity.fields as field >
                    <#assign fieldui = field.dataFieldUI>
-                   {
-                       title: '${field.description}',
-                       dataIndex: '${field.name}',
-                       ellipsis: false, // 超过宽度将自动省略
-                       align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
-                       width: '180px',
-                       <#switch field.dataFieldType>
-                       <#case "DATETIME">
-                       <#if fieldui.controlType == 'Date'>
-                       customRender: toDate,
-                       <#else>
-                       customRender: toDateTime,
-                       </#if>
-                       <#break>
-                       <#case "DECIMAL">
-                       customRender: (value) => value
-                       <#break>
-                       <#case "BOOLEAN">
-                       customRender: (value) => value ? '是' : '否'
-                       <#break>
-                       <#default>
-                       <#if fieldui.controlType == 'SelectOne'>
-                       customRender: (value) => {
-                          return getNameByDict(value, this.pageDict.${field.dataFieldUI.dictCode} || [])
-                       }
-                       <#else>
-                       customRender: (value) => value
-                       </#if>
-                       </#switch>
-                       <#--            <#if field.dataFieldType = "">-->
-                       <#--            customRender: toDateTime,-->
-                       <#--            <#elseif field.-->
-                       <#--            </#if>-->
-                   },
+                   <#if fieldui.listDisplay?c == 'true' >
+                       {
+                          title: '${field.description}',
+                          dataIndex: '${field.name}',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          <#switch field.dataFieldType>
+                          <#case "DATETIME">
+                          <#if fieldui.controlType == 'Date'>
+                          customRender: toDate,
+                          <#else>
+                          customRender: toDateTime,
+                          </#if>
+                          <#break>
+                          <#case "DECIMAL">
+                          customRender: (value) => value
+                          <#break>
+                          <#case "BOOLEAN">
+                          customRender: (value) => value ? '是' : '否'
+                          <#break>
+                          <#default>
+                          <#if fieldui.controlType == 'SelectOne'>
+                          customRender: (value) => {
+                             return getNameByDict(value, this.pageDict.${field.dataFieldUI.dictCode} || [])
+                          }
+                          <#else>
+                          customRender: (value) => value
+                          </#if>
+                          </#switch>
+                          <#--            <#if field.dataFieldType = "">-->
+                          <#--            customRender: toDateTime,-->
+                          <#--            <#elseif field.-->
+                          <#--            </#if>-->
+                       },
+                   </#if>
                    </#list>
                    {
                        title: '操作',
