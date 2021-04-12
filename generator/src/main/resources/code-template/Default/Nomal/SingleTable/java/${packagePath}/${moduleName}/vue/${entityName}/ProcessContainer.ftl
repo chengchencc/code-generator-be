@@ -15,13 +15,44 @@
             <a-button type="primary" >主操作</a-button>
         </template> -->
     <template slot="extra">
-      <a-space>
-        <a-button v-for="item in formSchema.functions" :key="item.action" type="primary" @click="handleClick(item)" style="margin-left: 10px">
+      <a-space v-if="nodeId == 'basq' && editable == 'true'">
+        <!-- <a-button  v-for="item in formSchema.functions" :key="item.action" type="primary" @click="handleClick(item)" style="margin-left: 10px">
           {{ item.title }}
+        </a-button> -->
+        <a-button v-for="item in btns.basq" :key="item.action" type="primary" @click="handleClick(item)"
+          style="margin-left: 10px">
+          {{ item.title }}
+        </a-button>
+      </a-space>
+
+      <a-space v-if="nodeId == 'zdqr' && editable == 'true'">
+        <a-button v-for="item in btns.zdqr" :key="item.action" type="primary" @click="handleClick(item)"
+          style="margin-left: 10px">
+          {{ item.title }}
+        </a-button>
+      </a-space>
+
+      <a-space v-if="nodeId == 'gdqr' && editable == 'true'">
+        <a-button v-for="item in btns.gdqr" :key="item.action" type="primary" @click="handleClick(item)"
+          style="margin-left: 10px">
+          {{ item.title }}
+        </a-button>
+      </a-space>
+
+      <a-space v-if="editable == 'false'">
+        <a-button key="goBack" type="primary" @click="handleClick({
+            title: '返回上页',
+            type: 'goBack',
+            action: 'goBack',
+          })"
+          style="margin-left: 10px"
+        >
+          返回上页
         </a-button>
       </a-space>
     </template>
 
+ <!-- 顶部基本信息 -->
  <!--
         <template v-slot:content>
             <a-descriptions size="small" :column="isMobile ? 1 : 2">
@@ -39,7 +70,7 @@
 
         <!-- actions -->
 
-
+ <!-- 顶部右侧按钮+信息 -->
         <!--
         <template v-slot:extraContent>
             <a-row class="status-list">
@@ -59,7 +90,6 @@
     <a-card :bordered="true" v-if="tabActiveKey === 'detail'">
       <div>
         <real-form ref="realForm" @ok="submitCallback"></real-form>
-        <!-- v-if="tabInfo ? tabInfo.editable : false" -->
         <div style="display: flex; justify-content: center">
           <a-button type="primary" @click="submit" :loading="saveButtonLoading">保存</a-button>
         </div>
@@ -117,30 +147,92 @@ export default {
       projectMain: {},
       riskCheckData: {},
       businessMapId: '',
-      projectMainLoaded: false
+      projectMainLoaded: false,
+      btns: {
+        basq: [
+          {
+            title: '提报',
+            type: 'apply',
+            action: 'apply',
+          },
+          {
+            title: '返回上页',
+            type: 'goBack',
+            action: 'goBack',
+          },
+        ],
+        zdqr: [
+          {
+            title: '受理',
+            type: 'complete',
+            action: 'complete',
+          },
+          {
+            title: '提报国担',
+            type: 'completegd',
+            action: 'completegd',
+          },
+          {
+            title: '退回',
+            type: 'reback',
+            action: 'reback',
+          },
+          {
+            title: '终止',
+            type: 'end',
+            action: 'end',
+          },
+          {
+            title: '返回上页',
+            type: 'goBack',
+            action: 'goBack',
+          },
+        ],
+        gdqr: [
+          {
+            title: '提交',
+            type: 'complete',
+            action: 'complete',
+          },
+          {
+            title: '退回',
+            type: 'reback',
+            action: 'reback',
+          },
+          {
+            title: '返回上页',
+            type: 'goBack',
+            action: 'goBack',
+          },
+        ],
+      },
     }
   },
   props: {
+    editable: {
+      type: String,
+      default: () => 'true',
+    },
     nodeId: {
       type: String,
-      default: () => 'projectDetail'
+      default: () => 'basq',
     },
     projectId: {
       type: String,
-      default: () => '1'
+      default: () => '',
     },
     taskId: {
       type: String,
-      default: () => '1'
+      default: () => 'taskId',
     },
     processKey: {
       type: String,
-      default: ''
+      default: '',
     },
     businessId: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   filters: {
       statusFilter (status) {
@@ -184,14 +276,14 @@ export default {
       this.getProjectById()
       this.getRiskCheck()
     }
-    this.getButtonAndTab({
-      nodeId: this.nodeId,
-      taskId: this.taskId,
-      processKey: this.processKey,
-      roles: this.roles,
-      // queryId: this.processKey.indexOf('guaranteev2') !== -1 ? this.projectId : this.businessId || this.businessMapId
-      queryId: this.businessId || this.businessMapId
-    })
+  //  this.getButtonAndTab({
+  //    nodeId: this.nodeId,
+  //    taskId: this.taskId,
+  //    processKey: this.processKey,
+  //    roles: this.roles,
+  //    // queryId: this.processKey.indexOf('guaranteev2') !== -1 ? this.projectId : this.businessId || this.businessMapId
+  //    queryId: this.businessId || this.businessMapId
+  //  })
 
     this.getInitData();
 
