@@ -14,27 +14,36 @@ import java.util.Date;
 
 
 /**
-* @Description: 备案信息
+* @Description: 开发测试
 * @Author: ludan
-* @Date:   2021-04-09
+* @Date:   2021-04-13
 * @Version: V1.0
 */
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class RegistrationQueryDto extends EntityDto<String> {
+public class SingleDto extends EntityDto<Integer> {
     private static final long serialVersionUID=1L;
 
-
-        @ApiModelProperty(value = "业务编号")
-        private String code;
-        @ApiModelProperty(value = "客户名称")
-        private String custName;
-        @ApiModelProperty(value = "客户性质 取字典值")
-        private String custNature;
-        @ApiModelProperty(value = "客户证件号类别 取字典值")
-        private String custCertType;
-        @ApiModelProperty(value = "证件号码")
-        private String custCertNo;
+    /**
+    * id
+    */
+    @ApiModelProperty(value = "id")
+    private Integer id;
+    /**
+    * propInt
+    */
+    @ApiModelProperty(value = "propInt")
+    private Integer propInt;
+    /**
+    * propString
+    */
+    @ApiModelProperty(value = "propString")
+    private Integer propString;
+    /**
+    * propBool
+    */
+    @ApiModelProperty(value = "propBool")
+    private Integer propBool;
 
 }

@@ -1,6 +1,7 @@
 package com.ludan.generator.generate;
 
 import com.ludan.generator.common.exception.GeneratorException;
+import com.ludan.generator.config.CodeGeneratorProperties;
 import com.ludan.generator.entity.*;
 import com.ludan.generator.generate.loader.ResourceLoader;
 import com.ludan.generator.generate.loader.ResourceLoaderFactory;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,15 +33,19 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CodeGeneratorImpl implements CodeGenerator {
 
+    private final CodeGeneratorProperties codeGeneratorProperties;
     private final DataModelManager dataModelManager;
     private final TemplateEngine templateEngine;
-    private static final String OUTPUT_PATH = "D:\\code\\shandongLD\\code-generator\\code-generator-be\\sample\\src\\main\\java";
+    private String outputPath;
+    private String templatePath;
     public static final Pattern One_To_Many_Pattern = Pattern.compile("\\[1-n]", Pattern.CASE_INSENSITIVE);
 
-
-    public CodeGeneratorImpl(DataModelManager dataModelManager) {
+    public CodeGeneratorImpl(DataModelManager dataModelManager,CodeGeneratorProperties codeGeneratorProperties) {
         this.dataModelManager = dataModelManager;
-        this.templateEngine = TemplateEngineFactory.getInstance().create(TemplateEngineFactory.Freemarker_Engine_Name);
+        this.codeGeneratorProperties = codeGeneratorProperties;
+        this.outputPath = codeGeneratorProperties.getOutputPath();
+        this.templatePath = codeGeneratorProperties.getTemplatePath();
+        this.templateEngine = TemplateEngineFactory.getInstance().create(TemplateEngineFactory.Freemarker_Engine_Name,templatePath);
     }
 
 
@@ -98,7 +104,7 @@ public class CodeGeneratorImpl implements CodeGenerator {
         List<File> templateFiles = resourceLoader.listFiles(templatePathPrefix);
 
         //删除历史生成的数据
-        File outputFolder = new File(OUTPUT_PATH);
+        File outputFolder = new File(outputPath);
         if (outputFolder.exists()) {
             try {
                 FileUtils.deleteDirectory(outputFolder);
@@ -149,7 +155,7 @@ public class CodeGeneratorImpl implements CodeGenerator {
 
     private void writeToFile(String fileContent, String outputFileRelativePath) {
         log.info("outputFileRelativePath::{}", outputFileRelativePath);
-        String outputFileAbsolutePath = FilenameUtils.concat(OUTPUT_PATH, outputFileRelativePath);
+        String outputFileAbsolutePath = FilenameUtils.concat(outputPath, outputFileRelativePath);
         log.info("outputFileAbsolutePath::{}", outputFileAbsolutePath);
         File newFile = new File(outputFileAbsolutePath);
         File directory = newFile.getParentFile();
@@ -254,7 +260,6 @@ public class CodeGeneratorImpl implements CodeGenerator {
     }
 
     public void render(String viewPath, Map model, Writer writer) {
-        TemplateEngine templateEngine = TemplateEngineFactory.getInstance().create(TemplateEngineFactory.Freemarker_Engine_Name);
         try {
             templateEngine.resolve(viewPath, model, writer);
         } catch (IOException e) {
@@ -265,13 +270,11 @@ public class CodeGeneratorImpl implements CodeGenerator {
     }
 
     public String render(String viewPath, Map model) {
-        TemplateEngine templateEngine = TemplateEngineFactory.getInstance().create(TemplateEngineFactory.Freemarker_Engine_Name);
         String result = templateEngine.resolve(viewPath, model);
         return result;
     }
 
     public String renderSource(String viewSource, Map model) {
-        TemplateEngine templateEngine = TemplateEngineFactory.getInstance().create(TemplateEngineFactory.Freemarker_Engine_Name);
         return templateEngine.resolveSource(viewSource, model);
     }
 

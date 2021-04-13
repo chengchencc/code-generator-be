@@ -17,4 +17,5 @@ import java.util.Map;
 public class CodeGeneratorProperties {
     private Map<String,String> dataTypeMap;
     private String outputPath;
+    private String templatePath;
 }

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import RealForm from './RegistrationForm'
+    import RealForm from './SingleForm'
 
     export default {
         components: {

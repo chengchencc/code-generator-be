@@ -1,5 +1,6 @@
 package com.ludan.generator.service;
 import com.ludan.generator.DataEntityUtil;
+import com.ludan.generator.config.CodeGeneratorProperties;
 import com.ludan.generator.entity.*;
 
 import cn.hutool.core.date.DateUtil;
@@ -7,6 +8,7 @@ import com.central.common.constant.CommonConstant;
 import com.ludan.generator.generate.CodeGeneratorImpl;
 import com.ludan.generator.generate.resolver.TemplateEngine;
 import com.ludan.generator.generate.resolver.TemplateEngineFactory;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -19,6 +21,15 @@ import java.util.Map;
  * @create: 2021-02-05 21:02
  **/
 public class CodeGeneratorImplTest {
+    private CodeGeneratorProperties codeGeneratorProperties;
+
+    @Before
+    public void prepare_test(){
+        this.codeGeneratorProperties = new CodeGeneratorProperties();
+        this.codeGeneratorProperties.setOutputPath("D:\\code\\shandongLD\\code-generator\\code-generator-be\\sample\\src\\main\\java");
+        this.codeGeneratorProperties.setTemplatePath("D:\\code\\shandongLD\\code-generator\\code-generator-be\\generator\\src\\main\\resources\\code-template");
+    }
+
     @Test
     public void test_velocity_render() {
         Map<String, Object> model = new HashMap<>();
@@ -39,7 +50,7 @@ public class CodeGeneratorImplTest {
         model.put("datetime", DateUtil.format(new Date(), CommonConstant.DATETIME_FORMAT));
 
 
-        TemplateEngine templateEngine = TemplateEngineFactory.getInstance().create(TemplateEngineFactory.Velocity_Engine_Name);
+        TemplateEngine templateEngine = TemplateEngineFactory.getInstance().create(TemplateEngineFactory.Velocity_Engine_Name,codeGeneratorProperties.getTemplatePath());
 
         String s = templateEngine.resolve("/code-template/Default/test.vm", model);
         System.out.printf(s);
@@ -65,7 +76,7 @@ public class CodeGeneratorImplTest {
         model.put("email", "email");
         model.put("datetime", DateUtil.format(new Date(), CommonConstant.DATETIME_FORMAT));
 
-        TemplateEngine templateEngine = TemplateEngineFactory.getInstance().create(TemplateEngineFactory.Freemarker_Engine_Name);
+        TemplateEngine templateEngine = TemplateEngineFactory.getInstance().create(TemplateEngineFactory.Freemarker_Engine_Name,codeGeneratorProperties.getTemplatePath());
         String s = templateEngine.resolve("/Test/test.ftl", model);
         System.out.printf(s);
     }
@@ -81,7 +92,7 @@ public class CodeGeneratorImplTest {
 //        }
 
 
-        CodeGeneratorImpl generator = new CodeGeneratorImpl(null);
+        CodeGeneratorImpl generator = new CodeGeneratorImpl(null,this.codeGeneratorProperties);
         generator.generateToFile(singleEntity, GeneratorRule.getDefault());
         System.out.println("success");
     }
@@ -89,7 +100,7 @@ public class CodeGeneratorImplTest {
     @Test
     public void test_generate_code_OneToMany(){
         DataEntity entity = DataEntityUtil.getOneToManyEntity();
-        CodeGeneratorImpl generator = new CodeGeneratorImpl(null);
+        CodeGeneratorImpl generator = new CodeGeneratorImpl(null,this.codeGeneratorProperties);
         generator.generateToFile(entity, GeneratorRule.getDefault());
         System.out.println("success");
     }

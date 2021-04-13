@@ -65,7 +65,8 @@ spring:
 #    timeout: 5000
 
 code-generator:
-  outputPath: D:/code
+  outputPath: D:\code\shandongLD\code-generator\code-generator-be\sample\src\main\java
+  templatePath: D:\code\shandongLD\code-generator\code-generator-be\generator\src\main\resources\code-template
   data-type-map:
     tinyint: INTETER
     smallint: INTETER
