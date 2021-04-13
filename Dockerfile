@@ -1,6 +1,6 @@
 FROM openjdk:8-alpine
-COPY generator/target/*.jar /usr/src/myapp/app.jar
-COPY generator/src/main/resources/ /usr/src/myapp/code-template
+COPY generator/target/generator.jar /usr/src/myapp/app.jar
+COPY generator/src/main/resources/code-template/ /usr/src/myapp/code-template
 WORKDIR /usr/src/myapp
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","app.jar","--code-generator.outputPath=/usr/src/myapp/output","--code-generator.templatePath=/usr/src/myapp/code-template"]
