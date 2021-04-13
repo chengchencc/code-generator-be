@@ -20,6 +20,13 @@
                         <a-col :span="12" :style="colStyle">
                             <a-form-item label="${field.description}" v-bind="colInfo12">
                                 <#switch fieldui.controlType>
+                                <#case "Amount">
+                                    <a-input-number v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width:100%" :disabled="unEditable"
+                                      precision="2"
+                                      :formatter="value => `¥ ${'$'}{value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                                      :parser="value => value.replace(/\¥\s?|(,*)/g, '')"
+                                    />
+                                    <#break>
                                 <#case "PlainText">
                                     <a-input v-decorator="['${field.name}']" disabled/>
                                     <#break>
