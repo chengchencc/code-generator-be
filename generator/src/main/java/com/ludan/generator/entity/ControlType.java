@@ -8,6 +8,7 @@ public enum ControlType {
 
     InputText("文本框"),
     Number("数字"),
+    Amount("金额"),
     Password("密码"),
     SelectOne("下拉单选"),
     SelectMany("下拉多选"),
