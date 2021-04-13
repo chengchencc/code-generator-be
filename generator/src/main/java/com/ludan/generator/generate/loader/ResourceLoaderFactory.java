@@ -8,4 +8,7 @@ public class ResourceLoaderFactory {
     public static ResourceLoader getLoader(){
         return new ClasspathResourceLoader();
     }
+    public static ResourceLoader getLoader(String templatePath){
+        return new FileResourceLoader(templatePath);
+    }
 }

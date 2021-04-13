@@ -65,7 +65,7 @@ public class CodeGeneratorImpl implements CodeGenerator {
         DataEntity entity = dataModelManager.findByEntityId(entityId);
         GeneratorRule generatorRule = GeneratorRule.getDefault();
         generateToResponse(entity,generatorRule,response);
-//        generateToFile(entity,generatorRule);
+        generateToFile(entity,generatorRule);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class CodeGeneratorImpl implements CodeGenerator {
 
     private void internal(DataEntity entity, GeneratorRule generatorRule, Renderer renderer) {
         Map<String, Object> model = convertToViewModel(entity, generatorRule);
-        ResourceLoader resourceLoader = ResourceLoaderFactory.getLoader();
+        ResourceLoader resourceLoader = ResourceLoaderFactory.getLoader(templatePath);
         String templatePathPrefix = getTemplatePathPrefix(entity);
         File templateDirectory = resourceLoader.getTemplateDirectory(templatePathPrefix);
         File templateRootDirectory = resourceLoader.getTemplateDirectory("");
