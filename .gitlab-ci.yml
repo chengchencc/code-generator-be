@@ -43,7 +43,7 @@ build:
   artifacts:
     expire_in: 1 days
     paths:
-      - target/*.jar
+      - generator/target/generator.jar
       - generator/src/main/resources/code-template
 # 第二阶段, 这里不再一一介绍, 和第一阶段差不多
 package:
