@@ -1,28 +1,28 @@
 package com.ludan.reguarantee.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ludan.reguarantee.entity.Registration;
+import com.ludan.reguarantee.entity.Single;
 import com.central.common.model.PageResult;
 import com.central.common.service.ISuperService;
 
 import java.util.List;
 import java.util.Map;
 
-public interface RegistrationService extends ISuperService<Registration> {
+public interface SingleService extends ISuperService<Single> {
 
     /**
     * 获取全部
     * @param params
     * @return
     */
-    List<Registration> findAll(Map<String, Object> params);
+    List<Single> findAll(Map<String, Object> params);
 
     /**
     * 分页列表
     * @param params
     * @return
     */
-    Page<Registration> findList(Map<String, Object> params);
+    Page<Single> findList(Map<String, Object> params);
 
 }
 

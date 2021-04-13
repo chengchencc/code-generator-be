@@ -14,7 +14,11 @@ import java.util.Map;
  **/
 public abstract class TemplateEngine {
 
-    protected final static String templatePath = "/code-template";
+    protected String templatePath = "/code-template";
+
+    public TemplateEngine(String templatePath) {
+        this.templatePath = templatePath;
+    }
 
     public abstract void resolve(String template, Map dataModel, Writer writer) throws IOException, TemplateException;
 

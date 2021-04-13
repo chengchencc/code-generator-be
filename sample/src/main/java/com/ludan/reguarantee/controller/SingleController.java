@@ -16,8 +16,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
-import com.ludan.reguarantee.entity.Registration;
-import com.ludan.reguarantee.service.RegistrationService;
+import com.ludan.reguarantee.entity.Single;
+import com.ludan.reguarantee.service.SingleService;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
 
@@ -25,18 +25,18 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
-* @Description: 备案信息
+* @Description: 开发测试
 * @Author: ludan
-* @Date:   2021-04-09
+* @Date:   2021-04-13
 * @Version: V1.0
 */
 @Slf4j
 @RestController
-@RequestMapping("/Registration")
-@Api(tags = "备案信息")
-public class RegistrationController  {
+@RequestMapping("/Single")
+@Api(tags = "开发测试")
+public class SingleController  {
     @Autowired
-    private RegistrationService registrationService;
+    private SingleService singleService;
     /**
     * 列表
     */
@@ -47,8 +47,8 @@ public class RegistrationController  {
     })
     @GetMapping("/list")
     public PageResult findAll(@RequestParam Map<String,Object> params) {
-        Page<Registration> pageList = registrationService.findList(params);
-        return PageResult.<Registration>builder().data(pageList.getRecords()).code(0).count(pageList.getTotal()).build();
+        Page<Single> pageList = singleService.findList(params);
+        return PageResult.<Single>builder().data(pageList.getRecords()).code(0).count(pageList.getTotal()).build();
     }
 
     /**
@@ -57,34 +57,34 @@ public class RegistrationController  {
     @ApiOperation(value = "查询")
     @GetMapping("/detail/{id}")
     public Result findUserById(@PathVariable Long id) {
-        Registration model = registrationService.getById(id);
+        Single model = singleService.getById(id);
         return Result.succeed(model, "查询成功");
     }
 
     /**
     *   添加
     *
-    * @param registration
+    * @param single
     * @return
     */
-    @ApiOperation(value="备案信息-添加", notes="备案信息-添加")
+    @ApiOperation(value="开发测试-添加", notes="开发测试-添加")
     @PostMapping(value = "/add")
-    public Result<?> add(@RequestBody Registration registration) {
-        registrationService.save(registration);
-        return Result.succeed(registration,"添加成功！");
+    public Result<?> add(@RequestBody Single single) {
+        singleService.save(single);
+        return Result.succeed(single,"添加成功！");
     }
 
     /**
     *  编辑
     *
-    * @param registration
+    * @param single
     * @return
     */
-    @ApiOperation(value="备案信息-编辑", notes="备案信息-编辑")
+    @ApiOperation(value="开发测试-编辑", notes="开发测试-编辑")
     @PutMapping(value = "/edit")
-    public Result<?> edit(@RequestBody Registration registration) {
-        registrationService.updateById(registration);
-        return Result.succeed(registration,"编辑成功!");
+    public Result<?> edit(@RequestBody Single single) {
+        singleService.updateById(single);
+        return Result.succeed(single,"编辑成功!");
     }
 
     /**
@@ -92,9 +92,9 @@ public class RegistrationController  {
     */
     @ApiOperation(value = "保存")
     @PostMapping
-    public Result save(@RequestBody Registration registration) {
-        registrationService.saveOrUpdate(registration);
-        return Result.succeed(registration,"保存成功");
+    public Result save(@RequestBody Single single) {
+        singleService.saveOrUpdate(single);
+        return Result.succeed(single,"保存成功");
     }
 
     /**
@@ -103,10 +103,10 @@ public class RegistrationController  {
     * @param id
     * @return
     */
-    @ApiOperation(value="备案信息-通过id删除", notes="备案信息-通过id删除")
+    @ApiOperation(value="开发测试-通过id删除", notes="开发测试-通过id删除")
     @DeleteMapping(value = "/delete")
     public Result<?> delete(@RequestParam(name="id",required=true) String id) {
-        registrationService.removeById(id);
+        singleService.removeById(id);
         return Result.succeed("删除成功!");
     }
 
@@ -116,10 +116,10 @@ public class RegistrationController  {
     * @param ids
     * @return
     */
-    @ApiOperation(value="备案信息-批量删除", notes="备案信息-批量删除")
+    @ApiOperation(value="开发测试-批量删除", notes="开发测试-批量删除")
     @DeleteMapping(value = "/deleteBatch")
     public Result<?> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
-        this.registrationService.removeByIds(Arrays.asList(ids.split(",")));
+        this.singleService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.succeed("批量删除成功!");
     }
 
@@ -129,7 +129,7 @@ public class RegistrationController  {
     @ApiOperation(value = "删除")
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Long id) {
-        registrationService.removeById(id);
+        singleService.removeById(id);
         return Result.succeed("删除成功");
     }
 
@@ -141,11 +141,11 @@ public class RegistrationController  {
     @GetMapping("/exportXlsx")
     public void exportXlsx(@RequestParam Map<String, Object> params, HttpServletResponse response) throws UnsupportedEncodingException {
         //获取文件名
-        String fileName = "备案信息" + DateUtil.formatDate(DateUtil.date());
+        String fileName = "开发测试" + DateUtil.formatDate(DateUtil.date());
         //获取数据
-        List<Registration> data = registrationService.findAll(params);
+        List<Single> data = singleService.findAll(params);
         //导出
-        ExcelHelper.exportToResponse(response,fileName,data,Registration.class);
+        ExcelHelper.exportToResponse(response,fileName,data,Single.class);
     }
 
 

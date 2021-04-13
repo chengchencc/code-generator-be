@@ -34,35 +34,54 @@
                                     <#break>
                                 <#case "SelectOne">
                                     <a-select v-decorator="['${field.name}',validatorRules.${field.name} ]" :disabled="unEditable">
-                                        <a-select-option value="">请选择</a-select-option>
+                                        <#if field.dataFieldUI.dictCode??>
                                         <a-select-option v-for="(item, name) in pageDict.${fieldui.dictCode}" :key="name" :value="item.code">
                                             {{ item.value }}
                                         </a-select-option>
+                                        <#else>
+                                            <a-select-option value="">未设置字典编码</a-select-option>
+                                        </#if>
                                     </a-select>
                                     <#break>
                                 <#case "SelectMany">
                                     <a-select v-decorator="['${field.name}',validatorRules.${field.name} ]" mode="multiple" :disabled="unEditable">
+                                        <#if field.dataFieldUI.dictCode??>
                                         <a-select-option v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" :value="item.code">
                                             {{ item.value }}
                                         </a-select-option>
+                                        <#else>
+                                            <a-select-option value="">未设置字典编码</a-select-option>
+                                        </#if>
                                     </a-select>
                                     <#break>
                                 <#case "Checkbox">
                                     <a-checkbox-group v-decorator="['${field.name}']" style="width: 100%;" :disabled="unEditable">
                                         <a-row>
+                                            <#if field.dataFieldUI.dictCode??>
                                             <a-col :span="8" v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" >
                                                 <a-checkbox :value="item.code">
                                                     {{ item.value }}
                                                 </a-checkbox>
                                             </a-col>
+                                                <#else >
+                                            <a-col :span="8" >
+                                            未设置字典编码
+                                            </a-col>
+                                            </#if>
                                         </a-row>
                                     </a-checkbox-group>
                                     <#break>
                                 <#case "Radio">
                                     <a-radio-group v-decorator="['${field.name}',validatorRules.${field.name}]" :disabled="unEditable">
+                                        <#if field.dataFieldUI.dictCode??>
                                         <a-radio v-for="(item, name) in pageDict.${field.dataFieldUI.dictCode}" :key="name" :value="item.code">
                                             {{ item.value }}
                                         </a-radio>
+                                            <#else >
+                                            <a-radio>
+                                                未设置字典编码
+                                            </a-radio>
+                                        </#if>
                                     </a-radio-group>
                                     <#break>
                                 <#case "Date">

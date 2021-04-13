@@ -18,7 +18,8 @@ public class VelocityEngine extends TemplateEngine {
 
     private org.apache.velocity.app.VelocityEngine velocityEngine;
 
-    public VelocityEngine() {
+    public VelocityEngine(String templatePath) {
+        super(templatePath);
         velocityEngine = new org.apache.velocity.app.VelocityEngine();
         velocityEngine.setProperty("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         velocityEngine.setProperty(Velocity.FILE_RESOURCE_LOADER_CACHE, false); // 不适用缓存

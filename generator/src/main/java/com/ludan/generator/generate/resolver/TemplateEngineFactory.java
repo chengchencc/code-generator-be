@@ -11,11 +11,11 @@ public class TemplateEngineFactory {
     public static final String Velocity_Engine_Name = "velocity";
     public static final String Freemarker_Engine_Name = "freemarker";
 
-    public TemplateEngine create(String templateEngine) {
+    public TemplateEngine create(String templateEngine,String templatePath) {
         if (templateEngine.equals(Velocity_Engine_Name))
-            return new VelocityEngine();
+            return new VelocityEngine(templatePath);
         else if (templateEngine.equals(Freemarker_Engine_Name))
-            return new FreeMarkerEngine();
+            return new FreeMarkerEngine(templatePath);
         else
             throw new NotImplementedException("不支持的渲染引擎::"+templateEngine);
     }
