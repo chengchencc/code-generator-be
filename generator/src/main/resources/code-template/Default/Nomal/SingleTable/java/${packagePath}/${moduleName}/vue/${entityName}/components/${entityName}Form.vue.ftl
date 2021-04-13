@@ -270,7 +270,7 @@
                 validatorRules: {
                     <#list entity.fields as field >
                     <#assign fieldui = field.dataFieldUI>
-                    ${field.name}:{rules:[{required:${field.isRequired?c},message:"${field.description}不能为空"},{ validator: this.validate${field.name?cap_first} }]},
+                    ${field.name}:{rules:[{required:${fieldui.validation.required?c},message:"${field.description}不能为空"},{ validator: this.validate${field.name?cap_first} }]},
                     </#list>
                 },
                 urls: {
