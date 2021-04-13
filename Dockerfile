@@ -1,5 +1,5 @@
 FROM openjdk:8-alpine
-COPY generator/target/*.jar /usr/src/myapp/app.jar
+COPY generator/target/generator.jar /usr/src/myapp/app.jar
 COPY generator/src/main/resources/ /usr/src/myapp/code-template
 WORKDIR /usr/src/myapp
 EXPOSE 8080
