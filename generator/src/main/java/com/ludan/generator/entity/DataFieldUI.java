@@ -52,6 +52,12 @@ public class DataFieldUI extends AuditEntityBase<Integer> {
      * 表格列宽
      */
     private int tableColWidth;
+
+    /**
+     * 表单列宽
+     */
+    private String formColWidth;
+
     /**
      * 分组
      */
