@@ -111,9 +111,9 @@ import { submitProject } from '@/api/workflow'
 import { mapActions, mapState, mapMutations } from 'vuex'
 import { deepCopy } from '@/utils/util'
 import formMixin from '@/core/mixins/form-mixin'
-//import RegistrationDetail from './components/RegistrationDetail'
+//import ${entityName}Detail from './components/${entityName}Detail'
  import { baseMixin } from '@/store/app-mixin'
-import RealForm from './components/RegistrationForm'
+import RealForm from './components/${entityName}Form'
 import { httpGet, httpPost, httpDelete, httpPut, downFile } from '@/utils/httpClient'
 
 export default {
@@ -122,7 +122,7 @@ export default {
   components: {
     CardIcon,
     RealForm
-    //RegistrationDetail
+    //${entityName}Detail
   },
   data () {
     return {
