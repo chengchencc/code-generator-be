@@ -7,6 +7,6 @@ import java.util.Map;
  * @create: 2021-03-01 15:34
  **/
 @FunctionalInterface
-public interface Renderer {
+public interface OutputHandler {
     public void execute(String code,String outputFileRelativePath);
 }

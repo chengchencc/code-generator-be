@@ -16,34 +16,23 @@ import java.util.Date;
 /**
 * @Description: 开发测试
 * @Author: ludan
-* @Date:   2021-04-13
+* @Date:   2021-04-15
 * @Version: V1.0
 */
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class SingleDto extends EntityDto<Integer> {
+public class MainQueryDto extends EntityDto<Integer> {
     private static final long serialVersionUID=1L;
 
-    /**
-    * id
-    */
-    @ApiModelProperty(value = "id")
-    private Integer id;
-    /**
-    * propInt
-    */
-    @ApiModelProperty(value = "propInt")
-    private Integer propInt;
-    /**
-    * propString
-    */
-    @ApiModelProperty(value = "propString")
-    private Integer propString;
-    /**
-    * propBool
-    */
-    @ApiModelProperty(value = "propBool")
-    private Integer propBool;
+
+        @ApiModelProperty(value = "id")
+        private Integer id;
+        @ApiModelProperty(value = "propInt")
+        private Integer propInt;
+        @ApiModelProperty(value = "propString")
+        private Integer propString;
+        @ApiModelProperty(value = "propBool")
+        private Integer propBool;
 
 }

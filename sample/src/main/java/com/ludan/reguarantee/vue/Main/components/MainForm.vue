@@ -120,14 +120,14 @@
                 //页面级字典
                 pageDict: {},
                 validatorRules: {
-                    id:{rules:[{required:false,message:"id不能为空"},{ validator: this.validateId }]},
-                    propInt:{rules:[{required:false,message:"propInt不能为空"},{ validator: this.validatePropInt }]},
+                    id:{rules:[{required:true,message:"id不能为空"},{ validator: this.validateId }]},
+                    propInt:{rules:[{required:true,message:"propInt不能为空"},{ validator: this.validatePropInt }]},
                     propString:{rules:[{required:false,message:"propString不能为空"},{ validator: this.validatePropString }]},
                     propBool:{rules:[{required:false,message:"propBool不能为空"},{ validator: this.validatePropBool }]},
                 },
                 urls: {
-                    add: '/api-sample/Single/add',
-                    edit: '/api-sample/Single/edit'
+                    add: '/api-sample/Main/add',
+                    edit: '/api-sample/Main/edit'
                 }
             }
         },
@@ -151,12 +151,14 @@
             // vue 生命周期钩子，已完成模板渲染，此处可以进行dom操作
         },
         methods: {
+            // 需要手动绑定该方法： @change="onCityChange"
+            // 区县for循环取值改为： v-for="(item, name) in district ? district : pageDict.district"
             onCityChange (cityCode) {
-                this.district = {}
+                this.district = []
                 this.form.setFieldsValue({countyName: ''})
-                for (const key in this.dictCodeVaue.district) {
-                    if (key.startsWith(cityCode.slice(0, 4))) {
-                        this.district[key] = this.dictCodeVaue.district[key]
+                for (let item of this.pageDict.district) {
+                    if (item.code.startsWith(cityCode.slice(0, 4))) {
+                        this.district.push(item)
                     }
                 }
             },
@@ -164,8 +166,11 @@
                 console.log('初始化页面级字典项')
                 const dictCodes = [
                 ]
+                try{
+                  this.pageDict = this.$store.state.common.dict.dictsList.list || {}
+                }catch(e){}
                 getDictionaryByCodes(dictCodes).then((res) => {
-                    this.pageDict = res
+                    this.pageDict = Object.assign(this.pageDict || {}, res || {})
                 })
             },
             beforeUpload() {

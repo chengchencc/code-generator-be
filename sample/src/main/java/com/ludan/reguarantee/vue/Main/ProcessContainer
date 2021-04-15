@@ -137,7 +137,7 @@ export default {
         wrapperCol: { span: 20 },
       },
       url: {
-        detail: "/api-sample/Single/detail/"
+        detail: "/api-sample/Main/detail/"
       },
       tabList: [
           { key: 'detail', tab: '详情' },

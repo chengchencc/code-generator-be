@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -95,7 +94,7 @@ public class CodeGeneratorImpl implements CodeGenerator {
         }
     }
 
-    private void internal(DataEntity entity, GeneratorRule generatorRule, Renderer renderer) {
+    private void internal(DataEntity entity, GeneratorRule generatorRule, OutputHandler outputHandler) {
         Map<String, Object> model = convertToViewModel(entity, generatorRule);
         ResourceLoader resourceLoader = ResourceLoaderFactory.getLoader(templatePath);
         String templatePathPrefix = getTemplatePathPrefix(entity);
@@ -131,16 +130,16 @@ public class CodeGeneratorImpl implements CodeGenerator {
 
             //TODO:主子表关系的生成待完善
             if (entity.getTableType().equals(TableType.SingleTable)) {
-                renderTemplate(model, templateRelativePath, outputFileRelativePath, renderer);
+                renderTemplate(model, templateRelativePath, outputFileRelativePath, outputHandler);
             } else {
                 if (One_To_Many_Pattern.matcher(outputFileRelativePath).find()) {
                     for (DataEntity child : entity.getChildren()) {
                         String childOutputFileRelativePath = One_To_Many_Pattern.matcher(outputFileRelativePath).replaceFirst(child.getCode());
                         Map childModel = convertToViewModel(child, generatorRule);
-                        renderTemplate(childModel, templateRelativePath, childOutputFileRelativePath, renderer);
+                        renderTemplate(childModel, templateRelativePath, childOutputFileRelativePath, outputHandler);
                     }
                 } else {
-                    renderTemplate(model, templateRelativePath, outputFileRelativePath, renderer);
+                    renderTemplate(model, templateRelativePath, outputFileRelativePath, outputHandler);
                 }
             }
 
@@ -148,9 +147,9 @@ public class CodeGeneratorImpl implements CodeGenerator {
 
     }
 
-    private void renderTemplate(Map<String, Object> model, String templateRelativePath, String outputFileRelativePath, Renderer renderer) {
+    private void renderTemplate(Map<String, Object> model, String templateRelativePath, String outputFileRelativePath, OutputHandler outputHandler) {
         String code = render(templateRelativePath, model);
-        renderer.execute(code, outputFileRelativePath);
+        outputHandler.execute(code, outputFileRelativePath);
     }
 
     private void writeToFile(String fileContent, String outputFileRelativePath) {
@@ -174,7 +173,7 @@ public class CodeGeneratorImpl implements CodeGenerator {
     /**
      * 模板结构：
      * /templateName/entitySchema/entityRelation
-     *
+     * @example /Default/Normal/SingleTable
      * @templateName default\mobile\erp\oa\...
      * @entitySchema normal\tree
      * @entityRelation single\main\OneToOne\OneToMany\ManyToMany
