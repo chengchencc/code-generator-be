@@ -211,7 +211,7 @@
                     ref="table"
                     bordered
                     size="default"
-                    rowKey="id"
+                    rowKey="${pk.name}"
                     :columns="columns"
                     :dataSource="dataSource"
                     :pagination="ipagination"
@@ -225,20 +225,23 @@
                       {{ index + 1 }}
                     </span>
                     <span slot="status" slot-scope="text"><a-tag color="orange">{{text}}</a-tag></span>
-                    <span slot="gdCheck" slot-scope="text, record">
-                        <a-tag color="orange" v-if="record.status == '01'">未通过</a-tag>
-                        <a-tag color="green" v-if="record.status == '02' || record.status == '03'">通过</a-tag>
-                    </span>
-                    <span slot="proviceCheck" slot-scope="text, record">
-                        <a-tag color="orange" v-if="record.status == '01' || record.status == '02'">未通过</a-tag>
-                        <a-tag color="green" v-if="record.status == '03'">通过</a-tag>
-                    </span>
+<#--                    <span slot="gdCheck" slot-scope="text, record">-->
+<#--                        <a-tag color="orange" v-if="record.status == '01'">未通过</a-tag>-->
+<#--                        <a-tag color="green" v-if="record.status == '02' || record.status == '03'">通过</a-tag>-->
+<#--                    </span>-->
+<#--                    <span slot="proviceCheck" slot-scope="text, record">-->
+<#--                        <a-tag color="orange" v-if="record.status == '01' || record.status == '02'">未通过</a-tag>-->
+<#--                        <a-tag color="green" v-if="record.status == '03'">通过</a-tag>-->
+<#--                    </span>-->
                     <span slot="action" slot-scope="text, record">
                       <template>
                         <a-dropdown>
                           <a-menu slot="overlay">
                             <a-menu-item key="1" type="primary">
                               <a @click="handleEdit(record)">编辑</a>
+                            </a-menu-item>
+                            <a-menu-item key="2" type="primary">
+                              <a @click="handleDelete(record.${pk.name})">删除</a>
                             </a-menu-item>
                           </a-menu>
                           <a>更多<a-icon type="down" /></a>
@@ -331,27 +334,9 @@
                    </#if>
                    </#list>
                    {
-                      title: '省再担校验',
-                      dataIndex: 'proviceCheck',
-                      ellipsis: false, // 超过宽度将自动省略
-                      align: 'center',
-                      fixed: 'right',
-                      width: '110px',
-                      scopedSlots: {customRender: 'proviceCheck'}
-                   },
-                   {
-                      title: '国担校验',
-                      dataIndex: 'gdCheck',
-                      ellipsis: false, // 超过宽度将自动省略
-                      align: 'center',
-                      fixed: 'right',
-                      width: '110px',
-                      scopedSlots: {customRender: 'gdCheck'}
-                   },
-                   {
                        title: '操作',
                        dataIndex: 'action',
-                       width: '200px',
+                       width: '80px',
                        fixed: 'right',
                        scopedSlots: {customRender: 'action'}
                    }
@@ -383,17 +368,19 @@
                     </#if>
                 </#list>
                 ]
-                getDictionaryByCodes(dictCodes).then((res) => {
-                    this.pageDict = res
-                })
+                if(dictCodes.length>0) {
+                    getDictionaryByCodes(dictCodes).then((res) => {
+                        this.pageDict = res
+                    })
+                }
             },
             handleEdit: function (record) {
                 // 弹框编辑
-                // this.$refs.modalForm.edit(record)
-                // this.$refs.modalForm.title = '编辑'
+                this.$refs.modalForm.edit(record)
+                this.$refs.modalForm.title = '编辑'
 
                 // 详情页编辑
-                this.$router.push(`/RegistrationManager/detail/zdba/true/${'$'}{record.id}`)
+                // this.$router.push(`/RegistrationManager/detail/zdba/true/${'$'}{record.id}`)
             }
         }
     }

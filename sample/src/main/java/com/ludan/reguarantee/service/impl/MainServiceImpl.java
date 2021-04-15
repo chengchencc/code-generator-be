@@ -10,13 +10,13 @@ import java.util.Map;
 import org.apache.commons.collections4.MapUtils;
 import lombok.extern.slf4j.Slf4j;
 
-import com.ludan.reguarantee.entity.Single;
-import com.ludan.reguarantee.mapper.SingleMapper;
-import com.ludan.reguarantee.service.SingleService;
+import com.ludan.reguarantee.entity.Main;
+import com.ludan.reguarantee.mapper.MainMapper;
+import com.ludan.reguarantee.service.MainService;
 
 @Slf4j
 @Service
-public class SingleServiceImpl extends SuperServiceImpl<SingleMapper, Single> implements SingleService {
+public class MainServiceImpl extends SuperServiceImpl<MainMapper, Main> implements MainService {
 
     /**
     * 获取全部
@@ -24,8 +24,8 @@ public class SingleServiceImpl extends SuperServiceImpl<SingleMapper, Single> im
     * @return
     */
     @Override
-    public List<Single> findAll(Map<String, Object> params){
-        List<Single> all  =  baseMapper.findList(params);
+    public List<Main> findAll(Map<String, Object> params){
+        List<Main> all  =  baseMapper.findList(params);
         return all;
     }
 
@@ -35,9 +35,9 @@ public class SingleServiceImpl extends SuperServiceImpl<SingleMapper, Single> im
     * @return
     */
     @Override
-    public Page<Single> findList(Map<String, Object> params){
-        Page<Single> page = new Page<>(MapUtils.getInteger(params, "pageNo"), MapUtils.getInteger(params, "pageSize"));
-        Page<Single> pageList  =  baseMapper.findList(page, params);
+    public Page<Main> findList(Map<String, Object> params){
+        Page<Main> page = new Page<>(MapUtils.getInteger(params, "pageNo"), MapUtils.getInteger(params, "pageSize"));
+        Page<Main> pageList  =  baseMapper.findList(page, params);
         return pageList;
     }
 

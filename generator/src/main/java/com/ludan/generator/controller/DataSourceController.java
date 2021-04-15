@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/datasource")
 @Api(tags = "数据源接口")
-public class DataSourceController {
+public class DataSourceController  {
     @Autowired
     private DataSourceService service;
 

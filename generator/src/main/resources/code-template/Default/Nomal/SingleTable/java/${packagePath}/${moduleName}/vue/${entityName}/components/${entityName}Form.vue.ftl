@@ -22,7 +22,7 @@
                                 <#switch fieldui.controlType>
                                 <#case "Amount">
                                     <a-input-number v-decorator="['${field.name}',validatorRules.${field.name} ]" style="width:100%" :disabled="unEditable"
-                                      precision="2"
+                                      :precision="2"
                                       :formatter="value => `¥ ${'$'}{value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
                                       :parser="value => value.replace(/\¥\s?|(,*)/g, '')"
                                     />
@@ -270,7 +270,7 @@
                 validatorRules: {
                     <#list entity.fields as field >
                     <#assign fieldui = field.dataFieldUI>
-                    ${field.name}:{rules:[{required:${field.isRequired?c},message:"${field.description}不能为空"},{ validator: this.validate${field.name?cap_first} }]},
+                    ${field.name}:{rules:[{required:${fieldui.validation.required?c},message:"${field.description}不能为空"},{ validator: this.validate${field.name?cap_first} }]},
                     </#list>
                 },
                 urls: {
@@ -299,12 +299,14 @@
             // vue 生命周期钩子，已完成模板渲染，此处可以进行dom操作
         },
         methods: {
+            // 需要手动绑定该方法： @change="onCityChange"
+            // 区县for循环取值改为： v-for="(item, name) in district ? district : pageDict.district"
             onCityChange (cityCode) {
-                this.district = {}
+                this.district = []
                 this.form.setFieldsValue({countyName: ''})
-                for (const key in this.dictCodeVaue.district) {
-                    if (key.startsWith(cityCode.slice(0, 4))) {
-                        this.district[key] = this.dictCodeVaue.district[key]
+                for (let item of this.pageDict.district) {
+                    if (item.code.startsWith(cityCode.slice(0, 4))) {
+                        this.district.push(item)
                     }
                 }
             },
@@ -317,8 +319,11 @@
                     </#if>
                     </#list>
                 ]
+                try{
+                  this.pageDict = this.$store.state.common.dict.dictsList.list || {}
+                }catch(e){}
                 getDictionaryByCodes(dictCodes).then((res) => {
-                    this.pageDict = res
+                    this.pageDict = Object.assign(this.pageDict || {}, res || {})
                 })
             },
             beforeUpload() {

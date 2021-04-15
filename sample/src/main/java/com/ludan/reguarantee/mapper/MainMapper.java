@@ -1,6 +1,6 @@
 package com.ludan.reguarantee.mapper;
 
-import com.ludan.reguarantee.entity.Single;
+import com.ludan.reguarantee.entity.Main;
 import com.central.db.mapper.SuperMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface SingleMapper extends SuperMapper<Single> {
+public interface MainMapper extends SuperMapper<Main> {
     /**
      * 分页查询用户列表
      * @param page
      * @param params
      * @return
      */
-    Page<Single> findList(Page<Single> page, @Param("p") Map<String, Object> params);
+    Page<Main> findList(Page<Main> page, @Param("p") Map<String, Object> params);
 
-    List<Single> findList(@Param("p") Map<String, Object> params);
+    List<Main> findList(@Param("p") Map<String, Object> params);
 }

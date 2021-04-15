@@ -16,14 +16,14 @@ import java.util.Date;
 /**
 * @Description: 开发测试
 * @Author: ludan
-* @Date:   2021-04-13
+* @Date:   2021-04-15
 * @Version: V1.0
 */
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-@TableName("t_test_Single")
-public class Single extends BaseEntityFill {
+@TableName("t_main")
+public class Main extends BaseEntityFill {
     private static final long serialVersionUID=1L;
     /**
     * id

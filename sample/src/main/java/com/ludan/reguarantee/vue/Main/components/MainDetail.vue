@@ -69,7 +69,7 @@
  */
 <script>
     import { baseMixin } from '@/store/app-mixin'
-    import RealForm from './SingleForm'
+    import RealForm from './MainForm'
     import { httpGet, httpPost, httpDelete, httpPut, downFile } from '@/utils/httpClient'
 
     export default {
