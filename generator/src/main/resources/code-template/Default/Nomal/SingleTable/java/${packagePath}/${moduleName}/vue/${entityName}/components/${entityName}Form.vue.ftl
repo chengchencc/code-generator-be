@@ -207,6 +207,7 @@
     </#list>
     ]
 
+    // 多选
     const StringToArrFields = [
     <#list entity.fields as field >
     <#assign fieldui = field.dataFieldUI>
