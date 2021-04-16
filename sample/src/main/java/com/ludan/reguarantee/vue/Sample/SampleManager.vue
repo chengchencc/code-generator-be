@@ -7,26 +7,13 @@
                 <a-form layout="inline">
                     <a-row :gutter="48">
                             <a-col :md="8" :sm="24">
-                            <a-form-item label="id">
-                                        <a-input-number v-model="queryParam.id" style="width:100%"/>
+                            <a-form-item label="文本框">
+                                        <a-input v-model="queryParam.inputText"  />
                             </a-form-item>
                             </a-col>
                             <a-col :md="8" :sm="24">
-                            <a-form-item label="propInt">
-                                        <a-input-number v-model="queryParam.propInt" style="width:100%"/>
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="propString">
-                                        <a-input v-model="queryParam.propString"  />
-                            </a-form-item>
-                            </a-col>
-                            <a-col :md="8" :sm="24">
-                            <a-form-item label="propBool">
-                                        <a-checkbox-group v-model="queryParam.propBool" style="width: 100%;">
-                                            <a-row>
-                                            </a-row>
-                                        </a-checkbox-group>
+                            <a-form-item label="数字">
+                                        <a-input-number v-model="queryParam.number" style="width:100%"/>
                             </a-form-item>
                             </a-col>
 
@@ -136,7 +123,7 @@
     import { getNameByDict } from '@/utils/dealData'
     import { dictMixin } from '@/store/dict-mixin'
     import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
-    import ModalForm from './components/MainModal' // 切换到抽屉模式 引用改为 './drawer.vue'
+    import ModalForm from './components/SampleModal' // 切换到抽屉模式 引用改为 './drawer.vue'
     import { getDictionaryByCodes } from '@/utils/dictUtil'
 
     export default {
@@ -154,32 +141,146 @@
                        width: '70px',
                    },
                        {
-                          title: 'id',
-                          dataIndex: 'id',
+                          title: '文本框',
+                          dataIndex: 'inputText',
                           ellipsis: false, // 超过宽度将自动省略
                           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
                           width: '180px',
                           customRender: (value) => value
                        },
                        {
-                          title: 'propInt',
-                          dataIndex: 'propInt',
+                          title: '数字',
+                          dataIndex: 'number',
                           ellipsis: false, // 超过宽度将自动省略
                           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
                           width: '180px',
                           customRender: (value) => value
                        },
                        {
-                          title: 'propString',
-                          dataIndex: 'propString',
+                          title: '下拉单选',
+                          dataIndex: 'selectOne',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: (value) => {
+                             return getNameByDict(value, this.pageDict.projectSource || [])
+                          }
+                       },
+                       {
+                          title: '下拉多选',
+                          dataIndex: 'selectMany',
                           ellipsis: false, // 超过宽度将自动省略
                           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
                           width: '180px',
                           customRender: (value) => value
                        },
                        {
-                          title: 'propBool',
-                          dataIndex: 'propBool',
+                          title: '多选',
+                          dataIndex: 'checkBox',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: (value) => value
+                       },
+                       {
+                          title: '开关',
+                          dataIndex: 'radio',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: (value) => value
+                       },
+                       {
+                          title: '日期组件',
+                          dataIndex: 'fieldDate',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: toDate,
+                       },
+                       {
+                          title: '日期时间组件',
+                          dataIndex: 'fieldDateTime',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: toDateTime,
+                       },
+                       {
+                          title: '时间组件',
+                          dataIndex: 'fieldTime',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: toDateTime,
+                       },
+                       {
+                          title: '文件上传',
+                          dataIndex: 'fieldFile',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: (value) => value
+                       },
+                       {
+                          title: '图片上传',
+                          dataIndex: 'fieldImage',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: (value) => value
+                       },
+                       {
+                          title: '多行文本',
+                          dataIndex: 'textArea',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: (value) => value
+                       },
+                       {
+                          title: '用户选择组件',
+                          dataIndex: 'userSelect',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: (value) => value
+                       },
+                       {
+                          title: '组织选择组件',
+                          dataIndex: 'orgSelect',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: (value) => value
+                       },
+                       {
+                          title: '富文本',
+                          dataIndex: 'richText',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: (value) => value
+                       },
+                       {
+                          title: '区域选择',
+                          dataIndex: 'region',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: (value) => value
+                       },
+                       {
+                          title: '树选择',
+                          dataIndex: 'treeSelect',
+                          ellipsis: false, // 超过宽度将自动省略
+                          align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
+                          width: '180px',
+                          customRender: (value) => value
+                       },
+                       {
+                          title: '自定义弹框',
+                          dataIndex: 'modal',
                           ellipsis: false, // 超过宽度将自动省略
                           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
                           width: '180px',
@@ -196,11 +297,11 @@
                 //页面级字典
                 pageDict: {},
                 url: {
-                    list: '/api-sample/Main/list',
-                    delete: '/api-sample/Main/delete',
-                    deleteBatch: '/api-sample/Main/deleteBatch',
-                    exportXlsUrl: '/api-sample/Main/exportXlsx',
-                    importExcelUrl: '/api-sample/Main/importExcel'
+                    list: '/api-sample/Sample/list',
+                    delete: '/api-sample/Sample/delete',
+                    deleteBatch: '/api-sample/Sample/deleteBatch',
+                    exportXlsUrl: '/api-sample/Sample/exportXlsx',
+                    importExcelUrl: '/api-sample/Sample/importExcel'
                 }
             }
         },
@@ -214,6 +315,10 @@
             initDictConfig () {
                 console.log('初始化页面级字典项')
                 const dictCodes = [
+                    'projectSource',
+                    'mainType',
+                    'custType',
+                    'stateSdndType',
                 ]
                 if(dictCodes.length>0) {
                     getDictionaryByCodes(dictCodes).then((res) => {

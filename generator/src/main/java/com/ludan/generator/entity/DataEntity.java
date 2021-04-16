@@ -72,7 +72,13 @@ public class DataEntity extends AuditEntityBase<Integer> {
     //TODO:移到生成策略中
     @Enumerated(EnumType.STRING)
     @Column(length = Default_Id_Length)
+    @Deprecated
     private UITemplate uiTemplate;
+    /**
+     * 生成规则Id
+     */
+    @Column
+    private Integer generatorRuleId;
     /**
      * 实体版本号
      * v0:创建

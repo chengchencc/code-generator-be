@@ -2,7 +2,7 @@ package ${packageName}.${moduleName}.dto;
 
 import com.central.common.model.SuperEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ludan.common.dto.EntityDto;
+import com.central.common.dto.EntityDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;

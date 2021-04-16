@@ -111,9 +111,9 @@ import { submitProject } from '@/api/workflow'
 import { mapActions, mapState, mapMutations } from 'vuex'
 import { deepCopy } from '@/utils/util'
 import formMixin from '@/core/mixins/form-mixin'
-//import RegistrationDetail from './components/RegistrationDetail'
+//import SampleDetail from './components/SampleDetail'
  import { baseMixin } from '@/store/app-mixin'
-import RealForm from './components/RegistrationForm'
+import RealForm from './components/SampleForm'
 import { httpGet, httpPost, httpDelete, httpPut, downFile } from '@/utils/httpClient'
 
 export default {
@@ -122,7 +122,7 @@ export default {
   components: {
     CardIcon,
     RealForm
-    //RegistrationDetail
+    //SampleDetail
   },
   data () {
     return {
@@ -137,7 +137,7 @@ export default {
         wrapperCol: { span: 20 },
       },
       url: {
-        detail: "/api-sample/Main/detail/"
+        detail: "/api-sample/Sample/detail/"
       },
       tabList: [
           { key: 'detail', tab: '详情' },

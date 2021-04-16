@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import io.swagger.annotations.ApiModelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.ludan.common.annotation.ExcelDefine;
+import com.central.common.annotation.ExcelDefine;
 <#--#if(${hasBigDecimal})-->
 import java.math.BigDecimal;
 <#--#end-->
