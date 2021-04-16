@@ -1,4 +1,4 @@
-package com.ludan.reguarantee.entity;
+package com.ludan.demo.entity;
 
 import com.central.common.model.SuperEntity;
 import com.central.common.model.BaseEntityFill;
@@ -15,7 +15,7 @@ import java.util.Date;
 
 /**
 * @Description: 示例
-* @Author: ludan
+* @Author: admin
 * @Date:   2021-04-16
 * @Version: V1.0
 */
@@ -140,35 +140,5 @@ public class Sample extends BaseEntityFill {
     @ApiModelProperty(value = "自定义弹框")
         @ExcelDefine(columnName = "自定义弹框")
     private String modal;
-    /**
-    * 创建者
-    */
-    @ApiModelProperty(value = "创建者")
-    private String creator;
-    /**
-    * 创建时间
-    */
-    @ApiModelProperty(value = "创建时间")
-    private Date createTime;
-    /**
-    * 创建者名称
-    */
-    @ApiModelProperty(value = "创建者名称")
-    private String createName;
-    /**
-    * 更新者
-    */
-    @ApiModelProperty(value = "更新者")
-    private String updator;
-    /**
-    * 更新时间
-    */
-    @ApiModelProperty(value = "更新时间")
-    private Date updateTime;
-    /**
-    * 更新者名称
-    */
-    @ApiModelProperty(value = "更新者名称")
-    private String updateName;
 
 }

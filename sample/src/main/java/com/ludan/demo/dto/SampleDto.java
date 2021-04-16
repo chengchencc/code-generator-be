@@ -1,4 +1,4 @@
-package com.ludan.reguarantee.dto;
+package com.ludan.demo.dto;
 
 import com.central.common.model.SuperEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -15,7 +15,7 @@ import java.util.Date;
 
 /**
 * @Description: 示例
-* @Author: ludan
+* @Author: admin
 * @Date:   2021-04-16
 * @Version: V1.0
 */
