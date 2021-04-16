@@ -1,7 +1,7 @@
-package com.ludan.reguarantee.service;
+package com.ludan.demo.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ludan.reguarantee.entity.Sample;
+import com.ludan.demo.entity.Sample;
 import com.central.common.model.PageResult;
 import com.central.common.service.ISuperService;
 

@@ -1,4 +1,4 @@
-package com.ludan.reguarantee.service.impl;
+package com.ludan.demo.service.impl;
 
 import org.springframework.stereotype.Service;
 import com.central.common.model.PageResult;
@@ -10,9 +10,9 @@ import java.util.Map;
 import org.apache.commons.collections4.MapUtils;
 import lombok.extern.slf4j.Slf4j;
 
-import com.ludan.reguarantee.entity.Sample;
-import com.ludan.reguarantee.mapper.SampleMapper;
-import com.ludan.reguarantee.service.SampleService;
+import com.ludan.demo.entity.Sample;
+import com.ludan.demo.mapper.SampleMapper;
+import com.ludan.demo.service.SampleService;
 
 @Slf4j
 @Service

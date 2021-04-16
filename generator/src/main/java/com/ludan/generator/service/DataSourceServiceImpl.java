@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,13 +33,19 @@ public class DataSourceServiceImpl implements DataSourceService {
                     " from information_schema.tables" +
                     " where table_schema = (select database())" +
                     " order by create_time desc";
+
+    private static final String Query_TableInfoByName_Sql =
+            "select table_name tableName, engine engine, table_comment tableComment, create_time createTime " +
+                    " from information_schema.tables" +
+                    " where table_schema = (select database()) and table_name=?" +
+                    " order by create_time desc";
     private static final String Query_FieldInfo_Sql =
             "select column_name columnName, data_type dataType, column_comment columnComment, column_key columnKey," +
                     "ORDINAL_POSITION orderNo,COLUMN_DEFAULT defaultValue,IS_NULLABLE isNullable,CHARACTER_MAXIMUM_LENGTH columnLength," +
                     "NUMERIC_PRECISION numberPrecision, extra " +
-            " from information_schema.columns " +
-            " where table_name =? and table_schema = (select database()) " +
-            " order by ordinal_position";
+                    " from information_schema.columns " +
+                    " where table_name =? and table_schema = (select database()) " +
+                    " order by ordinal_position";
 
     @Autowired
     private DataEntityService dataEntityService;
@@ -48,6 +56,15 @@ public class DataSourceServiceImpl implements DataSourceService {
     @Autowired
     private CodeGeneratorProperties codeGeneratorProperties;
 
+    private static TableInfoDto mapTableInfoRow(ResultSet rs, int rowNum) throws SQLException {
+        TableInfoDto result = new TableInfoDto();
+        result.setTableName(rs.getString("tableName"));
+        result.setTableComment(rs.getString("tableComment"));
+        result.setEngine(rs.getString("engine"));
+        result.setCreateTime(rs.getDate("createTime"));
+        return result;
+    }
+
     /**
      * 获取表结构信息
      *
@@ -56,14 +73,7 @@ public class DataSourceServiceImpl implements DataSourceService {
     @Override
     public List<TableInfoDto> queryTableInfos(DataSourceDto dataSourceDto) {
         JdbcTemplate jdbcTemplate = getJdbcTemplate(dataSourceDto);
-        List<TableInfoDto> tableInfoDtos = jdbcTemplate.query(Query_TableInfo_Sql, (rs, rowNum) -> {
-            TableInfoDto result = new TableInfoDto();
-            result.setTableName(rs.getString("tableName"));
-            result.setTableComment(rs.getString("tableComment"));
-            result.setEngine(rs.getString("engine"));
-            result.setCreateTime(rs.getDate("createTime"));
-            return result;
-        });
+        List<TableInfoDto> tableInfoDtos = jdbcTemplate.query(Query_TableInfo_Sql, DataSourceServiceImpl::mapTableInfoRow);
         return tableInfoDtos;
     }
 
@@ -80,12 +90,15 @@ public class DataSourceServiceImpl implements DataSourceService {
         for (String tableName : dataSourceDto.getTableNames()) {
 
             //获取字段信息
-            List<FieldInfoDto> fieldInfos =  getFieldInfos(jdbcTemplate,tableName);
+            List<FieldInfoDto> fieldInfos = getFieldInfos(jdbcTemplate, tableName);
+
+            //获取表信息
+            TableInfoDto tableInfo = getTableInfoByName(jdbcTemplate, tableName);
 
             //插入到模型表中
-            DataEntity dataEntity = createDefaultDataEntity(tableName);
+            DataEntity dataEntity = createDefaultDataEntity(tableInfo);
 
-            DataEntity dataEntity1 = this.dataEntityService.create(dataEntity);
+            this.dataEntityService.create(dataEntity);
 
             //插入到字段表中,字段格式转换
             for (FieldInfoDto field : fieldInfos) {
@@ -95,6 +108,14 @@ public class DataSourceServiceImpl implements DataSourceService {
                 this.dataModelManager.saveDataFieldUI(dataFieldUI);
             }
         }
+    }
+
+    public TableInfoDto getTableInfoByName(JdbcTemplate jdbcTemplate, String tableName) {
+        List<TableInfoDto> tableInfoDtoList = jdbcTemplate.query(
+                Query_TableInfoByName_Sql,
+                Arrays.asList(tableName).toArray(),
+                DataSourceServiceImpl::mapTableInfoRow);
+        return tableInfoDtoList.get(0);
     }
 
     private List<FieldInfoDto> getFieldInfos(JdbcTemplate jdbcTemplate, String tableName) {
@@ -129,34 +150,36 @@ public class DataSourceServiceImpl implements DataSourceService {
         return new JdbcTemplate(dataSource);
     }
 
-    private DataEntity createDefaultDataEntity(String tableName){
+    private DataEntity createDefaultDataEntity(TableInfoDto tableInfo) {
         DataEntity dataEntity = new DataEntity();
-        dataEntity.setTableName(tableName);
+        dataEntity.setTableName(tableInfo.getTableName());
         dataEntity.setTableType(TableType.SingleTable);
         dataEntity.setTableSchema(TableSchema.Nomal);
         //TODO:根据字段类型匹配
         dataEntity.setTableIdType(IdType.ASSIGN_ID);
         dataEntity.setUiTemplate(UITemplate.Default);
-        dataEntity.setCode(tableToJava(tableName,""));
+        dataEntity.setGeneratorRuleId(1);
+        dataEntity.setCode(tableToJava(tableInfo.getTableName(), ""));
         //TODO:获取表备注信息
-        dataEntity.setName(tableToJava(tableName,""));
-        dataEntity.setDescription("");
+        dataEntity.setName(tableToJava(tableInfo.getTableName(), ""));
+        dataEntity.setDescription(tableInfo.getTableComment());
         return dataEntity;
     }
-    private DataFieldUI createDefaultDataFieldUIByField(DataField dataField){
+
+    private DataFieldUI createDefaultDataFieldUIByField(DataField dataField) {
         ControlType controlType = ControlType.from(dataField.getDataFieldType());
         AbstractValidation validation = null;
-        switch (dataField.getDataFieldType()){
+        switch (dataField.getDataFieldType()) {
             case FLOAT:
             case LONG:
             case INTETER:
             case DOUBLE:
             case DECIMAL:
-                validation = new NumberValidation(dataField.getIsRequired(),null,null);
+                validation = new NumberValidation(dataField.getIsRequired(), null, null);
                 break;
             case TEXT:
             case STRING:
-                validation = new StringValidation(dataField.getIsRequired(),0L,dataField.getLength(),null);
+                validation = new StringValidation(dataField.getIsRequired(), 0L, dataField.getLength(), null);
                 break;
             case BYTES:
                 validation = new SimpleValidation(dataField.getIsRequired());
@@ -173,19 +196,19 @@ public class DataSourceServiceImpl implements DataSourceService {
         }
 
 
-        DataFieldUI dataFieldUI = new DataFieldUI(dataField.getId(), controlType, true, false, false, false,false, 200, validation);
+        DataFieldUI dataFieldUI = new DataFieldUI(dataField.getId(), controlType, true, false, false, false, false, 200, validation);
         return dataFieldUI;
     }
 
-    private DataField mapFieldInfoToDataField(FieldInfoDto fieldInfo,Integer entityId){
+    private DataField mapFieldInfoToDataField(FieldInfoDto fieldInfo, Integer entityId) {
         DataField dataField = new DataField();
         dataField.setTableFieldName(fieldInfo.getColumnName());
         dataField.setName(columnToJava(fieldInfo.getColumnName()));
         dataField.setDescription(fieldInfo.getColumnComment());
         dataField.setDataFieldType(convertDataTypeToDataFieldType(fieldInfo.getDataType()));
         dataField.setLength(fieldInfo.getColumnLength());
-        dataField.setIsRequired(fieldInfo.getIsNullable().equalsIgnoreCase("YES")?false:true);
-        dataField.setIsPrimaryKey(fieldInfo.getColumnKey().equalsIgnoreCase("PRI")?true:false);
+        dataField.setIsRequired(fieldInfo.getIsNullable().equalsIgnoreCase("YES") ? false : true);
+        dataField.setIsPrimaryKey(fieldInfo.getColumnKey().equalsIgnoreCase("PRI") ? true : false);
         dataField.setDefaultValue(fieldInfo.getDefaultValue());
         dataField.setDisplay(true);
         dataField.setEnabled(true);
@@ -196,15 +219,15 @@ public class DataSourceServiceImpl implements DataSourceService {
         return dataField;
     }
 
-    private DataField createDefaultDataField(){
+    private DataField createDefaultDataField() {
         DataField dataField = new DataField();
 
         return dataField;
     }
 
-    private DataFieldType convertDataTypeToDataFieldType(String dataType){
+    private DataFieldType convertDataTypeToDataFieldType(String dataType) {
         String fieldTypeName = codeGeneratorProperties.getDataTypeMap().get(dataType);
-        if (fieldTypeName == null){
+        if (fieldTypeName == null) {
             return DataFieldType.UNKNOWN;
         }
         return DataFieldType.valueOf(fieldTypeName);

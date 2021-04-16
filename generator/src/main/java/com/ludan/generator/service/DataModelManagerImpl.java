@@ -5,9 +5,11 @@ import com.ludan.generator.dto.DataModelRequestDto;
 import com.ludan.generator.entity.DataEntity;
 import com.ludan.generator.entity.DataField;
 import com.ludan.generator.entity.DataFieldUI;
+import com.ludan.generator.entity.GeneratorRule;
 import com.ludan.generator.repository.DataEntityRepository;
 import com.ludan.generator.repository.DataFieldReposiroty;
 import com.ludan.generator.repository.DataFieldUIReposiroty;
+import com.ludan.generator.repository.GeneratorRuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,8 @@ public class DataModelManagerImpl implements DataModelManager {
     private DataFieldReposiroty dataFieldReposiroty;
     @Autowired
     private DataFieldUIReposiroty dataFieldUIReposiroty;
+    @Autowired
+    private GeneratorRuleRepository generatorRuleRepository;
 
     public DataFieldUI saveDataFieldUI(DataFieldUI entity){
         return this.dataFieldUIReposiroty.save(entity);
@@ -50,6 +54,12 @@ public class DataModelManagerImpl implements DataModelManager {
     public DataEntity findByEntityId(Integer id) {
         DataEntity one = dataEntityRepository.findById(id).get();
         return one;
+    }
+
+    @Override
+    public GeneratorRule findGeneratorRuleById(Integer id)
+    {
+        return generatorRuleRepository.findById(id).get();
     }
 
 }

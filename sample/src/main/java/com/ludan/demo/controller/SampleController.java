@@ -1,4 +1,4 @@
-package com.ludan.reguarantee.controller;
+package com.ludan.demo.controller;
 
 import java.io.UnsupportedEncodingException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,8 +16,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
-import com.ludan.reguarantee.entity.Sample;
-import com.ludan.reguarantee.service.SampleService;
+import com.ludan.demo.entity.Sample;
+import com.ludan.demo.service.SampleService;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
 
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
 * @Description: 示例
-* @Author: ludan
+* @Author: admin
 * @Date:   2021-04-16
 * @Version: V1.0
 */

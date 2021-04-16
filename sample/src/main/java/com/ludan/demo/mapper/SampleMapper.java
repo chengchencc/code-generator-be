@@ -1,6 +1,6 @@
-package com.ludan.reguarantee.mapper;
+package com.ludan.demo.mapper;
 
-import com.ludan.reguarantee.entity.Sample;
+import com.ludan.demo.entity.Sample;
 import com.central.db.mapper.SuperMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;

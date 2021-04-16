@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -62,7 +63,10 @@ public class CodeGeneratorImpl implements CodeGenerator {
     @Override
     public void generateToResponse(Integer entityId, HttpServletResponse response) {
         DataEntity entity = dataModelManager.findByEntityId(entityId);
-        GeneratorRule generatorRule = GeneratorRule.getDefault();
+        if (entity.getGeneratorRuleId().equals(null)){
+            throw new GeneratorException("请在设计器中配置生成规则！");
+        }
+        GeneratorRule generatorRule = dataModelManager.findGeneratorRuleById(entity.getGeneratorRuleId());
         generateToResponse(entity,generatorRule,response);
         generateToFile(entity,generatorRule);
     }
