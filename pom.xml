@@ -77,7 +77,7 @@
 <!--        <docker.image.prefix>hub.ludan.com:8080/microservices-platform</docker.image.prefix>-->
         <docker.java.security.egd>-Djava.security.egd=file:/dev/./urandom</docker.java.security.egd>
         <docker.java.opts>-Xms128m -Xmx128m</docker.java.opts>
-        <ludan.version>4.3.1-RELEASE</ludan.version>
+        <ludan.version>4.3.2-RELEASE</ludan.version>
 <!--        <generator.version>1.1.1-RELEASE</generator.version>-->
     </properties>
     <dependencies>

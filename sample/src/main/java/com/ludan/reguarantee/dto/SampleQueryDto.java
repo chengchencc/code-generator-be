@@ -2,7 +2,7 @@ package com.ludan.reguarantee.dto;
 
 import com.central.common.model.SuperEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ludan.common.dto.EntityDto;
+import com.central.common.dto.EntityDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
@@ -14,25 +14,21 @@ import java.util.Date;
 
 
 /**
-* @Description: 开发测试
+* @Description: 示例
 * @Author: ludan
-* @Date:   2021-04-15
+* @Date:   2021-04-16
 * @Version: V1.0
 */
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class MainQueryDto extends EntityDto<Integer> {
+public class SampleQueryDto extends EntityDto<String> {
     private static final long serialVersionUID=1L;
 
 
-        @ApiModelProperty(value = "id")
-        private Integer id;
-        @ApiModelProperty(value = "propInt")
-        private Integer propInt;
-        @ApiModelProperty(value = "propString")
-        private Integer propString;
-        @ApiModelProperty(value = "propBool")
-        private Integer propBool;
+        @ApiModelProperty(value = "文本框")
+        private String inputText;
+        @ApiModelProperty(value = "数字")
+        private BigDecimal number;
 
 }

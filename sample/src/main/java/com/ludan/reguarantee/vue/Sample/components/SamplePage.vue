@@ -87,7 +87,7 @@
 
 <script>
     import { baseMixin } from '@/store/app-mixin'
-    import RealForm from './MainForm'
+    import RealForm from './SampleForm'
 
     export default {
         name: 'Advanced',
