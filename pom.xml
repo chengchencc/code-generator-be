@@ -24,7 +24,7 @@
 
     <groupId>com.ludan</groupId>
     <artifactId>code-generator</artifactId>
-    <version>${generator.version}</version>
+    <version>1.1.1-RELEASE</version>
     <properties>
         <modelmapper.version>1.1.0</modelmapper.version>
         <querydsl.version>4.4.0</querydsl.version>
@@ -77,8 +77,8 @@
 <!--        <docker.image.prefix>hub.ludan.com:8080/microservices-platform</docker.image.prefix>-->
         <docker.java.security.egd>-Djava.security.egd=file:/dev/./urandom</docker.java.security.egd>
         <docker.java.opts>-Xms128m -Xmx128m</docker.java.opts>
-        <ludan.version>4.2.5-RELEASE</ludan.version>
-        <generator.version>1.1.0</generator.version>
+        <ludan.version>4.3.1-RELEASE</ludan.version>
+<!--        <generator.version>1.1.1-RELEASE</generator.version>-->
     </properties>
     <dependencies>
         <dependency>
@@ -124,7 +124,7 @@
             <dependency>
                 <groupId>com.ludan</groupId>
                 <artifactId>common</artifactId>
-                <version>${generator.version}</version>
+                <version>1.1.1-RELEASE</version>
             </dependency>
             <!-- 自定义 starter -->
             <dependency>

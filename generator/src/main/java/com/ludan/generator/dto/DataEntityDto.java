@@ -54,6 +54,10 @@ public class DataEntityDto extends AuditEntityDto<Integer> {
      */
     private UITemplate uiTemplate;
     /**
+     * 生成规则Id
+     */
+    private Integer generatorRuleId;
+    /**
      * 实体版本号
      * v0:创建
      * v1:第一次发布

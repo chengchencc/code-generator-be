@@ -97,7 +97,7 @@ public class CodeGeneratorImpl implements CodeGenerator {
     private void internal(DataEntity entity, GeneratorRule generatorRule, OutputHandler outputHandler) {
         Map<String, Object> model = convertToViewModel(entity, generatorRule);
         ResourceLoader resourceLoader = ResourceLoaderFactory.getLoader(templatePath);
-        String templatePathPrefix = getTemplatePathPrefix(entity);
+        String templatePathPrefix = getTemplatePathPrefix(generatorRule.getUiTemplate().getTemplateName(),entity.getTableSchema().name(),entity.getTableType().name());
         File templateDirectory = resourceLoader.getTemplateDirectory(templatePathPrefix);
         File templateRootDirectory = resourceLoader.getTemplateDirectory("");
         List<File> templateFiles = resourceLoader.listFiles(templatePathPrefix);
@@ -178,13 +178,13 @@ public class CodeGeneratorImpl implements CodeGenerator {
      * @entitySchema normal\tree
      * @entityRelation single\main\OneToOne\OneToMany\ManyToMany
      */
-    private String getTemplatePathPrefix(DataEntity entity) {
-        String templateName = entity.getUiTemplate().getTemplateName();
-        String entitySchema = entity.getTableSchema().name();
-        String relation = entity.getTableType().name();
+    private String getTemplatePathPrefix(String templateName,String entitySchemaName,String relationName) {
+//        String templateName = entity.getUiTemplate().getTemplateName();
+//        String entitySchema = entity.getTableSchema().name();
+//        String relation = entity.getTableType().name();
         String language = "java";
 
-        String dirPath = templateName + "/" + entitySchema + "/" + relation + "/" + language;
+        String dirPath = templateName + "/" + entitySchemaName + "/" + relationName + "/" + language;
         return dirPath;
     }
 
