@@ -22,7 +22,7 @@ public class DataEntity extends AuditEntityBase<Integer> {
     /**
      * 编号:后续代码生成，类名、页面名称按照编号来生成
      */
-    @Column(unique = true, nullable = true,length = Default_Id_Length)
+    @Column(unique = false, nullable = true,length = Default_Id_Length)
     private String code;
     /**
      * 实体名称
