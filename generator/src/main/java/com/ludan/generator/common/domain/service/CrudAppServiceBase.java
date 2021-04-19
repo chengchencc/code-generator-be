@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -103,9 +104,13 @@ public abstract class CrudAppServiceBase<TRepository extends JpaRepository<TEnti
      * 批量删除
      * @param ids
      */
+    @Transactional
     public void deleteInBatch(List<TKey> ids){
-        List<TEntity> entities = this.repository.findAllById(ids);
-        this.repository.deleteInBatch(entities);
+//        List<TEntity> entities = this.repository.findAllById(ids);
+//        this.repository.deleteInBatch(entities);//not cascade
+        for (TKey id : ids) {
+            deleteById(id);
+        }
     }
 
 

@@ -1,0 +1,94 @@
+spring:
+  application:
+    name: generator
+  #  cloud:
+  #    nacos:
+  #      server-addr: 10.200.114.5:8848
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+      open-in-view: false
+  datasource:
+#    url: jdbc:mysql://10.10.20.242:3306/code-generator?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://81.70.161.37:3306/code-generator?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1qaz@WSXcc123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      filters: stat,wall
+      initial-size: 10
+      max-active: 500
+      max-pool-prepared-statement-per-connection-size: 20
+      max-wait: 60000
+      min-evictable-idle-time-millis: 300000
+      min-idle: 10
+      pool-prepared-statements: true
+      stat-view-servlet:
+        enabled: true
+        login-password: admin
+        login-username: admin
+        reset-enable: true
+        url-pattern: /druid/*
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      validation-query: SELECT 'x'
+      web-stat-filter:
+        enabled: true
+        exclusions: '"*.js , *.gif ,*.jpg ,*.png ,*.css ,*.ico , /druid/*"'
+        profile-enable: true
+        session-stat-enable: false
+        session-stat-max-count: 1000
+        url-pattern: /*
+  main:
+    allow-bean-definition-overriding: true
+#  redis:
+#    host: 127.0.0.1
+#    lettuce:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        max-wait: -1
+#        min-idle: 0
+#    port: 6379
+#    timeout: 5000
+
+code-generator:
+  outputPath: D:\code\shandongLD\code-generator\code-generator-be\sample\src\main\java
+  templatePath: D:\code\shandongLD\code-generator\code-generator-be\generator\src\main\resources\code-template
+  data-type-map:
+    tinyint: INTETER
+    smallint: INTETER
+    mediumint: INTETER
+    integer: INTETER
+    int: INTETER
+
+    bigint: LONG
+    float: FLOAT
+    double: DOUBLE
+    decimal: DECIMAL
+    bit: BOOLEAN
+
+    char: STRING
+    varchar: STRING
+    tinytext: STRING
+    text: STRING
+    mediumtext: STRING
+    longtext: STRING
+    json: STRING
+
+    date: DATETIME
+    datetime: DATETIME
+    time: DATETIME
+    timestamp: DATETIME
+
+

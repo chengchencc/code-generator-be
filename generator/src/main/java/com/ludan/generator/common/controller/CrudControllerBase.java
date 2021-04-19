@@ -1,5 +1,8 @@
 package com.ludan.generator.common.controller;
 
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.TypeUtil;
+import com.central.common.model.Result;
 import com.ludan.generator.common.domain.dto.PagedRequestDto;
 import com.ludan.generator.common.domain.dto.PagedResultDto;
 import com.ludan.generator.common.domain.service.ICrudAppService;
@@ -8,7 +11,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Description com.inspur.edp.epp.framework.web.controllers
@@ -101,6 +108,28 @@ public class CrudControllerBase<TService extends ICrudAppService<TDto,TId>,TDto 
     @ApiOperation("删除")
     public void deleteById(@PathVariable("id") TId id){
         service.deleteById(id);
+    }
+
+    /**
+     *  批量删除
+     *
+     * @param ids
+     * @return
+     */
+    @ApiOperation(value="批量删除", notes="批量删除")
+    @DeleteMapping(value = "/deleteBatch")
+    public void deleteBatch(@RequestParam(name="ids",required=true) TId[] ids) {
+
+        System.out.println(ids);
+        this.service.deleteInBatch(Arrays.asList(ids));
+//
+//        Type[] actualTypeArguments = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments();
+//        Type actualType = actualTypeArguments[2];
+//        List<TId> idList = Arrays.stream(ids.split(",")).map(s -> {
+//            TId id = (TId) Convert.convert(actualType, s);
+//            return id;
+//        }).collect(Collectors.toList());
+//        this.service.deleteInBatch(idList);
     }
 
     /**

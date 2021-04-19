@@ -14,8 +14,8 @@ import javax.persistence.Column;
  **/
 @Data
 public class GeneratorRuleDto extends AuditEntityDto<Integer> {
-    @ApiModelProperty(value = "RuleName")
-    private String RuleName;
+    @ApiModelProperty(value = "ruleName")
+    private String ruleName;
     @ApiModelProperty(value = "packageName")
     private String packageName;
     @ApiModelProperty(value = "moduleName")

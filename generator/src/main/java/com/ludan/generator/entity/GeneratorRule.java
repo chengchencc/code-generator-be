@@ -15,8 +15,8 @@ import javax.persistence.Table;
 @Table
 @Entity
 public class GeneratorRule extends AuditEntityBase<Integer> {
-    @Column(length = 100)
-    private String RuleName;
+    @Column(length = 100,unique = true)
+    private String ruleName;
     @Column(length = 100)
     private String packageName;
     @Column(length = 50)
