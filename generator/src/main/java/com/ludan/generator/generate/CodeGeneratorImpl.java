@@ -85,7 +85,6 @@ public class CodeGeneratorImpl implements CodeGenerator {
                 }else {
                     generatorRule = dataModelManager.findGeneratorRuleById(entity.getGeneratorRuleId());
                 }
-                generateToResponse(entity,generatorRule,response);
 
                 internal(entity, generatorRule, (code, outputFileRelativePath) -> {
                     //添加到zip
