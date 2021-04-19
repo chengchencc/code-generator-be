@@ -31,7 +31,7 @@ public class GeneratorRule extends AuditEntityBase<Integer> {
     public static GeneratorRule getDefault(){
         GeneratorRule generatorRule = new GeneratorRule();
         generatorRule.packageName = "com.ludan";
-        generatorRule.moduleName = "reguarantee";
+        generatorRule.moduleName = "demo";
         generatorRule.authorName = "ludan";
         generatorRule.email = "ludan@inspur.com";
         generatorRule.uiTemplate = UITemplate.Default;

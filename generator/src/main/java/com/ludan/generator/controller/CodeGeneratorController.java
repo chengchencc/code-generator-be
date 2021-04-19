@@ -6,9 +6,7 @@ import com.ludan.generator.generate.CodeGenerator;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
@@ -28,6 +26,14 @@ public class CodeGeneratorController {
     @GetMapping("/exportToZip")
     public void ExportToZip(Integer entityId, HttpServletResponse response){
         codeGenerator.generateToResponse(entityId,response);
+        response.setContentType("application/octet-stream; charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=\"generator.zip\"");
+        response.setCharacterEncoding("UTF-8");
+    }
+
+    @PostMapping("/exportBatchToZip")
+    public void exportBatchToZip(@RequestBody Integer[] entityIds, HttpServletResponse response){
+        codeGenerator.generateToResponse(entityIds,response);
         response.setContentType("application/octet-stream; charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=\"generator.zip\"");
         response.setCharacterEncoding("UTF-8");

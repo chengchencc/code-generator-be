@@ -22,4 +22,6 @@ public interface CodeGenerator {
 
     void generateToResponse(DataEntity entity, GeneratorRule generatorRule, HttpServletResponse response);
 
+    void generateToResponse(Integer[] entityIds,HttpServletResponse response);
+
 }

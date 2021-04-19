@@ -72,6 +72,42 @@ public class CodeGeneratorImpl implements CodeGenerator {
     }
 
     @Override
+    public void generateToResponse(Integer[] entityIds,HttpServletResponse response){
+        try (ZipOutputStream zip = new ZipOutputStream(response.getOutputStream())) {
+
+            for (Integer entityId : entityIds) {
+                DataEntity entity = dataModelManager.findByEntityId(entityId);
+                GeneratorRule generatorRule = null;
+
+                if (entity.getGeneratorRuleId() == null){
+//                    throw new GeneratorException("请在设计器中配置生成规则！");
+                    generatorRule = GeneratorRule.getDefault();
+                }else {
+                    generatorRule = dataModelManager.findGeneratorRuleById(entity.getGeneratorRuleId());
+                }
+                generateToResponse(entity,generatorRule,response);
+
+                internal(entity, generatorRule, (code, outputFileRelativePath) -> {
+                    //添加到zip
+                    try {
+                        zip.putNextEntry(new ZipEntry(outputFileRelativePath));
+                        IOUtils.write(code, zip, StandardCharsets.UTF_8);
+                        zip.closeEntry();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new GeneratorException(e);
+                    }
+                });
+            }
+
+            zip.finish();
+        } catch (Exception e) {
+            // Handle the exception
+            throw new GeneratorException("write code to zip error!", e);
+        }
+    }
+
+    @Override
     public void generateToFile(DataEntity entity, GeneratorRule generatorRule) {
         internal(entity, generatorRule, this::writeToFile);
     }
