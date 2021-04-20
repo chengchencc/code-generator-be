@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @create: 2021-04-14 11:48
  **/
 public interface GeneratorRuleRepository extends JpaRepository<GeneratorRule,Integer> {
+
 }

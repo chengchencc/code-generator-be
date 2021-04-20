@@ -17,10 +17,9 @@ spring:
       database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
       open-in-view: false
   datasource:
-#    url: jdbc:mysql://10.10.20.242:3306/code-generator?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
-    url: jdbc:mysql://81.70.161.37:3306/code-generator?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://10.10.20.242:3306/code-generator?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
     username: root
-    password: 1qaz@WSXcc123
+    password: aaaaaa
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
       filters: stat,wall

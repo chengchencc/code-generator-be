@@ -1,6 +1,7 @@
 package com.ludan.generator.common.domain.entity;
 
 import com.ludan.generator.common.domain.Entity;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,11 +21,13 @@ public class EntityBase<T extends Serializable> implements Serializable, Entity<
     protected static final int Default_Id_Length = 36;
     protected static final int Default_Middle_Length = 500;
 
-    @Id
 //    @GenericGenerator(name = "idGenerator", strategy = "com.inspur.edp.epp.infrastructure.domain.entities.EppUUIDGeneratorIfNullThenGenerator")
 //    //这个是hibernate的注解/生成32位UUID
 //    @GeneratedValue(generator = "idGenerator")
-    @GeneratedValue(strategy= GenerationType.IDENTITY) // MYSQL时可以这样使用自增
+//    @GeneratedValue(strategy= GenerationType.IDENTITY) // MYSQL时可以这样使用自增
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "myid")
+    @GenericGenerator(name = "myid", strategy = "com.ludan.generator.common.jpa.ManulInsertIdGenerator")
     protected T id;
 
     @Column()
