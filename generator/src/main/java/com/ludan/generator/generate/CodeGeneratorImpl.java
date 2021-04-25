@@ -108,6 +108,16 @@ public class CodeGeneratorImpl implements CodeGenerator {
 
     @Override
     public void generateToFile(DataEntity entity, GeneratorRule generatorRule) {
+        //删除历史生成的数据
+        File outputFolder = new File(outputPath);
+        if (outputFolder.exists()) {
+            try {
+                FileUtils.deleteDirectory(outputFolder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         internal(entity, generatorRule, this::writeToFile);
     }
 
@@ -133,6 +143,12 @@ public class CodeGeneratorImpl implements CodeGenerator {
         }
     }
 
+    /**
+     * 生成代码内部实现方法
+     * @param entity
+     * @param generatorRule
+     * @param outputHandler
+     */
     private void internal(DataEntity entity, GeneratorRule generatorRule, OutputHandler outputHandler) {
         Map<String, Object> model = convertToViewModel(entity, generatorRule);
         ResourceLoader resourceLoader = ResourceLoaderFactory.getLoader(templatePath);
@@ -141,15 +157,6 @@ public class CodeGeneratorImpl implements CodeGenerator {
         File templateRootDirectory = resourceLoader.getTemplateDirectory("");
         List<File> templateFiles = resourceLoader.listFiles(templatePathPrefix);
 
-        //删除历史生成的数据
-        File outputFolder = new File(outputPath);
-        if (outputFolder.exists()) {
-            try {
-                FileUtils.deleteDirectory(outputFolder);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         //遍历生成文件
         for (File templateFile : templateFiles) {
             log.info("======================开始处理===================");

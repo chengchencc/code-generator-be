@@ -8,6 +8,7 @@
         <module>sample</module>
         <module>generator</module>
         <module>common</module>
+        <module>security</module>
     </modules>
     <!--    <parent>-->
     <!--        <groupId>com.ludan</groupId>-->
@@ -124,6 +125,11 @@
             <dependency>
                 <groupId>com.ludan</groupId>
                 <artifactId>common</artifactId>
+                <version>1.1.1-RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ludan</groupId>
+                <artifactId>security</artifactId>
                 <version>1.1.1-RELEASE</version>
             </dependency>
             <!-- 自定义 starter -->

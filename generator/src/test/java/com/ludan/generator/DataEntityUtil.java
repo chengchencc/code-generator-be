@@ -24,7 +24,7 @@ public class DataEntityUtil {
         child1Entity.setTableType(TableType.OneToOneChildTable);
         DataEntity child2Entity = getDataEntity("t_childB", "ChildB", "ChildB信息表");
         child2Entity.setTableType(TableType.OneToManyChildTable);
-//        mainEntity.setTableType(TableType.MainTable);
+        mainEntity.setTableType(TableType.MainTable);
 
         mainEntity.setChildren(Arrays.asList(child1Entity,child2Entity));
 
@@ -60,11 +60,11 @@ public class DataEntityUtil {
         fieldId.setDataFieldUI(getDataFieldUI(1, ControlType.Number, getNumberValidation()));
         fieldId.setIsPrimaryKey(true);
 
-        DataField field1 = getDataField(1, "propInt", DataFieldType.INTETER, 0);
+        DataField field1 = getDataField(1, "fieldInt", DataFieldType.INTETER, 0);
         field1.setDataFieldUI(getDataFieldUI(1, ControlType.Number, getNumberValidation()));
-        DataField field2 = getDataField(2, "propString", DataFieldType.INTETER, 0);
+        DataField field2 = getDataField(2, "fieldString", DataFieldType.STRING, 0);
         field2.setDataFieldUI(getDataFieldUI(2, ControlType.InputText, getStringValidation()));
-        DataField field3 = getDataField(3, "propBool", DataFieldType.INTETER, 0);
+        DataField field3 = getDataField(3, "fieldBool", DataFieldType.BOOLEAN, 0);
         field3.setDataFieldUI(getDataFieldUI(3, ControlType.Checkbox, new SimpleValidation(false)));
 
         dataEntity.getFields().add(fieldId);

@@ -1,4 +1,5 @@
 package com.ludan.generator.service;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import com.ludan.generator.DataEntityUtil;
 import com.ludan.generator.config.CodeGeneratorProperties;
 import com.ludan.generator.entity.*;
@@ -8,6 +9,8 @@ import com.central.common.constant.CommonConstant;
 import com.ludan.generator.generate.CodeGeneratorImpl;
 import com.ludan.generator.generate.resolver.TemplateEngine;
 import com.ludan.generator.generate.resolver.TemplateEngineFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,6 +23,7 @@ import java.util.Map;
  * @author: chengchen
  * @create: 2021-02-05 21:02
  **/
+@Slf4j
 public class CodeGeneratorImplTest {
     private CodeGeneratorProperties codeGeneratorProperties;
 
@@ -101,7 +105,12 @@ public class CodeGeneratorImplTest {
     public void test_generate_code_OneToMany(){
         DataEntity entity = DataEntityUtil.getOneToManyEntity();
         CodeGeneratorImpl generator = new CodeGeneratorImpl(null,this.codeGeneratorProperties);
-        generator.generateToFile(entity, GeneratorRule.getDefault());
+        try {
+            generator.generateToFile(entity, GeneratorRule.getDefault());
+        }catch (Throwable e){
+            System.out.println(ExceptionUtil.stacktraceToString(e,3000));
+        }
+
         System.out.println("success");
     }
 
