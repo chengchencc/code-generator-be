@@ -274,11 +274,10 @@
 <script>
     import moment from 'moment'
     import { toDateTime, toDate } from '@/utils/datetime'
-    import { getNameByDict } from '@/utils/dealData'
     import { dictMixin } from '@/store/dict-mixin'
     import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
     import ModalForm from './components/${entityName}Modal' // 切换到抽屉模式 引用改为 './drawer.vue'
-    import { getDictionaryByCodes } from '@/utils/dictUtil'
+    import { getDictionaryByCodes, getNameByDict, getManyNameByDict } from '@/utils/dictUtil'
 
     export default {
         name: 'TableList',
@@ -318,9 +317,13 @@
                           customRender: (value) => value ? '是' : '否'
                           <#break>
                           <#default>
-                          <#if fieldui.controlType == 'SelectOne'>
+                          <#if fieldui.controlType == 'SelectOne' || fieldui.controlType == 'Radio'>
                           customRender: (value) => {
                              return getNameByDict(value, this.pageDict.${field.dataFieldUI.dictCode} || [])
+                          }
+                          <#elseif fieldui.controlType == 'SelectMany' || fieldui.controlType == 'Checkbox'>
+                          customRender: (value) => {
+                             return getManyNameByDict(value, this.pageDict.${field.dataFieldUI.dictCode} || [])
                           }
                           <#else>
                           customRender: (value) => value
