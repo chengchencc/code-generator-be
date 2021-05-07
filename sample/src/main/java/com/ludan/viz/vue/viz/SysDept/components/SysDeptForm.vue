@@ -8,21 +8,6 @@
 
 
                         <a-col :span="12" :style="colStyle">
-                            <a-form-item label="部门id" v-bind="colInfo12">
-                                    <a-input v-decorator="['deptId',validatorRules.deptId ]" :disabled="unEditable"/>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :span="12" :style="colStyle">
-                            <a-form-item label="父部门id" v-bind="colInfo12">
-                                    <a-input v-decorator="['parentId',validatorRules.parentId ]" :disabled="unEditable"/>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :span="12" :style="colStyle">
-                            <a-form-item label="祖级列表" v-bind="colInfo12">
-                                    <a-input v-decorator="['ancestors',validatorRules.ancestors ]" :disabled="unEditable"/>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :span="12" :style="colStyle">
                             <a-form-item label="部门名称" v-bind="colInfo12">
                                     <a-input v-decorator="['deptName',validatorRules.deptName ]" :disabled="unEditable"/>
                             </a-form-item>
@@ -55,31 +40,6 @@
                         <a-col :span="12" :style="colStyle">
                             <a-form-item label="删除标志（0代表存在 2代表删除）" v-bind="colInfo12">
                                     <a-input v-decorator="['delFlag',validatorRules.delFlag ]" :disabled="unEditable"/>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :span="12" :style="colStyle">
-                            <a-form-item label="创建者" v-bind="colInfo12">
-                                    <a-input v-decorator="['createBy',validatorRules.createBy ]" :disabled="unEditable"/>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :span="12" :style="colStyle">
-                            <a-form-item label="创建时间" v-bind="colInfo12">
-                                    <a-date-picker v-decorator="['createTime',validatorRules.createTime ]" format="YYYY-MM-DD HH:mm:ss" show-time style="width: 100%" :disabled="unEditable"/>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :span="12" :style="colStyle">
-                            <a-form-item label="更新者" v-bind="colInfo12">
-                                    <a-input v-decorator="['updateBy',validatorRules.updateBy ]" :disabled="unEditable"/>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :span="12" :style="colStyle">
-                            <a-form-item label="更新时间" v-bind="colInfo12">
-                                    <a-date-picker v-decorator="['updateTime',validatorRules.updateTime ]" format="YYYY-MM-DD HH:mm:ss" show-time style="width: 100%" :disabled="unEditable"/>
-                            </a-form-item>
-                        </a-col>
-                        <a-col :span="12" :style="colStyle">
-                            <a-form-item label="" v-bind="colInfo12">
-                                    <a-input v-decorator="['areaId',validatorRules.areaId ]" :disabled="unEditable"/>
                             </a-form-item>
                         </a-col>
 
@@ -328,7 +288,7 @@
                         }
 
                         let httpRequest = null
-                        if (!this.model.id) {
+                        if (!this.model.deptId) {
                             httpRequest = httpPost(this.urls.add, formData)
                         } else {
                             httpRequest = httpPut(this.urls.edit, formData)
@@ -339,7 +299,7 @@
                                 (res) => {
                                     if (res.resp_code === 0) {
                                         this.$message.success(res.resp_msg)
-                                        this.$emit('ok')
+                                        this.$emit('ok', res.datas)
                                     } else {
                                         this.$message.warning(res.resp_msg)
                                     }

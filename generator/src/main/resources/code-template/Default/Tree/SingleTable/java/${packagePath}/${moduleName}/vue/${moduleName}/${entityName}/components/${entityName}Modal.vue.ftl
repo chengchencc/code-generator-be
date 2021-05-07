@@ -59,8 +59,8 @@
             handleCancel () {
                 this.close()
             },
-            submitCallback () {
-                this.$emit('ok')
+            submitCallback (res) {
+                this.$emit('ok',res)
                 this.visible = false
             }
         }

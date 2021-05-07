@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@Table
+@Table(indexes = {@Index(name = "data_field_sort_no",columnList = "sortNo",unique = false)})
 @Entity
 public class DataField extends AuditEntityBase<Integer> {
     /**

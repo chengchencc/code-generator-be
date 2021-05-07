@@ -1,3 +1,5 @@
+<#include "/common/utils.ftl">
+<#include "/common/dataEntityUtils.ftl">
 package ${packageName}.${moduleName}.entity;
 
 import com.central.common.model.SuperEntity;
@@ -25,7 +27,8 @@ import java.util.Date;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @TableName("${entity.tableName}")
-public class ${entityName} extends BaseEntityFill {
+public class ${entityName} {
+<#--public class ${entityName} extends BaseEntityFill {-->
     private static final long serialVersionUID=1L;
 <#--<#list entity.fields?keys as propName >-->
 <#--    ${propName}-->

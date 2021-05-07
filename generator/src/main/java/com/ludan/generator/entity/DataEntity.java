@@ -45,8 +45,20 @@ public class DataEntity extends AuditEntityBase<Integer> {
     /**
      * 父节点Id，{TableSchema.Tree}的时候才会使用
      */
-    @Column(length = Default_Id_Length)
-    private String parentId;
+    @Column
+    private Integer parentId;
+
+    @OneToOne
+    @JoinColumn(name = "parentId",insertable = false,updatable = false)
+    private DataField parentIdField;
+
+    @Column
+    private Integer treeIdPathId;
+
+    @OneToOne
+    @JoinColumn(name = "treeIdPathId",insertable = false,updatable = false)
+    private DataField treeIdPathField;
+
 
     /**
      * 表类型

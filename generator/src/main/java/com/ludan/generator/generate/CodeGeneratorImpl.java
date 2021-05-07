@@ -108,8 +108,17 @@ public class CodeGeneratorImpl implements CodeGenerator {
 
     @Override
     public void generateToFile(DataEntity entity, GeneratorRule generatorRule) {
-        //删除历史生成的数据
-        File outputFolder = new File(outputPath);
+
+        ResourceLoader resourceLoader = ResourceLoaderFactory.getLoader(templatePath);
+        String templatePathPrefix = getTemplatePathPrefix(generatorRule.getUiTemplate().getTemplateName(),entity.getTableSchema().name(),entity.getTableType().name());
+
+        String packagePath = generatorRule.getPackageName().replace(".",File.separator);
+
+        String outputModulePath = FilenameUtils.concat(outputPath, packagePath+"/"+generatorRule.getModuleName());
+        log.info("删除文件::{}",outputModulePath);
+
+        // 删除历史生成的数据
+        File outputFolder = new File(outputModulePath);
         if (outputFolder.exists()) {
             try {
                 FileUtils.deleteDirectory(outputFolder);

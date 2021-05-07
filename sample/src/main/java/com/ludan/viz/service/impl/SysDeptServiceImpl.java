@@ -1,9 +1,21 @@
-package com.ludan.demo.service.impl;
+
+package com.ludan.viz.service.impl;
+
+import org.springframework.stereotype.Service;
+import com.central.common.model.PageResult;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.central.common.service.impl.SuperServiceImpl;
+
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.collections4.MapUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.central.common.exception.BusinessException;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
+import com.central.common.model.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.common.service.impl.SuperServiceImpl;
 
@@ -15,39 +27,38 @@ import java.util.Optional;
 import org.apache.commons.collections4.MapUtils;
 import lombok.extern.slf4j.Slf4j;
 
-import com.ludan.demo.entity.SysDept;
-import com.ludan.demo.mapper.SysDeptMapper;
-import com.ludan.demo.service.SysDeptService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+
+import com.ludan.viz.entity.SysDept;
+import com.ludan.viz.mapper.SysDeptMapper;
+import com.ludan.viz.service.SysDeptService;
 
 @Slf4j
 @Service
 public class SysDeptServiceImpl extends SuperServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
 
     /**
-     * 获取全部
-     *
-     * @param params
-     * @return
-     */
+    * 获取全部
+    * @param params
+    * @return
+    */
     @Override
-    public List<SysDept> findAll(Map<String, Object> params) {
-        List<SysDept> all = baseMapper.findList(params);
+    public List<SysDept> findAll(Map<String, Object> params){
+        List<SysDept> all  =  baseMapper.findList(params);
         return all;
     }
 
     /**
-     * 列表
-     *
-     * @param params
-     * @return
-     */
+    * 列表
+    * @param params
+    * @return
+    */
     @Override
-    public Page<SysDept> findList(Map<String, Object> params) {
+    public Page<SysDept> findList(Map<String, Object> params){
         Page<SysDept> page = new Page<>(MapUtils.getInteger(params, "pageNo"), MapUtils.getInteger(params, "pageSize"));
-        Page<SysDept> pageList = baseMapper.findList(page, params);
+        Page<SysDept> pageList  =  baseMapper.findList(page, params);
         return pageList;
     }
 
@@ -218,5 +229,6 @@ public class SysDeptServiceImpl extends SuperServiceImpl<SysDeptMapper, SysDept>
             throw new BusinessException(msg);
         }
     }
+
 
 }

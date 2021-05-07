@@ -1,4 +1,5 @@
-package com.ludan.demo.controller;
+
+package com.ludan.viz.controller;
 
 import java.io.UnsupportedEncodingException;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -17,8 +18,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
-import com.ludan.demo.entity.SysDept;
-import com.ludan.demo.service.SysDeptService;
+import com.ludan.viz.entity.SysDept;
+import com.ludan.viz.service.SysDeptService;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
 
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
 * @Description: 部门表
 * @Author: Smark
-* @Date:   2021-04-28
+* @Date:   2021-05-07
 * @Version: V1.0
 */
 @Slf4j
@@ -35,6 +36,14 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/SysDept")
 @Api(tags = "部门表")
 public class SysDeptController  {
+
+// ----------------test---------------
+// parentId
+// ancestors
+// deptId
+// Ancestors
+// -------------------------------
+
     @Autowired
     private SysDeptService sysDeptService;
     /**
@@ -51,27 +60,34 @@ public class SysDeptController  {
         return PageResult.<SysDept>builder().data(pageList.getRecords()).code(0).count(pageList.getTotal()).build();
     }
 
-    @GetMapping("/root")
-    public PageResult<SysDept> findRoot(@RequestParam Map<String,Object> params){
-        Page<SysDept> pageList = sysDeptService.findRoot(params);
-        return new PageResult<SysDept>(pageList.getTotal(),0,pageList.getRecords());
-    }
-
-    @GetMapping("/children/{pid}")
-    public Result<List<SysDept>> findChildren(@PathVariable("pid") String parentId){
-         List<SysDept> list = sysDeptService.findChildren(parentId);
-         return Result.succeed(list);
-    }
-
     /**
     * 查询
     */
     @ApiOperation(value = "查询")
     @GetMapping("/detail/{id}")
-    public Result findUserById(@PathVariable Long id) {
+    public Result findById(@PathVariable("id") String id) {
         SysDept model = sysDeptService.getById(id);
         return Result.succeed(model, "查询成功");
     }
+
+    @ApiOperation(value = "查询根节点列表")
+    @ApiImplicitParams({
+    @ApiImplicitParam(name = "pageNo", value = "分页起始位置", required = true, dataType = "Integer"),
+    @ApiImplicitParam(name = "pageSize", value = "分页结束位置", required = true, dataType = "Integer")
+    })
+    @GetMapping("/root")
+    public PageResult<SysDept> findRoot(@RequestParam Map<String, Object> params) {
+        Page<SysDept> pageList = sysDeptService.findRoot(params);
+        return new PageResult<SysDept>(pageList.getTotal(), 0, pageList.getRecords());
+    }
+
+    @ApiOperation(value = "查询子节点列表")
+    @GetMapping("/children/{pid}")
+    public Result<List<SysDept>> findChildren(@PathVariable("pid") String parentId) {
+        List<SysDept> list = sysDeptService.findChildren(parentId);
+        return Result.succeed(list);
+    }
+
 
     /**
     *   添加
@@ -82,14 +98,13 @@ public class SysDeptController  {
     @ApiOperation(value="部门表-添加", notes="部门表-添加")
     @PostMapping(value = "/add")
     public Result<?> add(@RequestBody SysDept sysDept) {
-        if (ObjectUtils.isNotEmpty(sysDept.getParentId())){
+        if (ObjectUtils.isNotEmpty(sysDept.getParentId())) {
             SysDept parent = sysDeptService.getById(sysDept.getParentId());
-            if (parent == null){
+            if (parent == null) {
                 return Result.failed("无法找到父节点信息");
             }
-            sysDept.setAncestors(parent.getAncestors()+","+parent.getDeptId());
+            sysDept.setAncestors(parent.getAncestors() + "," + parent.getDeptId());
         }
-
         sysDeptService.save(sysDept);
         return Result.succeed(sysDept,"添加成功！");
     }
@@ -103,14 +118,13 @@ public class SysDeptController  {
     @ApiOperation(value="部门表-编辑", notes="部门表-编辑")
     @PutMapping(value = "/edit")
     public Result<?> edit(@RequestBody SysDept sysDept) {
-        if (ObjectUtils.isNotEmpty(sysDept.getParentId())){
+        if (ObjectUtils.isNotEmpty(sysDept.getParentId())) {
             SysDept parent = sysDeptService.getById(sysDept.getParentId());
-            if (parent == null){
+            if (parent == null) {
                 return Result.failed("无法找到父节点信息");
             }
-            sysDept.setAncestors(parent.getAncestors()+","+parent.getDeptId());
+            sysDept.setAncestors(parent.getAncestors() + "," + parent.getDeptId());
         }
-
         sysDeptService.updateById(sysDept);
         return Result.succeed(sysDept,"编辑成功!");
     }
@@ -119,8 +133,8 @@ public class SysDeptController  {
     * 新增or更新
     */
     @ApiOperation(value = "保存")
-    @PostMapping("/saveOrUpdate")
-    public Result saveOrUpdate(@RequestBody SysDept sysDept) {
+    @PostMapping
+    public Result save(@RequestBody SysDept sysDept) {
         sysDeptService.saveOrUpdate(sysDept);
         return Result.succeed(sysDept,"保存成功");
     }
@@ -150,6 +164,7 @@ public class SysDeptController  {
         this.sysDeptService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.succeed("批量删除成功!");
     }
+
 
     @ApiOperation(value = "导出excel")
     @ApiImplicitParams({

@@ -13,7 +13,7 @@ children: [
     path: '/${moduleName}/${entityName}/index',
     name: '${entityName}Manager',
     component: () => import('@/views/modules/${moduleName}/${entityName}/${entityName}Manager'),
-    meta: { title: '${entity.description}', keepAlive: false, icon: bxAnaalyse }
+    meta: { title: '${entity.description}', keepAlive: false, icon: bxAnaalyse, permissions:[]}
     }
 ]
 }

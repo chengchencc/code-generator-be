@@ -36,7 +36,14 @@ public class DataEntityDto extends AuditEntityDto<Integer> {
      * 表结构，
      */
     private TableSchema tableSchema;
-    private String parentId;
+    /**
+     * 树结构parentId
+     */
+    private Integer parentId;
+    /**
+     * 树结构 路径字段
+     */
+    private Integer treeIdPathId;
     /**
      * 表类型
      */

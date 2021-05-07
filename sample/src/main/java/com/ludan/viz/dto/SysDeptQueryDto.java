@@ -1,16 +1,22 @@
-package com.ludan.demo.dto;
+package com.ludan.viz.dto;
 
+import com.central.common.model.SuperEntity;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.central.common.dto.EntityDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
 import io.swagger.annotations.ApiModelProperty;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.math.BigDecimal;
+import java.util.Date;
 
 
 /**
 * @Description: 部门表
 * @Author: Smark
-* @Date:   2021-04-28
+* @Date:   2021-05-07
 * @Version: V1.0
 */
 @Getter

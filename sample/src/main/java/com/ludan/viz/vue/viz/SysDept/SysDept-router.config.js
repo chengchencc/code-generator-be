@@ -11,8 +11,8 @@ children: [
     {
     path: '/viz/SysDept/index',
     name: 'SysDeptManager',
-    component: () => import('@/views/viz/SysDept/SysDeptManager'),
-    meta: { title: '部门表', keepAlive: false, icon: bxAnaalyse }
+    component: () => import('@/views/modules/viz/SysDept/SysDeptManager'),
+    meta: { title: '部门表', keepAlive: false, icon: bxAnaalyse, permissions:[]}
     }
 ]
 }

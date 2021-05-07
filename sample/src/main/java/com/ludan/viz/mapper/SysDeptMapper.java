@@ -1,9 +1,9 @@
-package com.ludan.demo.mapper;
 
-import com.ludan.demo.entity.SysDept;
+package com.ludan.viz.mapper;
+
+import com.ludan.viz.entity.SysDept;
 import com.central.db.mapper.SuperMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,4 +27,5 @@ public interface SysDeptMapper extends SuperMapper<SysDept> {
     List<SysDept> findAllParent(@Param("parentId") String parentId);
 
     void deleteChildren(@Param("parentId") String parentId);
+
 }

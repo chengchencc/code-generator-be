@@ -1,3 +1,6 @@
+<#include "/common/utils.ftl">
+<#include "/common/dataEntityUtils.ftl">
+<#include "/common/treeDataEntityUtils.ftl">
 package ${packageName}.${moduleName}.controller;
 
 import java.io.UnsupportedEncodingException;
@@ -8,6 +11,7 @@ import java.util.Map;
 
 import cn.hutool.core.date.DateUtil;
 import com.central.common.utils.ExcelHelper;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -23,16 +27,6 @@ import com.central.common.model.Result;
 
 import javax.servlet.http.HttpServletResponse;
 
-<#--rule:-->
-<#--<#list rule?keys as propName>-->
-<#--    ${propName} =-->
-<#--</#list>-->
-
-<#--entity:-->
-<#--<#list entity?keys as propName>-->
-<#--    ${propName} =-->
-<#--</#list>-->
-<#assign uncapEntityName = entityName?uncap_first>
 /**
 * @Description: ${entity.description}
 * @Author: ${rule.authorName}
@@ -44,6 +38,14 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/${entityName}")
 @Api(tags = "${entity.description}")
 public class ${entityName}Controller  {
+
+// ----------------test---------------
+// ${entity.parentIdField.name}
+// ${entity.treeIdPathField.name}
+// ${pk.name}
+// ${capTreePathFieldName}
+// -------------------------------
+
     @Autowired
     private ${entityName}Service ${uncapEntityName}Service;
     /**
@@ -65,10 +67,29 @@ public class ${entityName}Controller  {
     */
     @ApiOperation(value = "查询")
     @GetMapping("/detail/{id}")
-    public Result findById(@PathVariable Long id) {
+    public Result findById(@PathVariable("id") ${pk.dataFieldType.javaType} id) {
         ${entityName} model = ${uncapEntityName}Service.getById(id);
         return Result.succeed(model, "查询成功");
     }
+
+    @ApiOperation(value = "查询根节点列表")
+    @ApiImplicitParams({
+    @ApiImplicitParam(name = "pageNo", value = "分页起始位置", required = true, dataType = "Integer"),
+    @ApiImplicitParam(name = "pageSize", value = "分页结束位置", required = true, dataType = "Integer")
+    })
+    @GetMapping("/root")
+    public PageResult<${entityName}> findRoot(@RequestParam Map<String, Object> params) {
+        Page<${entityName}> pageList = ${uncapEntityName}Service.findRoot(params);
+        return new PageResult<${entityName}>(pageList.getTotal(), 0, pageList.getRecords());
+    }
+
+    @ApiOperation(value = "查询子节点列表")
+    @GetMapping("/children/{pid}")
+    public Result<List<${entityName}>> findChildren(@PathVariable("pid") ${pk.dataFieldType.javaType} parentId) {
+        List<${entityName}> list = ${uncapEntityName}Service.findChildren(parentId);
+        return Result.succeed(list);
+    }
+
 
     /**
     *   添加
@@ -80,6 +101,13 @@ public class ${entityName}Controller  {
     @ApiOperation(value="${entity.description}-添加", notes="${entity.description}-添加")
     @PostMapping(value = "/add")
     public Result<?> add(@RequestBody ${entityName} ${uncapEntityName}) {
+        if (ObjectUtils.isNotEmpty(${uncapEntityName}.get${capParentIdFieldName}())) {
+            ${entityName} parent = ${uncapEntityName}Service.getById(${uncapEntityName}.get${capParentIdFieldName}());
+            if (parent == null) {
+                return Result.failed("无法找到父节点信息");
+            }
+            ${uncapEntityName}.set${capTreePathFieldName}(parent.get${capTreePathFieldName}() + "," + parent.get${capPkName}());
+        }
 <#--        <#if bpm_flag>-->
 <#--            ${uncapEntityName}.setBpmStatus("1");-->
 <#--        </#if>-->
@@ -96,6 +124,16 @@ public class ${entityName}Controller  {
     @ApiOperation(value="${entity.description}-编辑", notes="${entity.description}-编辑")
     @PutMapping(value = "/edit")
     public Result<?> edit(@RequestBody ${entityName} ${uncapEntityName}) {
+        if (ObjectUtils.isNotEmpty(${uncapEntityName}.get${capParentIdFieldName}())) {
+            ${entityName} parent = ${uncapEntityName}Service.getById(${uncapEntityName}.get${capParentIdFieldName}());
+            if (parent == null) {
+                return Result.failed("无法找到父节点信息");
+            }
+            ${uncapEntityName}.set${capTreePathFieldName}(parent.get${capTreePathFieldName}() + "," + parent.get${capPkName}());
+        }
+<#--        <#if bpm_flag>-->
+<#--            ${uncapEntityName}.setBpmStatus("1");-->
+<#--        </#if>-->
         ${uncapEntityName}Service.updateById(${uncapEntityName});
         return Result.succeed(${uncapEntityName},"编辑成功!");
     }
@@ -118,8 +156,8 @@ public class ${entityName}Controller  {
     */
     @ApiOperation(value="${entity.description}-通过id删除", notes="${entity.description}-通过id删除")
     @DeleteMapping(value = "/delete")
-    public Result<?> delete(@RequestParam(name="id",required=true) String id) {
-        ${uncapEntityName}Service.removeById(id);
+    public Result<?> delete(@RequestParam(name="id",required=true) ${pk.dataFieldType.javaType} id) {
+        ${uncapEntityName}Service.removeItemAndChildren(id);
         return Result.succeed("删除成功!");
     }
 
@@ -136,15 +174,15 @@ public class ${entityName}Controller  {
         return Result.succeed("批量删除成功!");
     }
 
-    /**
-    * 删除
-    */
-    @ApiOperation(value = "删除")
-    @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Long id) {
-        ${uncapEntityName}Service.removeById(id);
-        return Result.succeed("删除成功");
-    }
+<#--    /**-->
+<#--    * 删除-->
+<#--    */-->
+<#--    @ApiOperation(value = "删除")-->
+<#--    @DeleteMapping("/{id}")-->
+<#--    public Result delete(@PathVariable Long id) {-->
+<#--        ${uncapEntityName}Service.removeById(id);-->
+<#--        return Result.succeed("删除成功");-->
+<#--    }-->
 
     @ApiOperation(value = "导出excel")
     @ApiImplicitParams({

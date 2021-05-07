@@ -38,7 +38,7 @@ public class DataEntityUtil {
         dataEntity.setName(entityCode);
         dataEntity.setDescription("开发测试");
         dataEntity.setTableSchema(TableSchema.Nomal);
-        dataEntity.setParentId("");
+        dataEntity.setParentId(null);
         dataEntity.setTableType(TableType.SingleTable);
         dataEntity.setMainEntityId(0);
         dataEntity.setTableIdType(IdType.ASSIGN_ID);

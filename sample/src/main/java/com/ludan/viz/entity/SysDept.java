@@ -1,30 +1,36 @@
-package com.ludan.demo.dto;
 
-import com.central.common.dto.EntityDto;
+package com.ludan.viz.entity;
+
+import com.central.common.model.SuperEntity;
+import com.central.common.model.BaseEntityFill;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
 import io.swagger.annotations.ApiModelProperty;
-
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.central.common.annotation.ExcelDefine;
+import java.math.BigDecimal;
 import java.util.Date;
-
 
 /**
 * @Description: 部门表
 * @Author: Smark
-* @Date:   2021-04-28
+* @Date:   2021-05-07
 * @Version: V1.0
 */
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
-public class SysDeptDto extends EntityDto<String> {
+@EqualsAndHashCode(callSuper = false)
+@TableName("sys_dept")
+public class SysDept {
     private static final long serialVersionUID=1L;
-
     /**
     * 部门id
     */
     @ApiModelProperty(value = "部门id")
+    @TableId(type = IdType.ASSIGN_ID)
     private String deptId;
     /**
     * 父部门id

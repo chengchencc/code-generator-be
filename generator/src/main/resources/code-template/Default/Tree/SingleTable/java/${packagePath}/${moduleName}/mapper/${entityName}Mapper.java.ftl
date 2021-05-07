@@ -1,3 +1,5 @@
+<#include "/common/utils.ftl">
+<#include "/common/dataEntityUtils.ftl">
 package ${packageName}.${moduleName}.mapper;
 
 import ${packageName}.${moduleName}.entity.${entityName};
@@ -26,4 +28,11 @@ public interface ${entityName}Mapper extends SuperMapper<${entityName}> {
     Page<${entityName}> findList(Page<${entityName}> page, @Param("p") Map<String, Object> params);
 
     List<${entityName}> findList(@Param("p") Map<String, Object> params);
+
+    Page<${entityName}> findRoot(Page<${entityName}> page, @Param("p") Map<String, Object> params);
+
+    List<${entityName}> findAllParent(@Param("parentId") ${pk.dataFieldType.javaType} parentId);
+
+    void deleteChildren(@Param("parentId") ${pk.dataFieldType.javaType} parentId);
+
 }

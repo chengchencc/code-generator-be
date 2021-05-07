@@ -10,7 +10,7 @@
                         <#list queryFields as field >
                             <#assign fieldui = field.dataFieldUI>
                             <a-col :md="8" :sm="24">
-                            <a-form-item label="${field.description}">
+                            <a-form-item label="${field.description}" v-bind="layoutCol">
                                 <#switch fieldui.controlType>
                                     <#case "PlainText">
                                         <a-input v-model="queryParam.${field.name}" />
@@ -217,6 +217,7 @@
                     :pagination="ipagination"
                     :loading="loading"
                     @change="handleTableChange"
+                    @expand="handleExpand"
                     :rowSelection="rowSelection"
                     :scroll="{x: 1050}"
                     class="table-page-container-wrapper"
@@ -241,7 +242,10 @@
                               <a @click="handleEdit(record)">编辑</a>
                             </a-menu-item>
                             <a-menu-item key="2" type="primary">
-                              <a @click="handleDelete(record.${pk.name})">删除</a>
+                                <a @click="handleAddChild(record)">新增下级</a>
+                            </a-menu-item>
+                            <a-menu-item key="3" type="primary">
+                                <a @click="handleDelete(record.${pk.name})">删除</a>
                             </a-menu-item>
                           </a-menu>
                           <a>更多<a-icon type="down" /></a>
@@ -279,6 +283,7 @@
     import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
     import ModalForm from './components/${entityName}Modal' // 切换到抽屉模式 引用改为 './drawer.vue'
     import { getDictionaryByCodes } from '@/utils/dictUtil'
+    import { httpGet } from '@/utils/httpClient'
 
     export default {
         name: 'TableList',
@@ -288,12 +293,16 @@
         mixins: [dictMixin, TablePageMixin],
         data() {
             return {
+                layoutCol: {
+                    labelCol: { span: 4 },
+                    wrapperCol: { span: 20 }
+                },
                 columns: [
-                   {
-                       title: '序号',
-                       scopedSlots: {customRender: 'serial'},
-                       width: '70px',
-                   },
+                   // {
+                   //     title: '序号',
+                   //     scopedSlots: {customRender: 'serial'},
+                   //     width: '70px',
+                   // },
                    <#list entity.fields as field >
                    <#assign fieldui = field.dataFieldUI>
                    <#if fieldui.listDisplay?c == 'true' >
@@ -345,6 +354,8 @@
                 pageDict: {},
                 url: {
                     list: '/api-sample/${entityName}/list',
+                    findRoot: '/api-sample/${entityName}/root',
+                    findChildren: '/api-sample/${entityName}/children',
                     delete: '/api-sample/${entityName}/delete',
                     deleteBatch: '/api-sample/${entityName}/deleteBatch',
                     exportXlsUrl: '/api-sample/${entityName}/exportXlsx',
@@ -374,13 +385,94 @@
                     })
                 }
             },
+            loadData (arg) {
+                if (!this.url.list) {
+                    this.$message.error('请设置url.list属性!')
+                    return
+                }
+                // 加载数据 若传入参数1则加载第一页的内容
+                if (arg === 1) {
+                    this.ipagination.current = 1
+                }
+                var params = this.getQueryParams() // 查询条件
+                this.loading = true
+                httpGet(this.url.findRoot, params).then((res) => {
+                    if (res.code === 0) {
+                        this.dataSource = this.transformListResponseData(res.data)
+                        this.ipagination.total = res.count
+                    }
+                    this.loading = false
+                })
+            },
+            transformListResponseData (data) {
+                data.forEach((element) => {
+                    element.children = []
+                })
+                return data
+            },
+            handleOk (res) {
+                // 新增/修改 成功时，重载列表
+                // this.loadData()
+                console.log('handleOk', res)
+
+                if (this.operation && this.operation === 'addChild') {
+                    res.children = []
+                    this.currentItem.children.push(res)
+                }
+                if (this.operation && this.operation === 'edit') {
+                    Object.assign(this.currentItem, res)
+                }
+                if (this.operation && this.operation === 'delete') {
+                    console.log('delete')
+                }
+            },
             handleEdit: function (record) {
+                this.currentItem = record
+                this.operation = 'edit'
                 // 弹框编辑
                 this.$refs.modalForm.edit(record)
                 this.$refs.modalForm.title = '编辑'
 
                 // 详情页编辑
                 // this.$router.push(`/RegistrationManager/detail/zdba/true/${'$'}{record.id}`)
+            },
+            handleAddChild (current) {
+                this.currentItem = current
+                this.operation = 'addChild'
+
+                this.$refs.modalForm.edit({ parentId: current.${pk.name} })
+                this.$refs.modalForm.title = `新增下级`
+            },
+            handleExpand (expanded, record) {
+                console.log(expanded)
+                console.log(record)
+                // 折叠，不再加载数据
+                if (!expanded) {
+                    return
+                }
+                // 当有children，则不再加载数据
+                if (record.children.length > 0) {
+                    return
+                }
+                const hide = this.$message.loading('加载中...', 0)
+                httpGet(`${'$'}{this.url.findChildren}/${'$'}{record.${pk.name}}`)
+                    .then((res) => {
+                        if (res.datas.length > 0) {
+                            res.datas.forEach((el) => {
+                                el.children = []
+                            })
+                            record.children = res.datas
+                        } else {
+                            this.$message.info('无更多数据')
+                        }
+                    })
+                    .catch((err) => {
+                        this.$message.error('数据加载异常')
+                        console.error(err)
+                    })
+                    .finally(() => {
+                        hide()
+                    })
             }
         }
     }

@@ -105,8 +105,10 @@ public class CodeGeneratorImplTest {
     public void test_generate_code_OneToMany(){
         DataEntity entity = DataEntityUtil.getOneToManyEntity();
         CodeGeneratorImpl generator = new CodeGeneratorImpl(null,this.codeGeneratorProperties);
+        GeneratorRule rule = GeneratorRule.getDefault();
+        rule.setModuleName("sample");
         try {
-            generator.generateToFile(entity, GeneratorRule.getDefault());
+            generator.generateToFile(entity, rule);
         }catch (Throwable e){
             System.out.println(ExceptionUtil.stacktraceToString(e,3000));
         }

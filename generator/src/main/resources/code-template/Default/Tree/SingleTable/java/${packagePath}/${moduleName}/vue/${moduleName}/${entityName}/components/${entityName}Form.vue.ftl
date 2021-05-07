@@ -1,5 +1,6 @@
 <#include "/common/utils.ftl">
 <#include "/common/dataEntityUtils.ftl">
+<#include "/common/treeDataEntityUtils.ftl">
 <template>
     <a-spin :spinning="loading">
         <a-form :form="form" v-bind="formLayout">
@@ -399,7 +400,7 @@
                         }
 
                         let httpRequest = null
-                        if (!this.model.id) {
+                        if (!this.model.${pk.name}) {
                             httpRequest = httpPost(this.urls.add, formData)
                         } else {
                             httpRequest = httpPut(this.urls.edit, formData)
@@ -410,7 +411,7 @@
                                 (res) => {
                                     if (res.resp_code === 0) {
                                         this.$message.success(res.resp_msg)
-                                        this.$emit('ok')
+                                        this.$emit('ok', res.datas)
                                     } else {
                                         this.$message.warning(res.resp_msg)
                                     }
