@@ -8,29 +8,78 @@
 
 
                         <a-col :span="12" :style="colStyle">
-                            <a-form-item label="id" v-bind="colInfo12">
-                                    <a-input-number v-decorator="['id',validatorRules.id ]" style="width:100%" :disabled="unEditable"/>
+                            <a-form-item label="部门id" v-bind="colInfo12">
+                                    <a-input v-decorator="['deptId',validatorRules.deptId ]" :disabled="unEditable"/>
                             </a-form-item>
                         </a-col>
                         <a-col :span="12" :style="colStyle">
-                            <a-form-item label="fieldInt" v-bind="colInfo12">
-                                    <a-input-number v-decorator="['fieldInt',validatorRules.fieldInt ]" style="width:100%" :disabled="unEditable"/>
+                            <a-form-item label="父部门id" v-bind="colInfo12">
+                                    <a-input v-decorator="['parentId',validatorRules.parentId ]" :disabled="unEditable"/>
                             </a-form-item>
                         </a-col>
                         <a-col :span="12" :style="colStyle">
-                            <a-form-item label="fieldString" v-bind="colInfo12">
-                                    <a-input v-decorator="['fieldString',validatorRules.fieldString ]" :disabled="unEditable"/>
+                            <a-form-item label="祖级列表" v-bind="colInfo12">
+                                    <a-input v-decorator="['ancestors',validatorRules.ancestors ]" :disabled="unEditable"/>
                             </a-form-item>
                         </a-col>
                         <a-col :span="12" :style="colStyle">
-                            <a-form-item label="fieldBool" v-bind="colInfo12">
-                                    <a-checkbox-group v-decorator="['fieldBool']" style="width: 100%;" :disabled="unEditable">
-                                        <a-row>
-                                            <a-col :span="8" >
-                                            未设置字典编码
-                                            </a-col>
-                                        </a-row>
-                                    </a-checkbox-group>
+                            <a-form-item label="部门名称" v-bind="colInfo12">
+                                    <a-input v-decorator="['deptName',validatorRules.deptName ]" :disabled="unEditable"/>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" :style="colStyle">
+                            <a-form-item label="显示顺序" v-bind="colInfo12">
+                                    <a-input-number v-decorator="['orderNum',validatorRules.orderNum ]" style="width:100%" :disabled="unEditable"/>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" :style="colStyle">
+                            <a-form-item label="负责人" v-bind="colInfo12">
+                                    <a-input v-decorator="['leader',validatorRules.leader ]" :disabled="unEditable"/>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" :style="colStyle">
+                            <a-form-item label="联系电话" v-bind="colInfo12">
+                                    <a-input v-decorator="['phone',validatorRules.phone ]" :disabled="unEditable"/>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" :style="colStyle">
+                            <a-form-item label="邮箱" v-bind="colInfo12">
+                                    <a-input v-decorator="['email',validatorRules.email ]" :disabled="unEditable"/>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" :style="colStyle">
+                            <a-form-item label="部门状态（0正常 1停用）" v-bind="colInfo12">
+                                    <a-input v-decorator="['status',validatorRules.status ]" :disabled="unEditable"/>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" :style="colStyle">
+                            <a-form-item label="删除标志（0代表存在 2代表删除）" v-bind="colInfo12">
+                                    <a-input v-decorator="['delFlag',validatorRules.delFlag ]" :disabled="unEditable"/>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" :style="colStyle">
+                            <a-form-item label="创建者" v-bind="colInfo12">
+                                    <a-input v-decorator="['createBy',validatorRules.createBy ]" :disabled="unEditable"/>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" :style="colStyle">
+                            <a-form-item label="创建时间" v-bind="colInfo12">
+                                    <a-date-picker v-decorator="['createTime',validatorRules.createTime ]" format="YYYY-MM-DD HH:mm:ss" show-time style="width: 100%" :disabled="unEditable"/>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" :style="colStyle">
+                            <a-form-item label="更新者" v-bind="colInfo12">
+                                    <a-input v-decorator="['updateBy',validatorRules.updateBy ]" :disabled="unEditable"/>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" :style="colStyle">
+                            <a-form-item label="更新时间" v-bind="colInfo12">
+                                    <a-date-picker v-decorator="['updateTime',validatorRules.updateTime ]" format="YYYY-MM-DD HH:mm:ss" show-time style="width: 100%" :disabled="unEditable"/>
+                            </a-form-item>
+                        </a-col>
+                        <a-col :span="12" :style="colStyle">
+                            <a-form-item label="" v-bind="colInfo12">
+                                    <a-input v-decorator="['areaId',validatorRules.areaId ]" :disabled="unEditable"/>
                             </a-form-item>
                         </a-col>
 
@@ -53,17 +102,39 @@
     // 表单字段
     // const fields = ['id', 'dictCode', 'code', 'value', 'parentDictValueCode', 'orderBy', 'extA', 'extB', 'enable']
     const fields = [
-        'id',
-        'fieldInt',
-        'fieldString',
-        'fieldBool',
+        'deptId',
+        'parentId',
+        'ancestors',
+        'deptName',
+        'orderNum',
+        'leader',
+        'phone',
+        'email',
+        'status',
+        'delFlag',
+        'createBy',
+        'createTime',
+        'updateBy',
+        'updateTime',
+        'areaId',
     ]
 
     const StringToArrFields = [
     
     
     
-     'fieldBool', 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     ]
 
 
@@ -120,14 +191,25 @@
                 //页面级字典
                 pageDict: {},
                 validatorRules: {
-                    id:{rules:[{required:true,message:"id不能为空"},{ validator: this.validateId }]},
-                    fieldInt:{rules:[{required:true,message:"fieldInt不能为空"},{ validator: this.validateFieldInt }]},
-                    fieldString:{rules:[{required:false,message:"fieldString不能为空"},{ validator: this.validateFieldString }]},
-                    fieldBool:{rules:[{required:false,message:"fieldBool不能为空"},{ validator: this.validateFieldBool }]},
+                    deptId:{rules:[{required:true,message:"部门id不能为空"},{ validator: this.validateDeptId }]},
+                    parentId:{rules:[{required:true,message:"父部门id不能为空"},{ validator: this.validateParentId }]},
+                    ancestors:{rules:[{required:false,message:"祖级列表不能为空"},{ validator: this.validateAncestors }]},
+                    deptName:{rules:[{required:false,message:"部门名称不能为空"},{ validator: this.validateDeptName }]},
+                    orderNum:{rules:[{required:false,message:"显示顺序不能为空"},{ validator: this.validateOrderNum }]},
+                    leader:{rules:[{required:false,message:"负责人不能为空"},{ validator: this.validateLeader }]},
+                    phone:{rules:[{required:false,message:"联系电话不能为空"},{ validator: this.validatePhone }]},
+                    email:{rules:[{required:false,message:"邮箱不能为空"},{ validator: this.validateEmail }]},
+                    status:{rules:[{required:false,message:"部门状态（0正常 1停用）不能为空"},{ validator: this.validateStatus }]},
+                    delFlag:{rules:[{required:false,message:"删除标志（0代表存在 2代表删除）不能为空"},{ validator: this.validateDelFlag }]},
+                    createBy:{rules:[{required:false,message:"创建者不能为空"},{ validator: this.validateCreateBy }]},
+                    createTime:{rules:[{required:false,message:"创建时间不能为空"},{ validator: this.validateCreateTime }]},
+                    updateBy:{rules:[{required:false,message:"更新者不能为空"},{ validator: this.validateUpdateBy }]},
+                    updateTime:{rules:[{required:false,message:"更新时间不能为空"},{ validator: this.validateUpdateTime }]},
+                    areaId:{rules:[{required:false,message:"不能为空"},{ validator: this.validateAreaId }]},
                 },
                 urls: {
-                    add: '/api-sample/Main/add',
-                    edit: '/api-sample/Main/edit'
+                    add: '/api-sample/SysDept/add',
+                    edit: '/api-sample/SysDept/edit'
                 }
             }
         },
@@ -296,21 +378,65 @@
             //   form.validateFields(['confirm'], { force: true })
             // }
             // callback()
-            validateId (rule, value, callback) {
+            validateDeptId (rule, value, callback) {
                 callback()
-                // callback('请输入正确的格式的id')
+                // callback('请输入正确的格式的部门id')
             },
-            validateFieldInt (rule, value, callback) {
+            validateParentId (rule, value, callback) {
                 callback()
-                // callback('请输入正确的格式的fieldInt')
+                // callback('请输入正确的格式的父部门id')
             },
-            validateFieldString (rule, value, callback) {
+            validateAncestors (rule, value, callback) {
                 callback()
-                // callback('请输入正确的格式的fieldString')
+                // callback('请输入正确的格式的祖级列表')
             },
-            validateFieldBool (rule, value, callback) {
+            validateDeptName (rule, value, callback) {
                 callback()
-                // callback('请输入正确的格式的fieldBool')
+                // callback('请输入正确的格式的部门名称')
+            },
+            validateOrderNum (rule, value, callback) {
+                callback()
+                // callback('请输入正确的格式的显示顺序')
+            },
+            validateLeader (rule, value, callback) {
+                callback()
+                // callback('请输入正确的格式的负责人')
+            },
+            validatePhone (rule, value, callback) {
+                callback()
+                // callback('请输入正确的格式的联系电话')
+            },
+            validateEmail (rule, value, callback) {
+                callback()
+                // callback('请输入正确的格式的邮箱')
+            },
+            validateStatus (rule, value, callback) {
+                callback()
+                // callback('请输入正确的格式的部门状态（0正常 1停用）')
+            },
+            validateDelFlag (rule, value, callback) {
+                callback()
+                // callback('请输入正确的格式的删除标志（0代表存在 2代表删除）')
+            },
+            validateCreateBy (rule, value, callback) {
+                callback()
+                // callback('请输入正确的格式的创建者')
+            },
+            validateCreateTime (rule, value, callback) {
+                callback()
+                // callback('请输入正确的格式的创建时间')
+            },
+            validateUpdateBy (rule, value, callback) {
+                callback()
+                // callback('请输入正确的格式的更新者')
+            },
+            validateUpdateTime (rule, value, callback) {
+                callback()
+                // callback('请输入正确的格式的更新时间')
+            },
+            validateAreaId (rule, value, callback) {
+                callback()
+                // callback('请输入正确的格式的')
             },
 
         }

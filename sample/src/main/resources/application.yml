@@ -104,20 +104,23 @@ mybatis-plus:
   configuration:
     cache-enabled: false
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       field-strategy: NOT_NULL
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
-      logic-delete-field: isDelete
+      logic-delete-field: delFlag
   mapper-locations: classpath*:com/ludan/**/xml/*Mapper.xml
 #  mapper-locations: classpath*:com/ludan/demo/**/xml/*Mapper.xml #classpath:/mapper/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.ludan.demo.entity,com.ludan.demo.dto
   type-enums-package: com.ludan.demo.entity,com.ludan.demo.dto
 
+logging:
+  level:
+    com.ludan: debug
 #ludan:
 #  #  审计日志
 #  audit-log:

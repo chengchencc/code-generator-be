@@ -65,7 +65,7 @@ public class ${entityName}Controller  {
     */
     @ApiOperation(value = "查询")
     @GetMapping("/detail/{id}")
-    public Result findUserById(@PathVariable Long id) {
+    public Result findById(@PathVariable Long id) {
         ${entityName} model = ${uncapEntityName}Service.getById(id);
         return Result.succeed(model, "查询成功");
     }

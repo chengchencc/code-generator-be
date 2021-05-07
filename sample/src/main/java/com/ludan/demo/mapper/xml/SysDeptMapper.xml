@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ludan.demo.mapper.SysDeptMapper">
+
+    <sql id="commonFilter">
+        <if test="p.deptName != null">
+            and t.dept_name = #{p.deptName}
+        </if>
+        <if test="p.leader != null">
+            and t.leader = #{p.leader}
+        </if>
+        <if test="p.phone != null">
+            and t.phone = #{p.phone}
+        </if>
+        <if test="p.email != null">
+            and t.email = #{p.email}
+        </if>
+    </sql>
+    <delete id="deleteChildren">
+        <!-- 物理删除 -->
+        <!-- delete from sys_dept where find_in_set(#{parentId},ancestors) -->
+        <!-- 逻辑删除 -->
+         update sys_dept set del_flag=1 where find_in_set(#{parentId},ancestors)
+    </delete>
+
+    <select id="findList" resultType="com.ludan.demo.entity.SysDept">
+        select * from sys_dept t
+        where del_flag='0'
+        <include refid="commonFilter"></include>
+    </select>
+    <select id="findRoot" resultType="com.ludan.demo.entity.SysDept">
+        select * from sys_dept t
+        where t.parent_id is null
+        and del_flag='0'
+        <include refid="commonFilter"></include>
+    </select>
+    <select id="findAllParent" resultType="com.ludan.demo.entity.SysDept">
+        select * from sys_dept t
+        where del_flag='0' and find_in_set(#{parentId},ancestors)
+    </select>
+</mapper>

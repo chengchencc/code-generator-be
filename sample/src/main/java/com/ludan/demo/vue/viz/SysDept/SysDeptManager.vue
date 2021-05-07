@@ -7,26 +7,23 @@
                 <a-form layout="inline">
                     <a-row :gutter="48">
                             <a-col :md="8" :sm="24">
-                            <a-form-item label="id">
-                                        <a-input-number v-model="queryParam.id" style="width:100%"/>
+                            <a-form-item label="部门名称">
+                                        <a-input v-model="queryParam.deptName"  />
                             </a-form-item>
                             </a-col>
                             <a-col :md="8" :sm="24">
-                            <a-form-item label="fieldInt">
-                                        <a-input-number v-model="queryParam.fieldInt" style="width:100%"/>
+                            <a-form-item label="负责人">
+                                        <a-input v-model="queryParam.leader"  />
                             </a-form-item>
                             </a-col>
                             <a-col :md="8" :sm="24">
-                            <a-form-item label="fieldString">
-                                        <a-input v-model="queryParam.fieldString"  />
+                            <a-form-item label="联系电话">
+                                        <a-input v-model="queryParam.phone"  />
                             </a-form-item>
                             </a-col>
                             <a-col :md="8" :sm="24">
-                            <a-form-item label="fieldBool">
-                                        <a-checkbox-group v-model="queryParam.fieldBool" style="width: 100%;">
-                                            <a-row>
-                                            </a-row>
-                                        </a-checkbox-group>
+                            <a-form-item label="邮箱">
+                                        <a-input v-model="queryParam.email"  />
                             </a-form-item>
                             </a-col>
 
@@ -85,7 +82,7 @@
                     ref="table"
                     bordered
                     size="default"
-                    rowKey="id"
+                    rowKey="deptId"
                     :columns="columns"
                     :dataSource="dataSource"
                     :pagination="ipagination"
@@ -107,7 +104,7 @@
                               <a @click="handleEdit(record)">编辑</a>
                             </a-menu-item>
                             <a-menu-item key="2" type="primary">
-                              <a @click="handleDelete(record.id)">删除</a>
+                              <a @click="handleDelete(record.deptId)">删除</a>
                             </a-menu-item>
                           </a-menu>
                           <a>更多<a-icon type="down" /></a>
@@ -136,7 +133,7 @@
     import { getNameByDict } from '@/utils/dealData'
     import { dictMixin } from '@/store/dict-mixin'
     import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
-    import ModalForm from './components/MainModal' // 切换到抽屉模式 引用改为 './drawer.vue'
+    import ModalForm from './components/SysDeptModal' // 切换到抽屉模式 引用改为 './drawer.vue'
     import { getDictionaryByCodes } from '@/utils/dictUtil'
 
     export default {
@@ -154,36 +151,36 @@
                        width: '70px',
                    },
                        {
-                          title: 'id',
-                          dataIndex: 'id',
+                          title: '部门名称',
+                          dataIndex: 'deptName',
                           ellipsis: false, // 超过宽度将自动省略
                           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
                           width: '180px',
                           customRender: (value) => value
                        },
                        {
-                          title: 'fieldInt',
-                          dataIndex: 'fieldInt',
+                          title: '负责人',
+                          dataIndex: 'leader',
                           ellipsis: false, // 超过宽度将自动省略
                           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
                           width: '180px',
                           customRender: (value) => value
                        },
                        {
-                          title: 'fieldString',
-                          dataIndex: 'fieldString',
+                          title: '联系电话',
+                          dataIndex: 'phone',
                           ellipsis: false, // 超过宽度将自动省略
                           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
                           width: '180px',
                           customRender: (value) => value
                        },
                        {
-                          title: 'fieldBool',
-                          dataIndex: 'fieldBool',
+                          title: '邮箱',
+                          dataIndex: 'email',
                           ellipsis: false, // 超过宽度将自动省略
                           align: 'left', // 设置列内容的对齐方式 'left' | 'right' | 'center'
                           width: '180px',
-                          customRender: (value) => value ? '是' : '否'
+                          customRender: (value) => value
                        },
                    {
                        title: '操作',
@@ -196,11 +193,11 @@
                 //页面级字典
                 pageDict: {},
                 url: {
-                    list: '/api-sample/Main/list',
-                    delete: '/api-sample/Main/delete',
-                    deleteBatch: '/api-sample/Main/deleteBatch',
-                    exportXlsUrl: '/api-sample/Main/exportXlsx',
-                    importExcelUrl: '/api-sample/Main/importExcel'
+                    list: '/api-sample/SysDept/list',
+                    delete: '/api-sample/SysDept/delete',
+                    deleteBatch: '/api-sample/SysDept/deleteBatch',
+                    exportXlsUrl: '/api-sample/SysDept/exportXlsx',
+                    importExcelUrl: '/api-sample/SysDept/importExcel'
                 }
             }
         },
