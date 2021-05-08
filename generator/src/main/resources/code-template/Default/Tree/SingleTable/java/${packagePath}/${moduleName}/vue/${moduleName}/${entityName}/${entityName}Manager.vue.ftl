@@ -218,7 +218,6 @@
                     :loading="loading"
                     @change="handleTableChange"
                     @expand="handleExpand"
-                    :rowSelection="rowSelection"
                     :scroll="{x: 1050}"
                     class="table-page-container-wrapper"
                 >
@@ -281,7 +280,7 @@
     import { getNameByDict } from '@/utils/dealData'
     import { dictMixin } from '@/store/dict-mixin'
     import { TablePageMixin } from '@/core/mixins/TablePageMixin2'
-    import ModalForm from './components/${entityName}Modal' // 切换到抽屉模式 引用改为 './drawer.vue'
+    import ModalForm from './components/${entityName}Modal' // 切换到抽屉模式 引用改为 './components/${entityName}Drawer'
     import { getDictionaryByCodes } from '@/utils/dictUtil'
     import { httpGet } from '@/utils/httpClient'
 
@@ -454,7 +453,8 @@
                 if (record.children.length > 0) {
                     return
                 }
-                const hide = this.$message.loading('加载中...', 0)
+                // const hide = this.$message.loading('加载中...', 0)
+                this.loading = true
                 httpGet(`${'$'}{this.url.findChildren}/${'$'}{record.${pk.name}}`)
                     .then((res) => {
                         if (res.datas.length > 0) {
@@ -471,7 +471,8 @@
                         console.error(err)
                     })
                     .finally(() => {
-                        hide()
+                        this.loading = false
+                        // hide()
                     })
             }
         }

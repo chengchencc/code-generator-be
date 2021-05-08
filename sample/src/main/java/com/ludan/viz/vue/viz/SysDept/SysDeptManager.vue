@@ -7,22 +7,22 @@
                 <a-form layout="inline">
                     <a-row :gutter="48">
                             <a-col :md="8" :sm="24">
-                            <a-form-item label="部门名称">
+                            <a-form-item label="部门名称" v-bind="layoutCol">
                                         <a-input v-model="queryParam.deptName"  />
                             </a-form-item>
                             </a-col>
                             <a-col :md="8" :sm="24">
-                            <a-form-item label="负责人">
+                            <a-form-item label="负责人" v-bind="layoutCol">
                                         <a-input v-model="queryParam.leader"  />
                             </a-form-item>
                             </a-col>
                             <a-col :md="8" :sm="24">
-                            <a-form-item label="联系电话">
+                            <a-form-item label="联系电话" v-bind="layoutCol">
                                         <a-input v-model="queryParam.phone"  />
                             </a-form-item>
                             </a-col>
                             <a-col :md="8" :sm="24">
-                            <a-form-item label="邮箱">
+                            <a-form-item label="邮箱" v-bind="layoutCol">
                                         <a-input v-model="queryParam.email"  />
                             </a-form-item>
                             </a-col>
@@ -149,6 +149,10 @@
         mixins: [dictMixin, TablePageMixin],
         data() {
             return {
+                layoutCol: {
+                    labelCol: { span: 4 },
+                    wrapperCol: { span: 20 }
+                },
                 columns: [
                    // {
                    //     title: '序号',
@@ -294,8 +298,9 @@
                 if (record.children.length > 0) {
                     return
                 }
-                const hide = this.$message.loading('加载中...', 0)
-                httpGet(`${this.url.findChildren}/${record.deptId}}`)
+                // const hide = this.$message.loading('加载中...', 0)
+                this.loading = true
+                httpGet(`${this.url.findChildren}/${record.deptId}`)
                     .then((res) => {
                         if (res.datas.length > 0) {
                             res.datas.forEach((el) => {
@@ -311,7 +316,8 @@
                         console.error(err)
                     })
                     .finally(() => {
-                        hide()
+                        this.loading = false
+                        // hide()
                     })
             }
         }

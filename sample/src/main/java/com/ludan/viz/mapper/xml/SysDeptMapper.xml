@@ -5,16 +5,16 @@
 
     <sql id="commonFilter">
                 <if test="p.deptName != null">
-                   and t.dept_name = #{p.deptName}
+                    and t.dept_name = #{p.deptName}
                 </if>
                 <if test="p.leader != null">
-                   and t.leader = #{p.leader}
+                    and t.leader = #{p.leader}
                 </if>
                 <if test="p.phone != null">
-                   and t.phone = #{p.phone}
+                    and t.phone = #{p.phone}
                 </if>
                 <if test="p.email != null">
-                   and t.email = #{p.email}
+                    and t.email = #{p.email}
                 </if>
     </sql>
 
