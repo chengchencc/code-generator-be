@@ -220,51 +220,8 @@
         mixins: [FileUploadMixin, FormMixin, dictMixin],
         data () {
             return {
-                district: null,
-                uploadApi: '/api-file/files/upload',
-                headers: {
-                  Authorization: `Bearer ${'$'}{storage.get('Access-Token')}`,
-                },
                 model: {},
                 loading: false,
-                // 布局
-                formLayout: {
-                    labelCol: {
-                        xs: { span: 24 },
-                        sm: { span: 5 },
-                        md: { span: 5 },
-                        lg: { span: 5 },
-                        xl: { span: 5 },
-                        xxl: { span: 5 }
-                    },
-                    wrapperCol: {
-                        xs: { span: 24 },
-                        sm: { span: 16 },
-                        md: { span: 16 },
-                        lg: { span: 16 },
-                        xl: { span: 16 },
-                        xxl: { span: 16 }
-                    }
-                },
-                colInfo6: {
-                  labelCol: { span: 12 },
-                  wrapperCol: { span: 9 }
-                },
-                colInfo8: {
-                  labelCol: { span: 9 },
-                  wrapperCol: { span: 12 }
-                },
-                colInfo12: {
-                  labelCol: { span: 6 },
-                  wrapperCol: { span: 16 }
-                },
-                colInfo24: {
-                  labelCol: { span: 3 },
-                  wrapperCol: { span: 20 }
-                },
-                colStyle: 'padding: 0 !important',
-                rowStyle: 'padding: 0 12px 0 12px !important',
-
                 //页面级字典
                 pageDict: {},
                 validatorRules: {
@@ -299,17 +256,6 @@
             // vue 生命周期钩子，已完成模板渲染，此处可以进行dom操作
         },
         methods: {
-            // 需要手动绑定该方法： @change="onCityChange"
-            // 区县for循环取值改为： v-for="(item, name) in district ? district : pageDict.district"
-            onCityChange (cityCode) {
-                this.district = []
-                this.form.setFieldsValue({countyName: ''})
-                for (let item of this.pageDict.district) {
-                    if (item.code.startsWith(cityCode.slice(0, 4))) {
-                        this.district.push(item)
-                    }
-                }
-            },
             initDictConfig(){
                 console.log('初始化页面级字典项')
                 const dictCodes = [
@@ -330,36 +276,7 @@
               // 上传前 的图片校验等操作
               return true
             },
-            normFile(e) {
-              console.log('Upload event:', e);
-              if (Array.isArray(e)) {
-                return e;
-              }
-              return e && e.fileList;
-            },
-            handleFileUpload(type, info) {
-              console.log('上传组件状态改变', type, info)
-              let fileList = [...info.fileList]
-              // 2. read from response and show file link
-              fileList = fileList
-                .filter((item) => {
-                  if (item.response && item.error) {
-                    this.$message.error('文件上传失败')
-                    return false
-                  }
-                  return true
-                })
-                .map((file) => {
-                  if (file.response) {
-                    // Component will show file.url as link
-                    file.url = file.response.url
-                    file.attFileType = type
-                    file.attFileId = file.response.id
-                    file.attFileName = file.name
-                  }
-                  return file
-                })
-            },
+
             handleChange () {
                 console.log(arguments)
             },

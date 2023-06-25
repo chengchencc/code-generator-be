@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ludan.sample.mapper.ChildAMapper">
+    <select id="findList" resultType="com.ludan.sample.entity.ChildA">
+        select * from t_childA t
+        where 1=1
+           <if test="p.id != null">
+               t.id = #{p.id}
+           </if>
+           <if test="p.fieldInt != null">
+               t.fieldInt = #{p.fieldInt}
+           </if>
+           <if test="p.fieldString != null">
+               t.fieldString = #{p.fieldString}
+           </if>
+           <if test="p.fieldBool != null">
+               t.fieldBool = #{p.fieldBool}
+           </if>
+    </select>
+</mapper>

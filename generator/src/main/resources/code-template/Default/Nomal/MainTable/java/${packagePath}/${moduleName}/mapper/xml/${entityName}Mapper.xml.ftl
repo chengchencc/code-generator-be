@@ -7,7 +7,7 @@
         <#list entity.fields as field >
             <#if field.dataFieldUI.query>
            <if test="p.${field.name} != null">
-               t.${field.tableFieldName} = ${r'#'}{p.${field.name}}
+               and t.${field.tableFieldName} = ${r'#'}{p.${field.name}}
            </if>
             </#if>
         </#list>

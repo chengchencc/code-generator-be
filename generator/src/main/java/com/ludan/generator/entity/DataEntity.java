@@ -127,4 +127,9 @@ public class DataEntity extends AuditEntityBase<Integer> {
     public DataEntity() {
     }
 
+    public DataEntity(Integer id, String code, String name) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+    }
 }

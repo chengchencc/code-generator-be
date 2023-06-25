@@ -86,4 +86,13 @@ public class DataEntityDto extends AuditEntityDto<Integer> {
      * 存储方式
      */
     private String storageType;
+
+    public DataEntityDto() {
+    }
+
+    public DataEntityDto(Integer id, String code, String name) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+    }
 }

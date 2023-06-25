@@ -50,7 +50,7 @@ public class CodeGeneratorImpl implements CodeGenerator {
 
 
     /**
-     * 生成代码
+     * 生成代码（单个实体）
      * 1.获取实体结构
      * 2.获取生成策略
      * 3.组装model上下文
@@ -71,6 +71,11 @@ public class CodeGeneratorImpl implements CodeGenerator {
         generateToFile(entity,generatorRule);
     }
 
+    /**
+     * 批量生成（多实体）
+     * @param entityIds
+     * @param response
+     */
     @Override
     public void generateToResponse(Integer[] entityIds,HttpServletResponse response){
         try (ZipOutputStream zip = new ZipOutputStream(response.getOutputStream())) {

@@ -18,7 +18,10 @@ public class DateTest {
         Date endDate = DateUtil.offsetMonth(startDate,36);
         endDate = DateUtil.offsetDay(endDate,30);
         logDate("endDate",endDate);
-
+        float a = 1.02f;
+        float b = -1;
+        float c = 0x1123;
+        float d = 1f;
         Date iterator = startDate;
         int time = 1;
 

@@ -3,12 +3,15 @@ package com.ludan.generator.controller;
 import com.ludan.generator.common.controller.CrudControllerBase;
 import com.ludan.generator.dto.DataEntityDto;
 import com.ludan.generator.dto.DataModelRequestDto;
+import com.ludan.generator.entity.DataEntity;
 import com.ludan.generator.service.DataEntityService;
 import com.ludan.generator.service.DataModelManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author: chengchen
@@ -30,6 +33,11 @@ public class DataEntityController extends CrudControllerBase<DataEntityService, 
     @PostMapping("/saveDataModel")
     public void saveDataModel(@RequestBody DataModelRequestDto dto){
         dataModelManager.saveDataModel(dto);
+    }
+
+    @GetMapping("/findTop10ByNameStartsWith")
+    public List<DataEntityDto> findTop10ByNameStartsWith(@RequestParam String name){
+        return service.findTop10ByNameStartsWith(name);
     }
 
 }
